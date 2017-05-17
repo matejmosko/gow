@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Game of Worlds - Nástroje</title>
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles-admin.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <span class="navbar-brand" href="#">Game of Worlds</span>
+                        </div>
+                        <ul class="nav navbar-nav"></ul>
+                      </div>
+                  </nav>
+              </div>
+              <div class="col-sm-2">
+                        <button id="nextPhase" style="display:none;" class="btn btn-primary">Ďalšia fáza</button>
+                        <button id="startGame" style="display:none;" class="btn btn-danger">Spusti hru</button>
+                  </div>
+                  <div class="col-sm-2">
+                        <button id="fullscreenBtn" class="btn btn-info">Fullscreen</button>
+                  </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8" id="left-8">
+                <div id="newGameBox">
+
+                    <div id="novaHra" class="input-group">
+                        <label for="newgame" class="input-group-addon">Názov novej hry
+                    <span class="noGameName error" style="display:none;">(chýba názov hry)</span></label>
+                        <input type="text" class="form-control" name="newgame" id="newgame" />
+                        <div class="input-group-btn">
+                            <button type="submit" value="Nová Hra" id="submitGame" class="btn btn-primary">Nová hra</button>
+                        </div>
+
+                    </div>
+                    <div id="staraHra" class="input-group">
+                    </div>
+                </div>
+
+                <div id="pridajTim" style="display:none;" class="form-group">
+                    <h3>Pridaj tím</h3>
+                    <div class="input-group teamname">
+                        <label for="tim" class="input-group-addon">Názov tímu<span class="noTeamName error" style="display:none;"> (chýba názov tímu)</span><span class="noTeam error" style="display:none;"> (nepridal si žiadny tím)</span></label>
+                        <input type="text" name="tim" id="tim" class="form-control" placeholder="Churchilovi králici" />
+                    </div>
+                    <div class="input-group">
+                        <label for="krajiny" class="input-group-addon">Krajina</label>
+                        <select id="krajiny" class="form-control"></select>
+                    </div>
+                    <button type="submit" value="Pridaj krajinu" id="submitTim" class="form-control">Pridaj krajinu</button>
+                </div>
+                <div id="hrajuceTimy" style="display:none;">
+                    <h3>Hrajúce tímy</h3>
+                    <table class="table table-striped" id="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Krajina</th>
+                                <th>Tím</th>
+                                <th>Body</th>
+                                <th>Rozdiel</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabulkatimov"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-4" id="right-4">
+                <div id="spravy" style="display:none;">
+                    <h3>Tento rok</h3>
+                    <div class="currNews"></div>
+                    <h3>Budúci rok</h3>
+                    <div class="futNews"></div>
+                    <h3>Minulý rok</h3>
+                    <div class="pastNews"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    // You can also require other files to run in this process
+    require('./renderer.js');
+    window.$ = window.jQuery = require('jquery');
+    require('bootstrap');
+</script>
+
+<script src="./js/toolbox-script.js"></script>
+
+</html>

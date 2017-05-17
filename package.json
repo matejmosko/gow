@@ -1,0 +1,27 @@
+{
+  "name": "game-of-worlds",
+  "version": "0.0.1",
+  "description": "Game of Worlds App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "Game of Worlds",
+    "Board game",
+    "Game"
+  ],
+  "author": "Matej Moško",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^1.4.1",
+    "electron-packager": "^8.5.1"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "fs": "0.0.1-security",
+    "jquery": "^3.1.1",
+    "jsdom": "^9.11.0",
+    "nedb": "^1.8.0"
+  }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Game of Worlds</title>
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script>
+    </script>
+</head>
+
+<body>
+  <div class="overlay" style="display:none"><h2>Čas vypršal</h2><p>Generáli, presuňte sa naspäť k strategickej mape. Teraz budete rozhodovať o budúcnosti sveta.</p></div>
+    <div class="container">
+      <div class="row infobox" style="display:none">
+          <div class="col-sm-2" id="currYear">
+
+          </div>
+          <div class="col-sm-4" id="currPhase">
+
+          </div>
+          <div class="col-sm-6" id="currPhaseText">
+
+          </div>
+      </div>
+        <div class="row">
+
+            <div class="col-sm-8" id="left-8">
+                <div id="hrajuceTimy">
+                    <h3></h3>
+                    <table class="table" id="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Krajina</th>
+                                <th>Vládna strana</th>
+                                <th>Výsledky</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabulkatimov"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-4" id="right-4">
+                <div id="spravy">
+                    <div class="currNews"></div>
+                    <div class="endNews" style="display:none"></div>
+                </div>
+                <div id="desatminut" style="display:none"></div>
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+
+</body>
+<script>
+    // You can also require other files to run in this process
+    require('./renderer.js');
+    window.$ = window.jQuery = require('jquery');
+    require('bootstrap');
+</script>
+<script src="./js/projektor-script.js"></script>
+
+</html>
