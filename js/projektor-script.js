@@ -5,7 +5,7 @@ $(function() {
 
   const path = require('path');
   const url = require('url');
-  var current, timeisup = false;
+  var current, timer;
   // renderer process
 
   ipc.on('readCurrentGame', (event, arg) => {
@@ -50,7 +50,7 @@ $(function() {
 
   function renderPhase(year, phase) {
     resetView()
-    if (year > 8) {
+    if (year > 6) {
       $('#spravy').hide();
       $('#currYear').html("<h2 class='year'>Rok " + (year+2035) + "</h2>");
       $('#currPhase').html("<h3>Koniec sveta</h3>");
@@ -66,11 +66,11 @@ $(function() {
 
       switch (phase.title) {
         case "Rozkladanie armád":
-          timeisup = true;
           $('#desatminut').hide();
           $('#spravy').show();
           $('.currNews').show();
           $('.endNews').hide();
+          if (timer!= undefined) timer.running = false;
           break;
         case "Diplomacia":
           $('#spravy').show();
@@ -78,15 +78,15 @@ $(function() {
           displayCounter(10*60);
           break;
         case "Vyhodnotenie bojov":
-          timeisup = true;
           $('#desatminut').hide();
           $('#spravy').show();
+          if (timer!= undefined) timer.running = false;
           break;
-        case "Koniec roka":
+        case "Pauza":
           $('#desatminut').show();
           $('.currNews').hide();
           $('.endNews').show();
-          if (year % 2 == 0) { displayCounter(15*60); } else { displayCounter(5*60);}
+          if (year % 2 == 0) { displayCounter(5*60); } else { displayCounter(15*60);}
           break;
       }
     }
@@ -114,7 +114,7 @@ $(function() {
     (function timer() {
       diff = that.duration - (((Date.now() - start) / 1000) | 0);
 
-      if (!timeisup) {
+      if (that.running) {
         if (diff > 0) {
           setTimeout(timer, that.granularity);
         } else {
@@ -149,9 +149,8 @@ $(function() {
   };
 
   function displayCounter(duration) {
-    var display = document.querySelector('#desatminut'),
-      timer = new CountDownTimer(duration);
-    timeisup = false;
+    var display = document.querySelector('#desatminut');
+    timer = new CountDownTimer(duration);
     timer.onTick(format(display)).onTick(restart).start();
 
 

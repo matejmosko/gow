@@ -45,7 +45,7 @@ $(function() {
       phase: -1,
       name: 'settings',
       pocetkrajin: 15,
-      pocetrokov: 8,
+      pocetrokov: 6,
       krajiny10: [
         'Slovensko',
         'Rusko',
@@ -67,61 +67,41 @@ $(function() {
       ],
       fazy: [{
         title: 'Rozkladanie armád',
-        text: 'Generáli, presuňte sa k strategickej mape. budete rozkladať svoje armády.'
+        text: 'Generáli, presuňte sa k strategickej mape, budete rozkladať svoje armády.'
       }, {
         title: 'Diplomacia',
-        text: 'Generáli, presuňte sa naspäť k vláde. Je čas vyjednávať s ostatnými krajinami.'
+        text: 'Je čas vyjednávať s ostatnými krajinami a ukladať na mapu akčné karty.'
       }, {
         title: 'Vyhodnotenie bojov',
         text: 'Generáli, presuňte sa naspäť k strategickej mape. Teraz sa rozhodne o budúcnosti sveta.'
       }, {
-        title: 'Koniec roka',
-        text: 'Počúvajte, čo ste sa o svojej vláde dočítali v zapredaných médiách.'
+        title: 'Pauza',
+        text: 'Vypočujte si, čo o svojej vláde píšu v zapredaných médiách, dohodnite sa na ďalšej stratégii a užite si pauzu.'
       }],
       ufoEvents: [{
         title: 'Vpád mimozemšťanov',
-        text: 'Nad Škandináviou a Čile sa objavili mimozemské taniere a pustošia ľudské obydlia.',
-        secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Škandinávia a Čile. Na každom území je 10 ich armády a 2 mimozemské AK'
+        text: 'Nad niektorými územiami sa objavili mimozemské taniere a pustošia ľudské obydlia.',
+        secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Ekvádor / Poľsko / Mongolsko. Na každom území je 10 ich armády a 2 mimozemské AK.'
       }, {
         title: 'Pád UFO',
-        text: 'V Egypte sa zrútilo mimozemské UFO. Podľa zaručených zdrojov túto haváriu spôsobili Chemtrails.',
+        text: 'V Egypte sa zrútilo mimozemské UFO. Podľa zaručených zdrojov túto haváriu spôsobili Chemtrails. A mimozemské lode drancujú našu Zem.',
         secret: 'V Egypte budú k dispozícii 4 mimozemské AK. Kto (tím alebo aliancia) tam dá najviac armád získa tie karty (+ hodnota AK)'
-      }, {
-        title: 'Hyperinflácia',
-        text: 'Mimozemšťania infiltrovali medzinárodný menový fond. Svetové meny padajú. Všetky ceny sa na toto kolo zdvojnásobili.',
-        secret: 'Všetky ceny sa na toto kolo zdvojnásobili.'
-      }, {
-        title: 'Vpád mimozemšťanov',
-        text: 'Nad Aljaškou a Indonéziou sa objavili mimozemské taniere a pustošia ľudské obydlia.',
-        secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Aljaška a Indonéziu. Na každom území 10 armády a 2 mimozemské AK.'
       }, {
         title: 'Mimozemská základňa',
         text: 'Nemenovaný tajný agent v službách jej veličenstva odhalil v Kongu základňu mimozemšťanov. Rolex uviedol na trh novú kolekciu náramkových hodiniek.',
-        secret: 'V Kongu sa objavila základňa mimozemšťanov. Je tam 24 mimozemských armád a 4 mimozemské AK '
+        secret: 'V Kongu sa objavila základňa mimozemšťanov. Je tam 24 mimozemských armád a 6 mimozemských AK '
       }, {
-        title: 'Mimozemšťania zničili GPS satelity',
-        text: 'Mimozemšťania zničili satelity pre GPS. V uliciach miest vypukli masové nepokoje hráčov Pokemon GO. Stúpol predaj Sudoku. Celé kolo nie je možné použiť AK "Zelení turisti" a "Príhovor kapitána D."',
-        secret: 'Celé kolo nie je možné použiť AK "Zelení turisti" a "Príhovor kapitána D."'
-      }, {
-        title: 'Útok na domovské zeme',
-        text: 'Mimozemšťania útočia na domovské krajiny a všade zanechávajú spúšť. ',
-        secret: 'Mimozemšťania útočia na domovské krajiny. Hráči majú na výber - Buď nechajú doma tri armády alebo nedostanú ďalšie kolo žiadne zdroje z domovských krajín'
+        title: 'Vpád mimozemšťanov',
+        text: 'Nad niektorými trvalými územiami sa objavili mimozemské taniere a pustošia ľudské obydlia.',
+        secret: 'Objavili sa mimozemské lode a drancujú tieto trvalé územia: Aljaška / Madagaskar / Pakistan. Na každom území je 10 ich armády a 2 mimozemské AK'
       }, {
         title: 'Mimozemské útoky',
         text: 'Mimozemšťania menia taktiku a útočia priamo na armády jednotlivých krajín. ',
-        secret: 'Mimozemšťania sa silou 8 zapoja do troch náhodných bojov (ich armáda sa pridá po rozdaní žétonov hráčov v strategickej fáze). Ak budú mimozemšťania porazení, budú tam 2 mimozemské AK'
+        secret: 'Mimozemšťania sa silou 6-10 zapoja do troch náhodných bojov (ich armáda sa pridá po rozdaní žétonov hráčov v strategickej fáze). Ak budú mimozemšťania porazení, budú tam 2 mimozemské AK.'
       }, {
-        title: 'Vpád mimozemštanov',
-        text: 'Nad Alžírskom a Západným Sibírom sa objavili mimozemské taniere a pustošia ľudské obydlia.',
-        secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Alzirsko a Západný Sibír. Na každom území 10 armády a 2 mimozemské AK'
-      }, {
-        title: 'Mimozemská infiltrácia',
-        text: 'Mimozemšťania sa infiltrovali do tajných služieb. Celé kolo nie je možné použiť AK "Zahraničná návšteva" a "Agent Snow den"',
-        secret: 'Celé kolo nie je možné použiť AK "Zahraničná návšteva" a "Agent Snowden"'
-      }, {
-        title: 'Epidémia pohlavných chorôb',
-        text: 'U vojakov vypukla epidémia pohlavných chorôb. V tomto kole môže každý tím použiť iba 5 žetónov armády.',
-        secret: 'V tomto kole môže každý tím použiť iba 5 žetónov armády.'
+        title: 'Zem je plochá',
+        text: 'Vďaka tajným technológiám mimozemšťanov sa podarilo zistiť, že Zem je vlastné plochá. Už sa necestuje po trojuholníkoch, cestuje sa zdarma.',
+        secret: 'Cestovanie medzi kontinentmi je zdarma.'
       }, {
         title: '',
         text: '',
@@ -140,36 +120,16 @@ $(function() {
         text: 'V hlavnej udalosti je možné získať 8 náhodných AK',
         secret: 'Rozdávame AK typu Body+'
       }, {
-        title: 'Nové náleziská v Kanade',
-        text: 'V hlavnej udalosti je možné získať 4 suroviny kovu',
-        secret: 'Rozdávame AK typu Body+'
-      }, {
         title: 'Únik plánov stíhačky F4-ALT',
         text: 'V hlavnej udalosti je možné získať 4 žetóny armády',
         secret: 'Rozdávame AK typu Body+'
       }, {
-        title: 'Olympijske hry',
-        text: 'V hlavnej udalosti je možné získať 6 AK',
-        secret: 'Rozdávame AK typu Body+'
-      }, {
-        title: 'Čierny trh',
+        title: 'Kontakt s mimozemšťanmi',
         text: 'V hlavnej udalosti je možné získať 4 mimozemské AK',
         secret: 'Rozdávame AK typu Body+'
       }, {
-        title: 'Povýšenie na kapitána',
-        text: 'V hlavnej udalosti je možnosť pre štyri tímy získať 8 bodov',
-        secret: 'Rozdávame AK typu Body+'
-      }, {
-        title: 'Kontakt s mimozemšťanmi',
-        text: 'V hlavnej udalosti je možné získať 4 mimozemské AK.',
-        secret: 'Rozdávame AK typu Body+'
-      }, {
-        title: 'Najlepší tajný agent',
-        text: 'V hlavnej udalosti je možné získať 4 špeciálne karty "Austin Powers"',
-        secret: 'Rozdávame AK typu Body+'
-      }, {
-        title: 'Kybernetické vojny',
-        text: 'V hlavnej udalosti je možné získať 8 AK',
+        title: 'Olympijske hry',
+        text: 'V hlavnej udalosti je možné získať 6 AK',
         secret: 'Rozdávame AK typu Body+'
       }, {
         title: '',

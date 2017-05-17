@@ -6,6 +6,7 @@
   "scripts": {
     "start": "electron ."
   },
+   "repository": "https://github.com/matejmosko/gow",
   "keywords": [
     "Game of Worlds",
     "Board game",
