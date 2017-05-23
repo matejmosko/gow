@@ -18,8 +18,8 @@ ipcMain.on('transferCurrentGame', (event, arg) => {
 ipcMain.on('transferNews', (event, arg) => {
   projektorWindow.webContents.send('readNews', arg);
 })
-ipcMain.on('transferPhase', (event, arg1, arg2) => {
-  projektorWindow.webContents.send('readPhase', arg1, arg2);
+ipcMain.on('transferPhase', (event, arg1, arg2, arg3) => {
+  projektorWindow.webContents.send('readPhase', arg1, arg2, arg3);
 })
 ipcMain.on('setFullscreen', (event, sort) => {
   if (projektorWindow.isFullScreen()) {projektorWindow.setFullScreen(false)} else projektorWindow.setFullScreen(true);

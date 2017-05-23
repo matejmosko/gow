@@ -467,7 +467,7 @@ $(function() {
     let phase = params.phase;
     curr = "<div class='sprava'><h4>" + params.worldEvents[year].title + "</h4><p>" + params.worldEvents[year].text + "</p></div><div class='sprava'><h4>" + params.ufoEvents[year].title + "</h4><p>" + params.ufoEvents[year].text + "</p></div>";
     if (year != 0) { past = "<div class='sprava'><h4>" + params.worldEvents[year - 1].title + "</h4><p>" + params.worldEvents[year - 1].text + "</p></div><div class='sprava'><h4>" + params.ufoEvents[year - 1].title + "</h4><p>" + params.ufoEvents[year - 1].text + "</p></div>"; }
-    if (year != params.pocetrokov - 1) { future = "<div class='sprava'><h4>" + params.worldEvents[year + 1].title + "</h4><p>" + params.worldEvents[year + 1].text + "</p></div><div class='sprava'><h4>" + params.ufoEvents[year + 1].title + "</h4><p>" + params.ufoEvents[year + 1].text + "</p></div>"; }
+    if (year < params.pocetrokov - 1) { future = "<div class='sprava'><h4>" + params.worldEvents[year + 1].title + "</h4><p>" + params.worldEvents[year + 1].text + "</p></div><div class='sprava'><h4>" + params.ufoEvents[year + 1].title + "</h4><p>" + params.ufoEvents[year + 1].text + "</p></div>"; }
     $('.currNews').html(curr);
     $('.pastNews').html(past);
     $('.futNews').html(future);
@@ -475,11 +475,12 @@ $(function() {
   }
 
   function displayPhase() {
+    console.log(params.pocetrokov);
     let n = params.pocetrokov - 1;
     let y = params.year + 1;
     let p = params.phase;
     if (p == -1) {} else {
-      ipc.send('transferPhase', y, params.fazy[p]);
+      ipc.send('transferPhase', y, params.fazy[p], params.pocetrokov);
       $('.year').html("Rok " + y);
       $('.phase').html(params.fazy[p].title);
       if (params.year > n) { endGame(); }

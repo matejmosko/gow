@@ -15,8 +15,8 @@ $(function() {
     renderNews(arg);
 
   });
-  ipc.on('readPhase', (event, year, phase) => {
-    renderPhase(year, phase);
+  ipc.on('readPhase', (event, year, phase, pocetrokov) => {
+    renderPhase(year, phase, pocetrokov);
   });
 
   function resetView() {
@@ -48,14 +48,16 @@ $(function() {
     $('.endNews').html(curr);
   }
 
-  function renderPhase(year, phase) {
+  function renderPhase(year, phase, pocetrokov) {
     resetView()
-    if (year > 6) {
+    if (year > pocetrokov) {
       $('#spravy').hide();
       $('#currYear').html("<h2 class='year'>Rok " + (year+2035) + "</h2>");
       $('#currPhase').html("<h3>Koniec sveta</h3>");
       $('#currPhaseText').html("");
       $('.infobox').show();
+      if (timer!= undefined) timer.running = false;
+      $('#desatminut').hide();
     } else {
     year = year + 2034;
     $('#currYear').html("<h2 class='year'>Rok " + year + "</h2>");
