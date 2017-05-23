@@ -307,8 +307,12 @@ $(function() {
         if (k['body'] == null) {
           k['body'] = 0;
         }
-        text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + k['krajina'] + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td><td class='rozdiel'>0</td>";
-        text += "<td><div class='btn-group'><button type='button' class='plus btn btn-success'>+</button><button type='button' class='minus btn btn-warning'>-</button></div></td>";
+        if (k['ulohy'] == null) {
+          k['ulohy'] = 0;
+        }
+        text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + k['krajina'] + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td><td class='ulohy'>" + k['ulohy'] + "</td>";
+        text += "<td  class='points-box'><button type='button' class='plus btn btn-success'>+</button><span class='rozdiel'>0</span><button type='button' class='minus btn btn-warning'>-</button></td>";
+        if (started) text += "<td class='quest-box'><button type='button' class='quest-add btn btn-primary'>+</button><span class='noveulohy'>0</span><button type='button' class='quest-remove btn btn-info'>-</button></td>";
         if (!started) text += "<td><button type='button' class='delete btn btn-danger'>Vymaž</button></td>";
         text += "</tr>";
       }
@@ -326,14 +330,27 @@ $(function() {
 // Pridávanie bodov
 
   $("table").delegate(".minus", "click", function() {
-    var rozdiel = parseInt($(this).closest('tr').children('.rozdiel').text(), 10);
+    var rozdiel = parseInt($(this).closest('td').children('.rozdiel').text(), 10);
     --rozdiel;
-    $(this).closest('tr').children('.rozdiel').text(rozdiel);
+    $(this).closest('td').children('.rozdiel').text(rozdiel);
   });
   $("table").delegate(".plus", "click", function() {
-    var rozdiel = parseInt($(this).closest('tr').children('.rozdiel').text(), 10);
+    var rozdiel = parseInt($(this).closest('td').children('.rozdiel').text(), 10);
     ++rozdiel;
-    $(this).closest('tr').children('.rozdiel').text(rozdiel);
+    $(this).closest('td').children('.rozdiel').text(rozdiel);
+  });
+
+// Pridávanie splnených úloh
+
+  $("table").delegate(".quest-remove", "click", function() {
+    var rozdiel = parseInt($(this).closest('td').children('.noveulohy').text(), 10);
+    --rozdiel;
+    $(this).closest('td').children('.noveulohy').text(rozdiel);
+  });
+  $("table").delegate(".quest-add", "click", function() {
+    var rozdiel = parseInt($(this).closest('td').children('.noveulohy').text(), 10);
+    ++rozdiel;
+    $(this).closest('td').children('.noveulohy').text(rozdiel);
   });
 
 // Odoberanie tímov
@@ -345,13 +362,9 @@ $(function() {
     }, {}, function(err, numRemoved) {});
 
     let index = params.krajiny10.indexOf(k);
-console.log(params.krajiny10);
-console.log(index);
     if (index < 0) {
       params.krajiny10.push(k)
     }
-    console.log(params.krajiny10);
-    console.log(index);
     checkEmptyCountries();
     readGame();
   });
@@ -377,7 +390,6 @@ console.log(index);
       if (index > -1) {
         params.krajiny10.splice(index, 1);
       }
-      console.log(params.krajiny10);
       checkEmptyCountries();
       readGame();
     }
@@ -410,13 +422,15 @@ console.log(index);
   function savePoints() {
     $('#admin-table > tbody  > tr').each(function() {
       let curr = parseInt($(this).children('.body').text(), 10);
-      let next = parseInt($(this).children('.rozdiel').text(), 10);
-      updateTeam($(this).attr('id'), curr, next);
+      let next = parseInt($(this).children('.points-box').children('.rozdiel').text(), 10);
+      let ulohy = parseInt($(this).children('.ulohy').text(), 10);
+      let noveulohy = parseInt($(this).children('.quest-box').children('.noveulohy').text(), 10);
+      updateTeam($(this).attr('id'), curr, next, ulohy, noveulohy);
     });
   };
 
-  function updateTeam(country, points, rozdiel) {
-    db.games.update({ krajina: country }, { $set: { body: points + rozdiel } }, { multi: true }, function(err, numReplaced) {
+  function updateTeam(country, points, rozdiel, quests, noveulohy) {
+    db.games.update({ krajina: country }, { $set: { body: points + rozdiel, ulohy: quests + noveulohy } }, { multi: true }, function(err, numReplaced) {
       // numReplaced = 3
       // Field 'system' on Mars, Earth, Jupiter now has value 'solar system'
       readGame();
