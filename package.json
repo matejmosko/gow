@@ -1,12 +1,13 @@
 {
   "name": "game-of-worlds",
-  "version": "0.0.1",
+  "version": "20170524",
   "description": "Game of Worlds App",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "pack": "build --dir",
-    "dist": "build"
+    "dist": "build",
+    "win": "build --win"
   },
   "repository": "https://github.com/matejmosko/gow",
   "keywords": [
@@ -31,8 +32,8 @@
   "build": {
     "productName": "Game of Worlds Admin",
     "appId": "com.electron.MatejMosko.GameofWorlds",
-    "asar": false,
-    "compression": "store",
+    "asar": true,
+    "compression": "maximum",
     "linux": {
       "target": "AppImage",
       "category": "Game"
