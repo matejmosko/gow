@@ -4,9 +4,10 @@
   "description": "Game of Worlds App",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "pack": "build --dir",
+    "dist": "build"
   },
-   "repository": "https://github.com/matejmosko/gow",
+  "repository": "https://github.com/matejmosko/gow",
   "keywords": [
     "Game of Worlds",
     "Board game",
@@ -14,9 +15,10 @@
   ],
   "author": "Matej Moško",
   "license": "CC0-1.0",
+  "postinstall": "install-app-deps",
   "devDependencies": {
     "electron": "^1.4.1",
-    "electron-packager": "^8.5.1"
+    "electron-builder": "^18.0.1"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
@@ -24,5 +26,19 @@
     "jquery": "^3.1.1",
     "jsdom": "^9.11.0",
     "nedb": "^1.8.0"
+  },
+  "build": {
+    "productName": "Game of Worlds Admin",
+    "appId": "com.electron.MatejMosko.GameofWorlds",
+    "asar": false,
+    "compression": "store",
+    "linux": {
+      "target": "AppImage",
+      "category": "Game"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
   }
 }
