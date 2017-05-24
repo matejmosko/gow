@@ -512,6 +512,19 @@ x = rozdiel + (varporadie / 100);
   }
 
   $("#fullscreenBtn").click(function() {
-    ipc.send('setFullscreen', sort);
+    ipc.send('toggleFullscreen');
+  });
+  $("#projectorBtn").click(function() {
+    ipc.send('toggleProjector');
+  });
+  $("#reallyQuit").click(function() {
+    ipc.send('reallyQuit');
+  });
+  $("#doNotQuit").click(function() {
+    ipc.send('doNotQuit');
+  });
+
+  ipc.on('projectorSwitch', (event, x) => {
+    if (x) {$("#projectorBtn").text('Vypni projekciu')} else $("#projectorBtn").text('Spusti projekciu')
   });
 });

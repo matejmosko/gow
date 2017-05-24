@@ -4,6 +4,7 @@
   "description": "Game of Worlds App",
   "main": "main.js",
   "scripts": {
+    "start": "electron .",
     "pack": "build --dir",
     "dist": "build"
   },
@@ -37,7 +38,7 @@
       "category": "Game"
     },
     "win": {
-      "target": "nsis",
+      "target": "NSIS",
       "icon": "build/icon.ico"
     }
   }

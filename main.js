@@ -21,8 +21,19 @@ ipcMain.on('transferNews', (event, arg) => {
 ipcMain.on('transferPhase', (event, arg1, arg2, arg3) => {
   projektorWindow.webContents.send('readPhase', arg1, arg2, arg3);
 })
-ipcMain.on('setFullscreen', (event, sort) => {
+ipcMain.on('toggleFullscreen', (event) => {
   if (projektorWindow.isFullScreen()) {projektorWindow.setFullScreen(false)} else projektorWindow.setFullScreen(true);
+})
+ipcMain.on('toggleProjector', (event) => {
+if (projektorWindow.isVisible()) {
+  projektorWindow.hide();
+  x = false;
+  mainWindow.webContents.send('projectorSwitch', x);
+} else {
+  projektorWindow.show();
+  x = true;
+  mainWindow.webContents.send('projectorSwitch', x);
+}
 })
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -34,7 +45,7 @@ let projektorWindow
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({ width: 800, height: 600 })
+    mainWindow = new BrowserWindow({ width: 800, height: 600, icon: path.join(__dirname, 'img/icon.png'), title: 'GOW Admin', backgroundColor: '#13132A' })
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
@@ -46,6 +57,28 @@ function createWindow() {
     // Open the DevTools.
   //  mainWindow.webContents.openDevTools()
 
+  mainWindow.on('close', event=>{
+      event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
+      let child = new BrowserWindow({parent: mainWindow, modal: true, resizable: false, width: 440, height: 180, show: false})
+      child.loadURL(url.format({
+          pathname: path.join(__dirname, 'quit.html'),
+          protocol: 'file:',
+          slashes: true
+      }))
+      ipcMain.on('reallyQuit', (event) => {
+        app.exit();
+      })
+      ipcMain.on('doNotQuit', (event) => {
+        child.hide();
+      })
+      child.on('closed', function() {
+          child.hide();
+      })
+      child.once('ready-to-show', () => {
+      child.show()
+})
+      //app.exit();
+  })
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
         // Dereference the window object, usually you would store windows
@@ -59,7 +92,7 @@ function createWindow() {
 
 function createProjektor() {
     // Create the browser window.
-    projektorWindow = new BrowserWindow({ width: 640, height: 480 })
+    projektorWindow = new BrowserWindow({ width: 640, height: 480, icon: path.join(__dirname, 'img/icon.png'), title: 'GOW', backgroundColor: '#13132A', show:false })
 
     // and load the index.html of the app.
     projektorWindow.loadURL(url.format({
@@ -79,6 +112,10 @@ function createProjektor() {
         // when you should delete the corresponding element.
         projektorWindow = null
     })
+    projektorWindow.on('close', event=>{
+        event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
+        projektorWindow.hide();
+    })
     projektorWindow.webContents.on('did-finish-load', () => {
 
     })
@@ -97,6 +134,7 @@ app.on('window-all-closed', function() {
         app.quit()
     }
 })
+
 
 
 app.on('activate', function() {
