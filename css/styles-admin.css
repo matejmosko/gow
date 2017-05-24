@@ -7,3 +7,9 @@
 .btn-load{
 	height: 114%;
 }
+th.quest-box, th.points-box{
+	display:none;
+}
+.started .tools{
+	display:none;
+}

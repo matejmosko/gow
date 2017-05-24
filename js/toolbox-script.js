@@ -10,7 +10,7 @@ $(function() {
     db = {},
     params = {},
     over10 = false,
-    sort = 0,
+    sort = 99,
     newgame = false,
     started = false,
     countrycodes = {};
@@ -276,15 +276,30 @@ $(function() {
       $('.noTeam').show();
     } else {
       $('#pridajTim').hide();
-      $('.delete').hide();
+      $('.quest-box').show();
+      $('.points-box').show();
+      $('#admin-table').find('.tools').hide();
       $('.plus').show();
       $('.minus').show();
       $('#nextPhase').show();
       $('#spravy').show(0);
       $("#startGame").hide();
       started = true;
+      let d = document.body;
+      d.className += " started";
       readGame();
     }
+  }
+
+  function sortGame(docs){
+    docs.sort(function(b, a) {
+      return a['body'] - b['body'] || a['poradie'] - b['poradie'];
+    });
+    /*    let x = docs.length - 1;
+    if (docs.length != 0) {
+      sort = docs[x]['poradie'];
+    }*/
+    return docs;
   }
 
   function readGame() {
@@ -292,16 +307,9 @@ $(function() {
       game: currentGame
     }, function(err, docs) {
       var text = "";
-      docs.sort(function(a, b) {
-        return a['poradie'] - b['poradie'];
-      });
-      docs.sort(function(a, b) {
-        return b['body'] - a['body'];
-      });
-      let x = docs.length - 1;
-      if (docs.length != 0) {
-        sort = docs[x]['poradie'];
-      }
+
+      docs = sortGame(docs);
+
       ipc.send('transferCurrentGame', docs);
       for (var i = 0, k; k = docs[i]; i++) {
         if (k['body'] == null) {
@@ -310,10 +318,17 @@ $(function() {
         if (k['ulohy'] == null) {
           k['ulohy'] = 0;
         }
+        if (k['poradie'] == null) {
+          k['poradie'] = 0;
+        }
         text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + k['krajina'] + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td><td class='ulohy'>" + k['ulohy'] + "</td>";
-        text += "<td  class='points-box'><button type='button' class='plus btn btn-success'>+</button><span class='rozdiel'>0</span><button type='button' class='minus btn btn-warning'>-</button></td>";
-        if (started) text += "<td class='quest-box'><button type='button' class='quest-add btn btn-primary'>+</button><span class='noveulohy'>0</span><button type='button' class='quest-remove btn btn-info'>-</button></td>";
-        if (!started) text += "<td><button type='button' class='delete btn btn-danger'>Vymaž</button></td>";
+        if (started) {
+          text += "<td class='points-box'><button type='button' class='plus btn btn-success'>+</button><span class='rozdiel'>0</span><button type='button' class='minus btn btn-warning'>-</button></td>";
+          text += "<td class='quest-box'><button type='button' class='quest-add btn btn-primary'>+</button><span class='noveulohy'>0</span><button type='button' class='quest-remove btn btn-info'>-</button></td>";
+        } else {
+        text += "<td class='tools delete'><button type='button' class='delete btn btn-danger'>Vymaž</button></td>";
+      }
+        text += "<td class='tools sort'><input class='sortinput' width='20px' value='"+k['poradie']+"' /></td>";
         text += "</tr>";
       }
       $("#tabulkatimov").html(text);
@@ -384,7 +399,7 @@ $(function() {
       $('.noTeamName').show();
       $('.teamname').addClass("has-error");
     } else {
-      ++sort;
+      --sort;
       addTeam($('#krajiny').val(), $('#tim').val(), sort);
       let index = params.krajiny10.indexOf($('#krajiny').val());
       if (index > -1) {
@@ -425,21 +440,23 @@ $(function() {
       let next = parseInt($(this).children('.points-box').children('.rozdiel').text(), 10);
       let ulohy = parseInt($(this).children('.ulohy').text(), 10);
       let noveulohy = parseInt($(this).children('.quest-box').children('.noveulohy').text(), 10);
-      updateTeam($(this).attr('id'), curr, next, ulohy, noveulohy);
+      let varporadie = parseFloat($(this).find('.sortinput').val().replace(",", "."));
+      updateTeam($(this).attr('id'), curr, next, ulohy, noveulohy, varporadie);
     });
   };
 
-  function updateTeam(country, points, rozdiel, quests, noveulohy) {
-    db.games.update({ krajina: country }, { $set: { body: points + rozdiel, ulohy: quests + noveulohy } }, { multi: true }, function(err, numReplaced) {
-      // numReplaced = 3
-      // Field 'system' on Mars, Earth, Jupiter now has value 'solar system'
+  function updateTeam(country, points, rozdiel, quests, noveulohy, varporadie) {
+  //  if (params.year == 0) {x = rozdiel + (varporadie / 100); } else { x = rozdiel + (varporadie / 100); }
+
+x = rozdiel + (varporadie / 100);
+    db.games.update({ krajina: country }, { $set: { body: points + rozdiel, ulohy: quests + noveulohy, poradie: x }, $push: { kola: rozdiel } }, { multi: true }, function(err, numReplaced) {
       readGame();
     });
-    endRound(country, points, rozdiel);
+    //endRound(country, points, rozdiel);                                       // SLEDOVAŤ ČI TO NEPRINIESLO NEJAKÝ PROBLÉM
   }
 
   function endRound(country, points, rozdiel) {
-    db.games.update({ krajina: country }, { $push: { kola: rozdiel } }, {}, function() {});
+    //db.games.update({ krajina: country }, { $push: { kola: rozdiel } }, {}, function() {});
   }
 
   function changePhase() {
@@ -475,7 +492,6 @@ $(function() {
   }
 
   function displayPhase() {
-    console.log(params.pocetrokov);
     let n = params.pocetrokov - 1;
     let y = params.year + 1;
     let p = params.phase;
