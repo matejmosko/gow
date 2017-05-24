@@ -13,3 +13,13 @@ th.quest-box, th.points-box{
 .started .tools{
 	display:none;
 }
+#admin-table td{
+	vertical-align: middle;
+}
+.year-variable{
+	display:inline-block;
+	min-width: 25px;
+	font-weight: bold;
+	text-align:center;
+
+}

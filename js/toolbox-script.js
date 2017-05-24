@@ -323,12 +323,12 @@ $(function() {
         }
         text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + k['krajina'] + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td><td class='ulohy'>" + k['ulohy'] + "</td>";
         if (started) {
-          text += "<td class='points-box'><button type='button' class='plus btn btn-success'>+</button><span class='rozdiel'>0</span><button type='button' class='minus btn btn-warning'>-</button></td>";
-          text += "<td class='quest-box'><button type='button' class='quest-add btn btn-primary'>+</button><span class='noveulohy'>0</span><button type='button' class='quest-remove btn btn-info'>-</button></td>";
+          text += "<td class='points-box'><button type='button' class='plus btn btn-success'>+</button><span class='year-variable rozdiel'>0</span><button type='button' class='minus btn btn-warning'>-</button></td>";
+          text += "<td class='quest-box'><button type='button' class='quest-add btn btn-primary'>+</button><span class='year-variable noveulohy'>0</span><button type='button' class='quest-remove btn btn-info'>-</button></td>";
         } else {
         text += "<td class='tools delete'><button type='button' class='delete btn btn-danger'>Vymaž</button></td>";
       }
-        text += "<td class='tools sort'><input class='sortinput' width='20px' value='"+k['poradie']+"' /></td>";
+        text += "<td class='tools sort'><input class='sortinput' size='3' value='"+k['poradie']+"' /></td>";
         text += "</tr>";
       }
       $("#tabulkatimov").html(text);
