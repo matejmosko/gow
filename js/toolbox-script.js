@@ -329,6 +329,7 @@ $(function() {
 
     });
     if (!started) {db.games.update({ name: 'settings' }, { $set: { zoznamKrajin: params.zoznamKrajin } }, { multi: true }, function(err, numReplaced) {});}
+    displayStats();
   }
 
   function displayGameSetup() {
@@ -509,8 +510,6 @@ $(function() {
       var text = "";
 
       docs = sortGame(docs);
-
-      //ipc.send('transferCurrentGame', docs);
       for (var i = 0, k; k = docs[i]; i++) {
         if (k['body'] == null) {
           k['body'] = 0;
@@ -528,13 +527,6 @@ $(function() {
           text += "</td>";
         }
         text += "<td class='body'>" + k['body'] + "</td><td class='ulohy'>" + k['ulohy'] + "</td>";
-        /*  if (started) {
-            text += "<td class='points-box'><button type='button' class='plus btn btn-success'>+</button><span class='year-variable rozdiel'>0</span><button type='button' class='minus btn btn-warning'>-</button></td>";
-            text += "<td class='quest-box'><button type='button' class='quest-add btn btn-primary'>+</button><span class='year-variable noveulohy'>0</span><button type='button' class='quest-remove btn btn-info'>-</button></td>";
-          } else {
-          text += "<td class='tools delete'><button type='button' class='delete btn btn-danger'>Vymaž</button></td>";
-        }
-          text += "<td class='tools sort'><input class='sortinput' size='3' value='"+k['poradie']+"' /></td>";*/
         text += "</tr>";
       }
       $("#statistikatimov").html(text);
@@ -550,7 +542,7 @@ $(function() {
     $('.phase').text("");
   }
 
-  /* SEM SA VRÁTIT */
+  /* Logovanie udalostí */
 
   function createLog(text){
     var file = fs.openSync("savegame/"+currentGame.slice(0, -3)+".log", 'a');
@@ -562,10 +554,41 @@ $(function() {
   });
   }
 
+/* Krok späť */
+
+  function stepBack(){
+    if (params.year > params.pocetrokov) { displayPhase() } else {
+      let y = params.pocetrokov - 1;
+      let n = params.fazy.length - 1;
+      /*let year = params.year;
+      let phase = params.phase;*/
+      if (params.phase == 3) { revertPoints(); } // Not working yet
+      if (params.phase == 0) {
+        params.phase = 3;
+        params.year -= 1;
+
+      } else { params.phase--; }
+      db.games.update({ name: 'settings' }, { $set: { year: params.year, phase: params.phase } }, { multi: true }, function(err, numReplaced) {});
+      displayPhase();
+      displaySpravy();
+      createLog("PHASE CHANGED: Year = " + params.year + ", Phase = " + params.phase + "\r\n");
+  }
+}
+function revertPoints(){
+    /* $('#stats-table > tbody  > tr').each(function() {
+      let curr = parseInt($(this).children('.body').text(), 10);
+      let next = parseInt($(this).children('.'+(params.year-1)).children('.rozdiel').text(), 10);
+      updateTeam($(this).attr('id'), curr, (0-next), 0,0,0);
+    }); */
+}
+
   $("#statsBtn").click(function() {
     displayStats();
     $('#admin-table').toggle();
     $('#stats-table').toggle();
+  });
+  $("#stepBack").click(function() {
+    stepBack();
   });
 
   $("#fullscreenBtn").click(function() {
