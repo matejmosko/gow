@@ -1,6 +1,6 @@
 {
   "name": "game-of-worlds",
-  "version": "20170524",
+  "version": "2017.05.24",
   "description": "Game of Worlds App",
   "main": "main.js",
   "scripts": {
