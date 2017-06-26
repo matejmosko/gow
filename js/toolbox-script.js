@@ -9,7 +9,6 @@ $(function() {
     Datastore = require('nedb'),
     db = {},
     params = {},
-    over10 = false,
     sort = 99,
     newgame = false,
     started = false,
@@ -45,8 +44,8 @@ $(function() {
       phase: -1,
       name: 'settings',
       pocetkrajin: 15,
-      pocetrokov: 6,
-      krajiny10: [
+      pocetrokov: 5,
+      zoznamKrajin: [
         'Slovensko',
         'Rusko',
         'USA',
@@ -56,9 +55,7 @@ $(function() {
         'Japonsko',
         'Veľká_Británia',
         'Kanada',
-        'Brazília'
-      ],
-      krajiny16: [
+        'Brazília',
         'Mexiko',
         'India',
         'Irán',
@@ -145,7 +142,7 @@ $(function() {
     var selectSavegame = "<label for='selectLoad' class='input-group-addon'>Nahraj staršiu hru</label><select id='selectLoad' class='form-control' size='5'>";
     dir = fs.readdirSync('./savegame');
     for (var i = 0, path; path = dir[i]; i++) {
-      selectSavegame += "<option>" + path + "</option>";
+      if (path.match(".db")) {selectSavegame += "<option>" + path + "</option>";}
     }
     selectSavegame += "</select>";
     selectSavegame += "<div class='input-group-btn'><button type='submit' id='loadGame' value='Load Game' class='btn btn-primary btn-load'>Nahraj hru</button></div>";
@@ -206,12 +203,8 @@ $(function() {
 
   function checkEmptyCountries() {
     var text = "";
-    if (params.krajiny10.length < 1) {
-      params.krajiny10 = params.krajiny16;
-      params.krajiny16 = [];
-    }
-    if (params.krajiny10.length > 0) {
-      for (k of params.krajiny10) {
+    if (params.zoznamKrajin.length > 0) {
+      for (k of params.zoznamKrajin) {
         text += "<option>" + k + "</option>";
       }
     }
@@ -288,10 +281,11 @@ $(function() {
       let d = document.body;
       d.className += " started";
       readGame();
+      createLog("SYSTEM: The Game of Worlds has started" + "\r\n");
     }
   }
 
-  function sortGame(docs){
+  function sortGame(docs) {
     docs.sort(function(b, a) {
       return a['body'] - b['body'] || a['poradie'] - b['poradie'];
     });
@@ -326,15 +320,15 @@ $(function() {
           text += "<td class='points-box'><button type='button' class='plus btn btn-success'>+</button><span class='year-variable rozdiel'>0</span><button type='button' class='minus btn btn-warning'>-</button></td>";
           text += "<td class='quest-box'><button type='button' class='quest-add btn btn-primary'>+</button><span class='year-variable noveulohy'>0</span><button type='button' class='quest-remove btn btn-info'>-</button></td>";
         } else {
-        text += "<td class='tools delete'><button type='button' class='delete btn btn-danger'>Vymaž</button></td>";
-      }
-        text += "<td class='tools sort'><input class='sortinput' size='3' value='"+k['poradie']+"' /></td>";
+          text += "<td class='tools delete'><button type='button' class='delete btn btn-danger'>Vymaž</button></td>";
+        }
+        text += "<td class='tools sort'><input class='sortinput' size='3' value='" + k['poradie'] + "' /></td>";
         text += "</tr>";
       }
       $("#tabulkatimov").html(text);
 
     });
-    db.games.update({ name: 'settings' }, { $set: { krajiny10: params.krajiny10, krajiny16: params.krajiny16 } }, { multi: true }, function(err, numReplaced) {});
+    if (!started) {db.games.update({ name: 'settings' }, { $set: { zoznamKrajin: params.zoznamKrajin } }, { multi: true }, function(err, numReplaced) {});}
   }
 
   function displayGameSetup() {
@@ -342,7 +336,7 @@ $(function() {
     $('#hrajuceTimy').show(0);
   }
 
-// Pridávanie bodov
+  // Pridávanie bodov
 
   $("table").delegate(".minus", "click", function() {
     var rozdiel = parseInt($(this).closest('td').children('.rozdiel').text(), 10);
@@ -355,7 +349,7 @@ $(function() {
     $(this).closest('td').children('.rozdiel').text(rozdiel);
   });
 
-// Pridávanie splnených úloh
+  // Pridávanie splnených úloh
 
   $("table").delegate(".quest-remove", "click", function() {
     var rozdiel = parseInt($(this).closest('td').children('.noveulohy').text(), 10);
@@ -368,7 +362,7 @@ $(function() {
     $(this).closest('td').children('.noveulohy').text(rozdiel);
   });
 
-// Odoberanie tímov
+  // Odoberanie tímov
 
   $("table").delegate(".delete", "click", function() {
     let k = $(this).closest('tr').attr('id');
@@ -376,15 +370,15 @@ $(function() {
       krajina: k
     }, {}, function(err, numRemoved) {});
 
-    let index = params.krajiny10.indexOf(k);
+    let index = params.zoznamKrajin.indexOf(k);
     if (index < 0) {
-      params.krajiny10.push(k)
+      params.zoznamKrajin.push(k)
     }
     checkEmptyCountries();
     readGame();
   });
 
-// Pridávanie tímov
+  // Pridávanie tímov
 
   $("#submitTim").click(function() {
     if ($('#krajiny').val() != null) {
@@ -401,9 +395,9 @@ $(function() {
     } else {
       --sort;
       addTeam($('#krajiny').val(), $('#tim').val(), sort);
-      let index = params.krajiny10.indexOf($('#krajiny').val());
+      let index = params.zoznamKrajin.indexOf($('#krajiny').val());
       if (index > -1) {
-        params.krajiny10.splice(index, 1);
+        params.zoznamKrajin.splice(index, 1);
       }
       checkEmptyCountries();
       readGame();
@@ -425,7 +419,7 @@ $(function() {
     db.games.insert(doc, function(err, newDocs) {});
   }
 
-// Posúvanie herných fáz
+  // Posúvanie herných fáz
 
   $("#nextPhase").click(function() {
     changePhase();
@@ -446,10 +440,14 @@ $(function() {
   };
 
   function updateTeam(country, points, rozdiel, quests, noveulohy, varporadie) {
-  //  if (params.year == 0) {x = rozdiel + (varporadie / 100); } else { x = rozdiel + (varporadie / 100); }
+    //  if (params.year == 0) {x = rozdiel + (varporadie / 100); } else { x = rozdiel + (varporadie / 100); }
 
-x = rozdiel + (varporadie / 100);
-    db.games.update({ krajina: country }, { $set: { body: points + rozdiel, ulohy: quests + noveulohy, poradie: x }, $push: { kola: rozdiel } }, { multi: true }, function(err, numReplaced) {
+    x = rozdiel + (varporadie / 100);
+    spolubody = points + rozdiel;
+    spolumisie = quests + noveulohy;
+    db.games.update({ krajina: country }, { $set: { body: spolubody, ulohy: spolumisie, poradie: x }, $push: { kola: rozdiel } }, { multi: true }, function(err, numReplaced) {
+
+      createLog("POINTS CHANGED: Points " + points + " + "+ rozdiel + " = " + spolubody + " Missions " + quests + " + "+ noveulohy + " = " + spolumisie + " (" + country + ")\r\n");
       readGame();
     });
     //endRound(country, points, rozdiel);                                       // SLEDOVAŤ ČI TO NEPRINIESLO NEJAKÝ PROBLÉM
@@ -475,6 +473,7 @@ x = rozdiel + (varporadie / 100);
       db.games.update({ name: 'settings' }, { $set: { year: params.year, phase: params.phase } }, { multi: true }, function(err, numReplaced) {});
       displayPhase();
       displaySpravy();
+      createLog("PHASE CHANGED: Year = " + params.year + ", Phase = " + params.phase + "\r\n");
     }
   }
 
@@ -503,6 +502,46 @@ x = rozdiel + (varporadie / 100);
     }
   }
 
+  function displayStats() {
+    db.games.find({
+      game: currentGame
+    }, function(err, docs) {
+      var text = "";
+
+      docs = sortGame(docs);
+
+      //ipc.send('transferCurrentGame', docs);
+      for (var i = 0, k; k = docs[i]; i++) {
+        if (k['body'] == null) {
+          k['body'] = 0;
+        }
+        if (k['ulohy'] == null) {
+          k['ulohy'] = 0;
+        }
+        if (k['poradie'] == null) {
+          k['poradie'] = 0;
+        }
+        text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + k['krajina'] + "</td><td class='tim'>" + k['tim'] + "</td>"
+        for (n = 0; n < params.pocetrokov; n++) {
+          text += "<td class='" + n + "'>"
+          if (k['kola'][n] != null) { text += k['kola'][n] };
+          text += "</td>";
+        }
+        text += "<td class='body'>" + k['body'] + "</td><td class='ulohy'>" + k['ulohy'] + "</td>";
+        /*  if (started) {
+            text += "<td class='points-box'><button type='button' class='plus btn btn-success'>+</button><span class='year-variable rozdiel'>0</span><button type='button' class='minus btn btn-warning'>-</button></td>";
+            text += "<td class='quest-box'><button type='button' class='quest-add btn btn-primary'>+</button><span class='year-variable noveulohy'>0</span><button type='button' class='quest-remove btn btn-info'>-</button></td>";
+          } else {
+          text += "<td class='tools delete'><button type='button' class='delete btn btn-danger'>Vymaž</button></td>";
+        }
+          text += "<td class='tools sort'><input class='sortinput' size='3' value='"+k['poradie']+"' /></td>";*/
+        text += "</tr>";
+      }
+      $("#statistikatimov").html(text);
+
+    });
+  }
+
   function endGame() {
     savePoints();
     $('#right-4').html("<h2>Koniec hry</h2>");
@@ -510,6 +549,24 @@ x = rozdiel + (varporadie / 100);
     $('.year').text("Koniec hry");
     $('.phase').text("");
   }
+
+  /* SEM SA VRÁTIT */
+
+  function createLog(text){
+    var file = fs.openSync("savegame/"+currentGame.slice(0, -3)+".log", 'a');
+    fs.writeFile(file, text, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+      console.log("The log was saved!");
+  });
+  }
+
+  $("#statsBtn").click(function() {
+    displayStats();
+    $('#admin-table').toggle();
+    $('#stats-table').toggle();
+  });
 
   $("#fullscreenBtn").click(function() {
     ipc.send('toggleFullscreen');
@@ -525,6 +582,6 @@ x = rozdiel + (varporadie / 100);
   });
 
   ipc.on('projectorSwitch', (event, x) => {
-    if (x) {$("#projectorBtn").text('Vypni projekciu')} else $("#projectorBtn").text('Spusti projekciu')
+    if (x) { $("#projectorBtn").text('Vypni projekciu') } else $("#projectorBtn").text('Spusti projekciu')
   });
 });

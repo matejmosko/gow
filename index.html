@@ -15,6 +15,7 @@
         <div class="btn-group">
           <button id="projectorBtn" class="btn btn-default">Spusti projekciu</button>
           <button id="fullscreenBtn" class="btn btn-default">Celá obrazovka</button>
+          <button id="statsBtn" class="btn btn-default">Štatistika</button>
         </div>
       </div>
       <div class="col-sm-5">
@@ -77,6 +78,18 @@
               </tr>
             </thead>
             <tbody id="tabulkatimov"></tbody>
+          </table>
+          <table class="table table-striped" id="stats-table" style="display:none">
+            <thead>
+              <tr>
+                <th>Krajina</th>
+                <th>Tím</th>
+                <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+                <th>Body</th>
+                <th>Misie</th>
+              </tr>
+            </thead>
+            <tbody id="statistikatimov"></tbody>
           </table>
         </div>
       </div>
