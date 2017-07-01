@@ -5,6 +5,7 @@ savegame
 *.exe
 *.Appimage
 Thumbs.db
+dist
 
 # OS generated files #
 ######################
