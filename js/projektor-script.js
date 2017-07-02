@@ -13,7 +13,9 @@ $(function() {
   });
   ipc.on('readNews', (event, arg) => {
     renderNews(arg);
-
+  });
+  ipc.on('transferRules', (event) => {
+    $('.rules').toggle();
   });
   ipc.on('readPhase', (event, year, phase, pocetrokov) => {
     renderPhase(year, phase, pocetrokov);
@@ -88,7 +90,7 @@ $(function() {
           $('#desatminut').show();
           $('.currNews').hide();
           $('.endNews').show();
-          if (year % 2 != 0) { displayCounter(5*60); } else { displayCounter(15*60);}
+          if (year % 2 == 0) { displayCounter(5*60); } else { displayCounter(15*60);}
           break;
       }
     }

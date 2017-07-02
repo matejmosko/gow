@@ -131,7 +131,7 @@ table, table td, table th {
     font-size: large;
 }
 
-.overlay {
+.overlay, .rules {
     z-index: 10;
     background-color: black;
     font-family: Nasalization, Arial, Helvetica, sans-serif;
@@ -141,6 +141,16 @@ table, table td, table th {
     transform: translate(-50%, -50%);
     padding: 30px;
     text-align: center;
+}
+
+.rules{
+  display:none;
+}
+.rules ul li{
+  text-align: left;
+  padding-bottom: 15px;
+  font-family: "Exo", sans-serif;
+  font-size: 24px;
 }
 
 .overlay h2 {

@@ -594,6 +594,9 @@ function revertPoints(){
   $("#fullscreenBtn").click(function() {
     ipc.send('toggleFullscreen');
   });
+  $("#rulesBtn").click(function() {
+    ipc.send('toggleRules');
+  });
   $("#projectorBtn").click(function() {
     ipc.send('toggleProjector');
   });

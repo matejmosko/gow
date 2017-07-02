@@ -21,6 +21,9 @@ ipcMain.on('transferNews', (event, arg) => {
 ipcMain.on('transferPhase', (event, arg1, arg2, arg3) => {
   projektorWindow.webContents.send('readPhase', arg1, arg2, arg3);
 })
+ipcMain.on('toggleRules', (event) => {
+  projektorWindow.webContents.send('transferRules');
+})
 ipcMain.on('toggleFullscreen', (event) => {
   if (projektorWindow.isFullScreen()) {projektorWindow.setFullScreen(false)} else projektorWindow.setFullScreen(true);
 })
