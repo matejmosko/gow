@@ -59,7 +59,7 @@ $(function() {
       if (timer!= undefined) timer.running = false;
       $('#desatminut').hide();
     } else {
-    year = year + 2034;
+    year = year + 2037;
     $('#currYear').html("<h2 class='year'>Rok " + year + "</h2>");
     $('#currPhase').html("<h2 class='phase'>" + phase.title + " </h2>");
     $('#currPhaseText').html("<span class='phasetext'>" + phase.text + "</span>");
@@ -88,7 +88,7 @@ $(function() {
           $('#desatminut').show();
           $('.currNews').hide();
           $('.endNews').show();
-          if (year % 2 == 0) { displayCounter(5*60); } else { displayCounter(15*60);}
+          if (year % 2 != 0) { displayCounter(5*60); } else { displayCounter(15*60);}
           break;
       }
     }

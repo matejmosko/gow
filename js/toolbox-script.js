@@ -78,23 +78,19 @@ $(function() {
       ufoEvents: [{
         title: 'Vpád mimozemšťanov',
         text: 'Nad niektorými územiami sa objavili mimozemské taniere a pustošia ľudské obydlia.',
-        secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Ekvádor / Poľsko / Mongolsko. Na každom území je 10 ich armády a 2 mimozemské AK.'
-      }, {
-        title: 'Pád UFO',
-        text: 'V Egypte sa zrútilo mimozemské UFO. Podľa zaručených zdrojov túto haváriu spôsobili Chemtrails. A mimozemské lode drancujú našu Zem.',
-        secret: 'V Egypte budú k dispozícii 4 mimozemské AK. Kto (tím alebo aliancia) tam dá najviac armád získa tie karty (+ hodnota AK)'
+        secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Ekvádor / Etiópia / Mongolsko. Na každom území je 5 ich armády a 2 mimozemské AK'
       }, {
         title: 'Mimozemská základňa',
-        text: 'Nemenovaný tajný agent v službách jej veličenstva odhalil v Kongu základňu mimozemšťanov. Rolex uviedol na trh novú kolekciu náramkových hodiniek.',
-        secret: 'V Kongu sa objavila základňa mimozemšťanov. Je tam 24 mimozemských armád a 6 mimozemských AK '
+        text: 'Tajný agent v službách jej veličenstva odhalil v Poľsku základňu mimozemšťanov. Rolex uviedol na trh novú kolekciu náramkových hodiniek.',
+        secret: 'V Poľsku sa objavila základňa mimozemšťanov. Je tam 24 mimozemských armád a 6 mimozemských AK.'
+      }, {
+        title: 'Pád UFO a Mimozemské útoky',
+        text: 'V Egypte sa zrútilo mimozemské UFO. Podľa zaručených zdrojov túto haváriu spôsobili Chemtrails. Mimozemšťania menia taktiku a útočia priamo na armády jednotlivých krajín.',
+        secret: 'V Egypte budú k dispozícii 4 mimozemské AK. Kto (tím alebo aliancia) tam dá najviac armád získa tie karty (+ hodnota AK)'
       }, {
         title: 'Vpád mimozemšťanov',
         text: 'Nad niektorými trvalými územiami sa objavili mimozemské taniere a pustošia ľudské obydlia.',
         secret: 'Objavili sa mimozemské lode a drancujú tieto trvalé územia: Aljaška / Madagaskar / Pakistan. Na každom území je 10 ich armády a 2 mimozemské AK'
-      }, {
-        title: 'Mimozemské útoky',
-        text: 'Mimozemšťania menia taktiku a útočia priamo na armády jednotlivých krajín. ',
-        secret: 'Mimozemšťania sa silou 6-10 zapoja do troch náhodných bojov (ich armáda sa pridá po rozdaní žétonov hráčov v strategickej fáze). Ak budú mimozemšťania porazení, budú tam 2 mimozemské AK.'
       }, {
         title: 'Zem je plochá',
         text: 'Vďaka tajným technológiám mimozemšťanov sa podarilo zistiť, že Zem je vlastné plochá. Už sa necestuje po trojuholníkoch, cestuje sa zdarma.',
@@ -106,28 +102,32 @@ $(function() {
       }],
       worldEvents: [{
         title: 'Kongres OSN',
-        text: 'V ponuke sú 4 AK typu Gastráče',
-        secret: 'Rozdávame AK typu Body+'
+        text: 'V ponuke sú 3 AK typu Gastráče',
+        secret: ''
       }, {
-        title: 'Nové ložiská na Blízkom východe',
-        text: 'V hlavnej udalosti je možné získať 4 suroviny ropy',
-        secret: 'Rozdávame AK typu Body+'
+        title: 'Únik plánov stíhačky ALT-F4',
+        text: 'V hlavnej udalosti je možné získať 4 žetóny armády',
+        secret: ''
+      }, {
+        title: 'Nové ložiská za Uralom',
+        text: 'V hlavnej udalosti je možné získať 8 ks kovu',
+        secret: ''
       }, {
         title: 'Výpredaje na svetových trhoch',
         text: 'V hlavnej udalosti je možné získať 8 náhodných AK',
-        secret: 'Rozdávame AK typu Body+'
-      }, {
-        title: 'Únik plánov stíhačky F4-ALT',
-        text: 'V hlavnej udalosti je možné získať 4 žetóny armády',
-        secret: 'Rozdávame AK typu Body+'
-      }, {
-        title: 'Kontakt s mimozemšťanmi',
-        text: 'V hlavnej udalosti je možné získať 4 mimozemské AK',
-        secret: 'Rozdávame AK typu Body+'
+        secret: ''
       }, {
         title: 'Olympijske hry',
         text: 'V hlavnej udalosti je možné získať 6 AK',
-        secret: 'Rozdávame AK typu Body+'
+        secret: ''
+      }, {
+        title: 'Kontakt s mimozemšťanmi',
+        text: 'V hlavnej udalosti je možné získať 4 mimozemské AK',
+        secret: ''
+      }, {
+        title: 'Olympijske hry',
+        text: 'V hlavnej udalosti je možné získať 6 AK',
+        secret: ''
       }, {
         title: '',
         text: '',
