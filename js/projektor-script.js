@@ -42,11 +42,11 @@ $(function() {
       text += "</tr>";
     }
     $("#tabulkatimov").html(text);
-    let last = $( "tbody tr:last-child" ).attr('id');
-    let first = $( "tbody tr:first-child" ).attr('id');
+    let last = $("tbody tr:last-child").attr('id');
+    let first = $("tbody tr:first-child").attr('id');
 
-    let curr = "<div class='sprava'><h4>Pomoc krajine štvrtého sveta</h4><p>Dobročinné organizácie WHO, OSN, UNICEF a TV JOJ vyhlásili, že krajinou, ktorá si zaslúži pomoc je <strong>" + last + "</strong> a pomôže jej nádej našej civilizácie, <strong>" + first + "</strong>.</p></div><div class='sprava'><h4>Plány krajín sa podarilo prekročiť o " + Math.floor((Math.random() * 100) + 101) + " %</h4><p>Zástupcovia jednotlivých krajín si teraz vyberú plody práce svojho pracovitého ľudu. <br /> Inými slovami: Choďte za organizátorom po zdroje.</p></div>";
-
+    let curr = "<div class='sprava'><h4>Pomoc krajine štvrtého sveta</h4><p>Dobročinné organizácie WHO, OSN, UNICEF a TV JOJ vyhlásili, že krajinou, ktorá si zaslúži pomoc je <strong>" + last + "</strong> a pomôže jej nádej našej civilizácie, <strong>" + first + "</strong>.</p></div>";
+// <div class='sprava'><h4>Plány krajín sa podarilo prekročiť o " + Math.floor((Math.random() * 100) + 101) + " %</h4><p>Zástupcovia jednotlivých krajín si teraz vyberú plody práce svojho pracovitého ľudu. <br /> Inými slovami: Choďte za organizátorom po zdroje.</p></div>
     $('.endNews').html(curr);
   }
 
@@ -54,43 +54,55 @@ $(function() {
     resetView()
     if (year > pocetrokov) {
       $('#spravy').hide();
-      $('#currYear').html("<h2 class='year'>Rok " + (year+2035) + "</h2>");
+      $('#currYear').html("<h2 class='year'>Rok " + (year + 2035) + "</h2>");
       $('#currPhase').html("<h3>Koniec sveta</h3>");
       $('#currPhaseText').html("");
       $('.infobox').show();
-      if (timer!= undefined) timer.running = false;
-      $('#desatminut').hide();
+      if (timer != undefined) timer.running = false;
+      $('#timerdiv').hide();
     } else {
-    year = year + 2037;
-    $('#currYear').html("<h2 class='year'>Rok " + year + "</h2>");
-    $('#currPhase').html("<h2 class='phase'>" + phase.title + " </h2>");
-    $('#currPhaseText').html("<span class='phasetext'>" + phase.text + "</span>");
-    $('.infobox').show();
+      year = year + 2037;
+      $('#currYear').html("<h2 class='year'>Rok " + year + "</h2>");
+      $('#currPhase').html("<h2 class='phase'>" + phase.title + " </h2>");
+      $('#currPhaseText').html("<span class='phasetext'>" + phase.text + "</span>");
+      $('.infobox').show();
 
 
       switch (phase.title) {
-        case "Rozkladanie armád":
-          $('#desatminut').hide();
+        case "Pomoc štvrtému svetu":
+          $('#timerdiv').hide();
+          $('.endNews').show();
+          if (timer != undefined) timer.running = false;
+          break;
+        case "Správy zo sveta":
           $('#spravy').show();
-          $('.currNews').show();
           $('.endNews').hide();
-          if (timer!= undefined) timer.running = false;
+          $('.currNews').show();
+          if (timer != undefined) timer.running = false;
+          break;
+        case "Čas na strategické rozhodnutia":
+        $('#spravy').show();
+        $('#timerdiv').show();
+        displayCounter(30);
+          break;
+        case "Rozkladanie armád":
+          $('#timerdiv').hide();
+          if (timer != undefined) timer.running = false;
           break;
         case "Diplomacia":
           $('#spravy').show();
-          $('#desatminut').show();
-          displayCounter(10*60);
+          $('#timerdiv').show();
+          displayCounter(7 * 60);
           break;
         case "Vyhodnotenie bojov":
-          $('#desatminut').hide();
+          $('#timerdiv').hide();
           $('#spravy').show();
-          if (timer!= undefined) timer.running = false;
+          if (timer != undefined) timer.running = false;
           break;
         case "Pauza":
-          $('#desatminut').show();
+          $('#timerdiv').show();
           $('.currNews').hide();
-          $('.endNews').show();
-          if (year % 2 == 0) { displayCounter(5*60); } else { displayCounter(15*60);}
+          displayCounter(7 * 60);
           break;
       }
     }
@@ -153,7 +165,7 @@ $(function() {
   };
 
   function displayCounter(duration) {
-    var display = document.querySelector('#desatminut');
+    var display = document.querySelector('#timerdiv');
     timer = new CountDownTimer(duration);
     timer.onTick(format(display)).onTick(restart).start();
 

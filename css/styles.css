@@ -101,12 +101,12 @@ a, a:visited, a:hover {
     font-size: 1.1em;
 }
 
-table, .infobox, .sprava p, #desatminut {
+table, .infobox, .sprava p, #timerdiv {
     padding: 5px;
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-#desatminut {
+#timerdiv {
     text-align: center;
     font-size: 4.0em;
     font-family: DosisBold, Arial, Helvetica, sans-serif;

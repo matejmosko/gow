@@ -63,6 +63,15 @@ $(function() {
         'Francúzsko'
       ],
       fazy: [{
+        title: 'Pomoc štvrtému svetu',
+        text: 'Nastal čas splniť svoje sľuby a pomocť krajinám, ktoré vašu pomoc potrebujú.'
+      }, {
+        title: 'Správy zo sveta',
+        text: 'Usaďte sa pri svojich domovských stoloch a vypočujte si, čo o vašich vládach hovoria zmanipulované médiá.'
+      }, {
+        title: 'Čas na strategické rozhodnutia',
+        text: 'Teraz sa môžu generáli, diplomati a prezidenti dohodnúť na ďalšej stratégii. Využite tento čas dobre.'
+      }, {
         title: 'Rozkladanie armád',
         text: 'Generáli, presuňte sa k strategickej mape, budete rozkladať svoje armády.'
       }, {
