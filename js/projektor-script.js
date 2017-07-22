@@ -45,7 +45,7 @@ $(function() {
     let last = $("tbody tr:last-child").attr('id');
     let first = $("tbody tr:first-child").attr('id');
 
-    let curr = "<div class='sprava'><h4>Pomoc krajine štvrtého sveta</h4><p>Dobročinné organizácie WHO, OSN, UNICEF a TV JOJ vyhlásili, že krajinou, ktorá si zaslúži pomoc je <strong>" + last + "</strong> a pomôže jej nádej našej civilizácie, <strong>" + first + "</strong>.</p></div>";
+    let curr = "<div class='newsArticle'><h4>Pomoc krajine štvrtého sveta</h4><p>Dobročinné organizácie WHO, OSN, UNICEF a TV JOJ vyhlásili, že krajinou, ktorá si zaslúži pomoc je <strong>" + last + "</strong> a pomôže jej nádej našej civilizácie, <strong>" + first + "</strong>.</p></div>";
 // <div class='sprava'><h4>Plány krajín sa podarilo prekročiť o " + Math.floor((Math.random() * 100) + 101) + " %</h4><p>Zástupcovia jednotlivých krajín si teraz vyberú plody práce svojho pracovitého ľudu. <br /> Inými slovami: Choďte za organizátorom po zdroje.</p></div>
     $('.endNews').html(curr);
   }
@@ -57,7 +57,7 @@ $(function() {
       $('#currYear').html("<h2 class='year'>Rok " + (year + 2035) + "</h2>");
       $('#currPhase').html("<h3>Koniec sveta</h3>");
       $('#currPhaseText').html("");
-      $('.infobox').show();
+      $('#infobox').show();
       if (timer != undefined) timer.running = false;
       $('#timerdiv').hide();
     } else {
@@ -65,7 +65,7 @@ $(function() {
       $('#currYear').html("<h2 class='year'>Rok " + year + "</h2>");
       $('#currPhase').html("<h2 class='phase'>" + phase.title + " </h2>");
       $('#currPhaseText').html("<span class='phasetext'>" + phase.text + "</span>");
-      $('.infobox').show();
+      $('#infobox').show();
 
 
       switch (phase.title) {

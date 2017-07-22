@@ -12,6 +12,7 @@ $(function() {
     sort = 99,
     newgame = false,
     started = false,
+    dialog = document.querySelector("x-dialog"),
     countrycodes = {};
   renderSelectGame();
   setupDB();
@@ -41,7 +42,7 @@ $(function() {
   function saveSettings() {
     var doc = {
       year: 0,
-      phase: -1,
+      phase: 0,
       name: 'settings',
       pocetkrajin: 15,
       pocetrokov: 5,
@@ -148,14 +149,14 @@ $(function() {
   }
 
   function renderSelectGame() {
-    var selectSavegame = "<label for='selectLoad' class='input-group-addon'>Nahraj staršiu hru</label><select id='selectLoad' class='form-control' size='5'>";
     dir = fs.readdirSync('./savegame');
+    var selectSavegame = "<x-select id='selectLoad'><x-menu>";
     for (var i = 0, path; path = dir[i]; i++) {
-      if (path.match(".db")) {selectSavegame += "<option>" + path + "</option>";}
+      if (path.match(".db")) {selectSavegame += "<x-menuitem name='loadGameSelect' value='"+path+"' selected='true'><x-label>"+path+"</x-label></x-menuitem>";}
     }
-    selectSavegame += "</select>";
-    selectSavegame += "<div class='input-group-btn'><button type='submit' id='loadGame' value='Load Game' class='btn btn-primary btn-load'>Nahraj hru</button></div>";
-    $('#staraHra').html(selectSavegame);
+    selectSavegame += "</x-menu></x-select>";
+    selectSavegame += "<x-button id='loadGame'><x-box><x-icon name='file-upload'></x-icon><x-label>Načítaj hru</x-label></x-box></div>";
+    $('#oldGame').html(selectSavegame);
   }
 
   // Display Top Menu
@@ -211,12 +212,14 @@ $(function() {
   }
 
   function checkEmptyCountries() {
-    var text = "";
+    var text = "<x-menu>";
     if (params.zoznamKrajin.length > 0) {
       for (k of params.zoznamKrajin) {
-        text += "<option>" + k + "</option>";
+        //text += "<option>" + k + "</option>";
+        text += "<x-menuitem value=" + k +"  selected='true'><x-label>" + k + "</x-label></x-menuitem>";
       }
     }
+    text += "</x-menu>";
     $('#krajiny').html(text);
   }
   // Nová hra
@@ -261,9 +264,10 @@ $(function() {
 
   function displayTeamSelect() {
     //initSettings();
-    $("#newGameBox").html("<table class='table'><tr class='info'><td>Hra: <strong>" + currentGame + "</strong></td><td class='year'></td><td class='phase'></td></tr></table>");
-    if (!newgame) { $("#startGame").text("Pokračuj v hre") };
-    $("#startGame").show();
+    $("#infobox").append("<div>Hra: <strong>" + currentGame + "</strong></div><div class='year'></div><div class='phase'></div>");
+    //if (!newgame) { $("#startGame").text("Pokračuj v hre") };
+    $("#gameControls").show();
+    $("#newGameBox").hide();
     if (newgame) { saveGameSettings() } else { initSettings(); };
     //createMenu();
     //displayTeamSelect();
@@ -284,7 +288,7 @@ $(function() {
       $('.plus').show();
       $('.minus').show();
       $('#nextPhase').show();
-      $('#spravy').show(0);
+      $('#newsBox').show(0);
       $("#startGame").hide();
       started = true;
       let d = document.body;
@@ -326,12 +330,14 @@ $(function() {
         }
         text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + k['krajina'] + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td><td class='ulohy'>" + k['ulohy'] + "</td>";
         if (started) {
-          text += "<td class='points-box'><button type='button' class='plus btn btn-success'>+</button><span class='year-variable rozdiel'>0</span><button type='button' class='minus btn btn-warning'>-</button></td>";
-          text += "<td class='quest-box'><button type='button' class='quest-add btn btn-primary'>+</button><span class='year-variable noveulohy'>0</span><button type='button' class='quest-remove btn btn-info'>-</button></td>";
+          text += "<td class='points-box'><x-numberinput value='0' class='year-variable rozdiel'><x-stepper></x-stepper></x-numberinput></td>";
+          //text += "<td class='points-box'><x-buttons tracking='-1'><x-button class='plus'><x-icon name='add-circle'></x-icon></x-button><span class='year-variable rozdiel'>0</span><x-button class='minus'><x-icon name='remove-circle'></x-icon></x-button></x-buttons></td>";
+          //text += "<td class='quest-box'><x-buttons tracking='-1'><x-button class='quest-add'><x-icon name='add-circle-outline'></x-icon></x-button><span class='year-variable noveulohy'>0</span><x-button class='quest-remove'><x-icon name='remove-circle-outline'></x-icon></x-button></x-buttons></td>";
+          text += "<td class='quest-box'><x-numberinput value='0' class='year-variable noveulohy'><x-stepper></x-stepper></x-numberinput></td>";
         } else {
-          text += "<td class='tools delete'><button type='button' class='delete btn btn-danger'>Vymaž</button></td>";
+          text += "<td class='tools delete'><x-button class='delete danger'><x-box><x-icon name='delete-forever'></x-icon><x-label>Vymaž</x-label></x-box></x-button></td>";
         }
-        text += "<td class='tools sort'><input class='sortinput' size='3' value='" + k['poradie'] + "' /></td>";
+        text += "<td class='tools sort'><x-numberinput class='sortinput' value='" + k['poradie'] + "'></x-numberinput></td>";
         text += "</tr>";
       }
       $("#tabulkatimov").html(text);
@@ -343,35 +349,36 @@ $(function() {
 
   function displayGameSetup() {
     $('#pridajTim').show(0);
-    $('#hrajuceTimy').show(0);
+    $('#gameTables').show(0);
   }
 
   // Pridávanie bodov
+/* DEPRECATED AFTER MIGRATION TO XEL
 
   $("table").delegate(".minus", "click", function() {
-    var rozdiel = parseInt($(this).closest('td').children('.rozdiel').text(), 10);
+    var rozdiel = parseInt($(this).closest('td').find('.rozdiel').text(), 10);
     --rozdiel;
-    $(this).closest('td').children('.rozdiel').text(rozdiel);
+    $(this).closest('td').find('.rozdiel').text(rozdiel);
   });
   $("table").delegate(".plus", "click", function() {
-    var rozdiel = parseInt($(this).closest('td').children('.rozdiel').text(), 10);
+    var rozdiel = parseInt($(this).closest('td').find('.rozdiel').text(), 10);
     ++rozdiel;
-    $(this).closest('td').children('.rozdiel').text(rozdiel);
+    $(this).closest('td').find('.rozdiel').text(rozdiel);
   });
 
   // Pridávanie splnených úloh
 
   $("table").delegate(".quest-remove", "click", function() {
-    var rozdiel = parseInt($(this).closest('td').children('.noveulohy').text(), 10);
+    var rozdiel = parseInt($(this).closest('td').find('.noveulohy').text(), 10);
     --rozdiel;
-    $(this).closest('td').children('.noveulohy').text(rozdiel);
+    $(this).closest('td').find('.noveulohy').text(rozdiel);
   });
   $("table").delegate(".quest-add", "click", function() {
-    var rozdiel = parseInt($(this).closest('td').children('.noveulohy').text(), 10);
+    var rozdiel = parseInt($(this).closest('td').find('.noveulohy').text(), 10);
     ++rozdiel;
-    $(this).closest('td').children('.noveulohy').text(rozdiel);
+    $(this).closest('td').find('.noveulohy').text(rozdiel);
   });
-
+*/
   // Odoberanie tímov
 
   $("table").delegate(".delete", "click", function() {
@@ -441,10 +448,10 @@ $(function() {
   function savePoints() {
     $('#admin-table > tbody  > tr').each(function() {
       let curr = parseInt($(this).children('.body').text(), 10);
-      let next = parseInt($(this).children('.points-box').children('.rozdiel').text(), 10);
+      let next = parseInt($(this).children('.points-box').find('.rozdiel').val(), 10);
       let ulohy = parseInt($(this).children('.ulohy').text(), 10);
-      let noveulohy = parseInt($(this).children('.quest-box').children('.noveulohy').text(), 10);
-      let varporadie = parseFloat($(this).find('.sortinput').val().replace(",", "."));
+      let noveulohy = parseInt($(this).children('.quest-box').find('.noveulohy').val(), 10);
+      let varporadie = parseFloat($(this).find('.sortinput').val());
       updateTeam($(this).attr('id'), curr, next, ulohy, noveulohy, varporadie);
     });
   };
@@ -491,9 +498,9 @@ $(function() {
     let curr, past, future;
     let year = params.year;
     let phase = params.phase;
-    curr = "<div class='sprava'><h4>" + params.worldEvents[year].title + "</h4><p>" + params.worldEvents[year].text + "</p></div><div class='sprava'><h4>" + params.ufoEvents[year].title + "</h4><p>" + params.ufoEvents[year].text + "</p></div>";
-    if (year != 0) { past = "<div class='sprava'><h4>" + params.worldEvents[year - 1].title + "</h4><p>" + params.worldEvents[year - 1].text + "</p></div><div class='sprava'><h4>" + params.ufoEvents[year - 1].title + "</h4><p>" + params.ufoEvents[year - 1].text + "</p></div>"; }
-    if (year < params.pocetrokov - 1) { future = "<div class='sprava'><h4>" + params.worldEvents[year + 1].title + "</h4><p>" + params.worldEvents[year + 1].text + "</p></div><div class='sprava'><h4>" + params.ufoEvents[year + 1].title + "</h4><p>" + params.ufoEvents[year + 1].text + "</p></div>"; }
+    curr = "<div class='newsArticle'><h4>" + params.worldEvents[year].title + "</h4><p>" + params.worldEvents[year].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year].title + "</h4><p>" + params.ufoEvents[year].text + "</p></div>";
+    if (year != 0) { past = "<div class='newsArticle'><h4>" + params.worldEvents[year - 1].title + "</h4><p>" + params.worldEvents[year - 1].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year - 1].title + "</h4><p>" + params.ufoEvents[year - 1].text + "</p></div>"; }
+    if (year < params.pocetrokov - 1) { future = "<div class='newsArticle'><h4>" + params.worldEvents[year + 1].title + "</h4><p>" + params.worldEvents[year + 1].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year + 1].title + "</h4><p>" + params.ufoEvents[year + 1].text + "</p></div>"; }
     $('.currNews').html(curr);
     $('.pastNews').html(past);
     $('.futNews').html(future);
@@ -591,10 +598,23 @@ function revertPoints(){
     }); */
 }
 
-  $("#statsBtn").click(function() {
+  $("#statsTab").click(function() {
     displayStats();
-    $('#admin-table').toggle();
-    $('#stats-table').toggle();
+    $('#admin-table').hide();
+    $('#gow-options').hide();
+    $('#stats-table').show();
+  });
+  $("#gameTab").click(function() {
+    displayStats();
+    $('#admin-table').show();
+    $('#gow-options').hide();
+    $('#stats-table').hide();
+  });
+  $("#optionsTab").click(function() {
+    displayStats();
+    $('#admin-table').hide();
+    $('#gow-options').show();
+    $('#stats-table').hide();
   });
   $("#stepBack").click(function() {
     stepBack();
@@ -609,14 +629,19 @@ function revertPoints(){
   $("#projectorBtn").click(function() {
     ipc.send('toggleProjector');
   });
+  ipc.on('quitModal', (event) => {
+    //renderTable(arg);
+    dialog.opened = true;
+  });
   $("#reallyQuit").click(function() {
     ipc.send('reallyQuit');
   });
   $("#doNotQuit").click(function() {
-    ipc.send('doNotQuit');
+    dialog.opened = false;
   });
 
   ipc.on('projectorSwitch', (event, x) => {
-    if (x) { $("#projectorBtn").text('Vypni projekciu') } else $("#projectorBtn").text('Spusti projekciu')
+    //if (x) { $("#projectorBtn").text('Vypni projekciu') } else $("#projectorBtn").text('Spusti projekciu')
+    // Opraviť Toggle pri manuálnom vypnutí projekcie
   });
 });

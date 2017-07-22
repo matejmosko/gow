@@ -62,15 +62,18 @@ function createWindow() {
 
   mainWindow.on('close', event=>{
       event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
+      mainWindow.webContents.send('quitModal');
+      /* DEPRECATED BY USING XEL MODALS
       let child = new BrowserWindow({parent: mainWindow, modal: true, resizable: false, width: 440, height: 180, show: false})
       child.loadURL(url.format({
           pathname: path.join(__dirname, 'quit.html'),
           protocol: 'file:',
           slashes: true
-      }))
+      }))*/
       ipcMain.on('reallyQuit', (event) => {
         app.exit();
       })
+      /* DEPRECATED BY USING XEL MODALS
       ipcMain.on('doNotQuit', (event) => {
         child.hide();
       })
@@ -80,6 +83,7 @@ function createWindow() {
       child.once('ready-to-show', () => {
       child.show()
 })
+*/
       //app.exit();
   })
     // Emitted when the window is closed.

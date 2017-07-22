@@ -19,15 +19,15 @@
   "license": "CC0-1.0",
   "postinstall": "install-app-deps",
   "devDependencies": {
-    "electron": "^1.4.1",
+    "electron": "^1.6.11",
     "electron-builder": "^18.0.1"
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
     "fs": "0.0.1-security",
     "jquery": "^3.1.1",
     "jsdom": "^9.11.0",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "xel": "0.0.48"
   },
   "build": {
     "productName": "Game of Worlds Admin",
