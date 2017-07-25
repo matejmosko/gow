@@ -5,7 +5,10 @@ savegame
 *.exe
 *.Appimage
 Thumbs.db
-dist
+dist/linux-unpacked
+dist/savegame
+dist/settings.db
+
 
 # OS generated files #
 ######################

@@ -4,7 +4,6 @@ This is an app for a tabletop bargame called Game of Worlds. You would need maps
 
 It is an electron app.
 
-# TODO
+## Building process
 
-Have a look at this tips and incorporate them into app:
-https://blog.avocode.com/blog/4-must-know-tips-for-building-cross-platform-electron-apps
+I use electron-builder and steps described (electron.rocks)[http://electron.rocks/electron-builder-explained/]
