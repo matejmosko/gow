@@ -42,15 +42,33 @@
 #currPhaseText {
   flex: 4 0 auto;
 }
-
+table.content-table{
+  min-width: 100%;
+}
 #novaHra, #oldGame{
 	padding:10px;
 }
 #gameTables{
 	padding: 20px;
 }
+#phasesOpt .optHorizontalBox .title{
+  min-width: 25%;
+}
+.optHorizontalBox{
+  width:100%;
+}
+.optHorizontalBox .title{
+  font-weight: bold;
+}
+x-label{
+  padding-right:5px;
+}
+.tableHeader x-label{
+  min-width: 33%;
+  text-align: right;
+}
 .content-table{
-	width:100%;
+  padding: 15px;
 }
 .sortinput{
 	width: 30px;

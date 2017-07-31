@@ -1,15 +1,19 @@
 // Mixing jQuery and Node.js code in the same file? Yes please!
 
 $(function() {
-  var ipc = require('electron').ipcRenderer;
+  var ipc = require('electron').ipcRenderer,
+  params = {},
+  current,
+  timer;
 
   const path = require('path');
   const url = require('url');
-  var current, timer;
+  const settings = require('electron').remote.require('electron-settings');
   // renderer process
 
-  ipc.on('readCurrentGame', (event, arg) => {
-    renderTable(arg);
+  ipc.on('readCurrentGame', (event, arg1, arg2) => {
+    renderTable(arg1);
+    params = arg2;
   });
   ipc.on('readNews', (event, arg) => {
     renderNews(arg);
@@ -83,7 +87,9 @@ $(function() {
         case "Čas na strategické rozhodnutia":
         $('#spravy').show();
         $('#timerdiv').show();
-        displayCounter(30);
+        //displayCounter(settings.get("shortPause") * 60);
+        console.log(params.shortPause);
+        displayCounter(params.shortPause * 60);
           break;
         case "Rozkladanie armád":
           $('#timerdiv').hide();
@@ -92,7 +98,7 @@ $(function() {
         case "Diplomacia":
           $('#spravy').show();
           $('#timerdiv').show();
-          displayCounter(7 * 60);
+          displayCounter(settings.get("longPause") * 60);
           break;
         case "Vyhodnotenie bojov":
           $('#timerdiv').hide();
@@ -102,7 +108,8 @@ $(function() {
         case "Pauza":
           $('#timerdiv').show();
           $('.currNews').hide();
-          displayCounter(7 * 60);
+          console.log(settings.get("longPause"));
+          displayCounter(settings.get("longPause") * 60);
           break;
       }
     }

@@ -85,61 +85,82 @@
           </x-box>
         </div>
         <div id="gameTables" style="display:none;">
+          <x-card id="contentCard">
+            <x-tabs centered>
+              <x-tab selected id="gameTab">
+                <x-box>
+                  <x-icon name="list"></x-icon>
+                  <x-label>Aktuálny stav</x-label>
+                </x-box>
+              </x-tab>
 
-          <x-tabs centered>
-            <x-tab selected id="gameTab">
-              <x-box>
-                <x-icon name="list"></x-icon>
-                <x-label>Aktuálny stav</x-label>
-              </x-box>
-            </x-tab>
+              <x-tab id="statsTab">
+                <x-box>
+                  <x-icon name="sort"></x-icon>
+                  <x-label>Štatistika</x-label>
+                </x-box>
+              </x-tab>
 
-            <x-tab id="statsTab">
-              <x-box>
-                <x-icon name="sort"></x-icon>
-                <x-label>Štatistika</x-label>
-              </x-box>
-            </x-tab>
+              <x-tab id="optionsTab">
+                <x-box>
+                  <x-icon name="settings"></x-icon>
+                  <x-label>Nastavenia</x-label>
+                </x-box>
+              </x-tab>
+            </x-tabs>
 
-            <x-tab id="optionsTab">
+            <table id="admin-table" class="content-table">
+              <thead>
+                <tr>
+                  <th>Krajina</th>
+                  <th>Tím</th>
+                  <th>Body</th>
+                  <th>Misie</th>
+                  <th class='delete tools'>Nástroje</th>
+                  <th class='sort tools'>Poradie</th>
+                  <th class='points-box'>Nové body</th>
+                  <th class='quest-box'>Nové misie</th>
+                </tr>
+              </thead>
+              <tbody id="tabulkatimov"></tbody>
+            </table>
+            <table id="stats-table" class="content-table" style="display:none">
+              <thead>
+                <tr>
+                  <th>Krajina</th>
+                  <th>Tím</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>Body</th>
+                  <th>Misie</th>
+                </tr>
+              </thead>
+              <tbody id="statistikatimov"></tbody>
+            </table>
+            <div id="gow-options" class="content-table" style="display:none">
+              <div id="tableOpt">
+              </div>
               <x-box>
-                <x-icon name="settings"></x-icon>
-                <x-label>Nastavenia</x-label>
+                <x-button id='saveOpts'>
+                  <x-label>Ulož nastavenia</x-label>
+                </x-button>
+                <x-button id='reloadOpts'>
+                  <x-label>Reset</x-label>
+                </x-button>
+                <x-button id='setDefaultOpts'>
+                  <x-label>Načítaj predvolené</x-label>
+                </x-button>
               </x-box>
-            </x-tab>
-          </x-tabs>
-          <table id="admin-table" class="content-table">
-            <thead>
-              <tr>
-                <th>Krajina</th>
-                <th>Tím</th>
-                <th>Body</th>
-                <th>Misie</th>
-                <th class='delete tools'>Nástroje</th>
-                <th class='sort tools'>Poradie</th>
-                <th class='points-box'>Nové body</th>
-                <th class='quest-box'>Nové misie</th>
-              </tr>
-            </thead>
-            <tbody id="tabulkatimov"></tbody>
-          </table>
-          <table id="stats-table" class="content-table" style="display:none">
-            <thead>
-              <tr>
-                <th>Krajina</th>
-                <th>Tím</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
-                <th>Body</th>
-                <th>Misie</th>
-              </tr>
-            </thead>
-            <tbody id="statistikatimov"></tbody>
-          </table>
-          <div id="gow-options" class="content-table" style="display:none">Options placeholder</div>
+              <x-box>
+                <input type="checkbox" id="saveDefaultCheck">
+                <!--<x-checkbox id="saveDefaultCheck"></x-checkbox>-->
+                <x-label for="saveDefaultCheck" id="save-label">Uložiť ako predvolené</x-label>
+              </x-box>
+          </x-card>
+          </div>
         </div>
       </div>
       <div id="sidebar">

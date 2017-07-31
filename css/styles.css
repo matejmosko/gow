@@ -279,11 +279,11 @@ tr td:first-child {
   background-repeat: no-repeat;
 }
 
-#Veľká_Británia td:first-child {
+#GBR td:first-child {
   background-image: url('../img/krajiny/GBR.png');
 }
 
-#Slovensko td:first-child {
+#SVK td:first-child {
   background-image: url('../img/krajiny/SVK.png');
 }
 
@@ -295,46 +295,46 @@ tr td:first-child {
   background-image: url('../img/krajiny/JAR.png');
 }
 
-#Austrália td:first-child {
+#AUS td:first-child {
   background-image: url('../img/krajiny/AUS.png');
 }
 
-#Čína td:first-child {
+#CHN td:first-child {
   background-image: url('../img/krajiny/CHN.png');
 }
 
-#Japonsko td:first-child {
+#JPN td:first-child {
   background-image: url('../img/krajiny/JPN.png');
 }
 
-#Rusko td:first-child {
+#RUS td:first-child {
   background-image: url('../img/krajiny/RUS.png');
 }
 
-#Kanada td:first-child {
+#CAN td:first-child {
   background-image: url('../img/krajiny/CAN.png');
 }
 
-#Brazília td:first-child {
+#BRA td:first-child {
   background-image: url('../img/krajiny/BRA.png');
 }
 
-#Mexiko td:first-child {
+#MEX td:first-child {
   background-image: url('../img/krajiny/MEX.png');
 }
 
-#India td:first-child {
+#IND td:first-child {
   background-image: url('../img/krajiny/IND.png');
 }
 
-#Irán td:first-child {
+#IRN td:first-child {
   background-image: url('../img/krajiny/IRN.png');
 }
 
-#Venezuela td:first-child {
+#VEN td:first-child {
   background-image: url('../img/krajiny/VEN.png');
 }
 
-#Francúzsko td:first-child {
+#FRA td:first-child {
   background-image: url('../img/krajiny/FRA.png');
 }

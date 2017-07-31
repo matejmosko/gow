@@ -3,7 +3,8 @@
 $(function() {
   const path = require('path');
   const url = require('url');
-  const fs = require('fs')
+  const fs = require('fs');
+  const settings = require('electron').remote.require('electron-settings');
   var ipc = require('electron').ipcRenderer,
     currentGame,
     Datastore = require('nedb'),
@@ -12,221 +13,76 @@ $(function() {
     sort = 99,
     newgame = false,
     started = false,
-    dialog = document.querySelector("x-dialog"),
-    countrycodes = {};
+    dialog = document.querySelector("x-dialog");
+
   renderSelectGame();
-  setupDB();
-  saveSettings();
-  initDefaultSettings();
+  setupSettings();
+  //saveSettings();
 
   // renderer process
-
-  countrycodes = {
-    'Slovensko': 'SVK',
-    'Rusko': 'RUS',
-    'USA': 'USA',
-    'JAR': 'JAR',
-    'Austrália': 'AUS',
-    'Čína': 'CHN',
-    'Japonsko': 'JPN',
-    'Veľká_Británia': 'GBR',
-    'Kanada': 'CAN',
-    'Brazília': 'BRA',
-    'Mexiko': 'MEX',
-    'India': 'IND',
-    'Irán': 'IRN',
-    'Venezuela': 'VEN',
-    'Francúzsko': 'FRA'
-  }
-
-  function saveSettings() {
-    var doc = {
-      year: 0,
-      phase: 0,
-      name: 'settings',
-      pocetkrajin: 15,
-      pocetrokov: 5,
-      zoznamKrajin: [
-        'Slovensko',
-        'Rusko',
-        'USA',
-        'JAR',
-        'Austrália',
-        'Čína',
-        'Japonsko',
-        'Veľká_Británia',
-        'Kanada',
-        'Brazília',
-        'Mexiko',
-        'India',
-        'Irán',
-        'Venezuela',
-        'Francúzsko'
-      ],
-      fazy: [{
-        title: 'Pomoc štvrtému svetu',
-        text: 'Nastal čas splniť svoje sľuby a pomocť krajinám, ktoré vašu pomoc potrebujú.'
-      }, {
-        title: 'Správy zo sveta',
-        text: 'Usaďte sa pri svojich domovských stoloch a vypočujte si, čo o vašich vládach hovoria zmanipulované médiá.'
-      }, {
-        title: 'Čas na strategické rozhodnutia',
-        text: 'Teraz sa môžu generáli, diplomati a prezidenti dohodnúť na ďalšej stratégii. Využite tento čas dobre.'
-      }, {
-        title: 'Rozkladanie armád',
-        text: 'Generáli, presuňte sa k strategickej mape, budete rozkladať svoje armády.'
-      }, {
-        title: 'Diplomacia',
-        text: 'Je čas vyjednávať s ostatnými krajinami a ukladať na mapu akčné karty.'
-      }, {
-        title: 'Vyhodnotenie bojov',
-        text: 'Generáli, presuňte sa naspäť k strategickej mape. Teraz sa rozhodne o budúcnosti sveta.'
-      }, {
-        title: 'Pauza',
-        text: 'Vypočujte si, čo o svojej vláde píšu v zapredaných médiách, dohodnite sa na ďalšej stratégii a užite si pauzu.'
-      }],
-      ufoEvents: [{
-        title: 'Vpád mimozemšťanov',
-        text: 'Nad niektorými územiami sa objavili mimozemské taniere a pustošia ľudské obydlia.',
-        secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Ekvádor / Etiópia / Mongolsko. Na každom území je 5 ich armády a 2 mimozemské AK'
-      }, {
-        title: 'Mimozemská základňa',
-        text: 'Tajný agent v službách jej veličenstva odhalil v Poľsku základňu mimozemšťanov. Rolex uviedol na trh novú kolekciu náramkových hodiniek.',
-        secret: 'V Poľsku sa objavila základňa mimozemšťanov. Je tam 24 mimozemských armád a 6 mimozemských AK.'
-      }, {
-        title: 'Pád UFO a Mimozemské útoky',
-        text: 'V Egypte sa zrútilo mimozemské UFO. Podľa zaručených zdrojov túto haváriu spôsobili Chemtrails. Mimozemšťania menia taktiku a útočia priamo na armády jednotlivých krajín.',
-        secret: 'V Egypte budú k dispozícii 4 mimozemské AK. Kto (tím alebo aliancia) tam dá najviac armád získa tie karty (+ hodnota AK)'
-      }, {
-        title: 'Vpád mimozemšťanov',
-        text: 'Nad niektorými trvalými územiami sa objavili mimozemské taniere a pustošia ľudské obydlia.',
-        secret: 'Objavili sa mimozemské lode a drancujú tieto trvalé územia: Aljaška / Madagaskar / Pakistan. Na každom území je 10 ich armády a 2 mimozemské AK'
-      }, {
-        title: 'Zem je plochá',
-        text: 'Vďaka tajným technológiám mimozemšťanov sa podarilo zistiť, že Zem je vlastné plochá. Už sa necestuje po trojuholníkoch, cestuje sa zdarma.',
-        secret: 'Cestovanie medzi kontinentmi je zdarma.'
-      }, {
-        title: '',
-        text: '',
-        secret: ''
-      }],
-      worldEvents: [{
-        title: 'Kongres OSN',
-        text: 'V ponuke sú 3 AK typu Gastráče',
-        secret: ''
-      }, {
-        title: 'Únik plánov stíhačky ALT-F4',
-        text: 'V hlavnej udalosti je možné získať 4 žetóny armády',
-        secret: ''
-      }, {
-        title: 'Nové ložiská za Uralom',
-        text: 'V hlavnej udalosti je možné získať 8 ks kovu',
-        secret: ''
-      }, {
-        title: 'Výpredaje na svetových trhoch',
-        text: 'V hlavnej udalosti je možné získať 8 náhodných AK',
-        secret: ''
-      }, {
-        title: 'Olympijske hry',
-        text: 'V hlavnej udalosti je možné získať 6 AK',
-        secret: ''
-      }, {
-        title: 'Kontakt s mimozemšťanmi',
-        text: 'V hlavnej udalosti je možné získať 4 mimozemské AK',
-        secret: ''
-      }, {
-        title: 'Olympijske hry',
-        text: 'V hlavnej udalosti je možné získať 6 AK',
-        secret: ''
-      }, {
-        title: '',
-        text: '',
-        secret: ''
-      }]
-    };
-
-    db.settings.insert(doc, function(err, newDoc) {});
-  }
 
   function renderSelectGame() {
     dir = fs.readdirSync('./savegame');
     var selectSavegame = "<x-select id='selectLoad'><x-menu>";
     for (var i = 0, path; path = dir[i]; i++) {
-      if (path.match(".db")) {selectSavegame += "<x-menuitem name='loadGameSelect' value='"+path+"' selected='true'><x-label>"+path+"</x-label></x-menuitem>";}
+      if (path.match(".db")) { selectSavegame += "<x-menuitem name='loadGameSelect' value='" + path + "' selected='true'><x-label>" + path + "</x-label></x-menuitem>"; }
     }
     selectSavegame += "</x-menu></x-select>";
     selectSavegame += "<x-button id='loadGame'><x-box><x-icon name='file-upload'></x-icon><x-label>Načítaj hru</x-label></x-box></div>";
     $('#oldGame').html(selectSavegame);
   }
 
-  // Display Top Menu
-  function createMenu() {
-    var text = "";
-    for (i = 1; i <= params.pocetrokov; i++) {
-      text = "<li class='dropdown'>";
-      text += "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Rok " + i + "<span class='caret'></span></a>";
-      text += "<ul class='dropdown-menu'><li><a href='#'>Stratégia" + i + "</a></li><li><a href='#'>Diplomacia" + i + "</a></li><li><a href='#'>Boj" + i + "</a></li><li><a href='#'>Správy" + i + "</a></li></ul>";
-      text += "</li>";
-      $('.nav').append(text);
-    }
-  }
+
   // Setup Database
-  function setupDB() {
-    db.settings = new Datastore({
-      //filename: path.join(__dirname, 'settings.db'),
-      filename: './settings.db',
-      autoload: true
-    });
-    db.settings.ensureIndex({
-      fieldName: 'name',
-      unique: true
-    }, function(err) {});
-
+  function setupSettings() {
+    if (!settings.has("name")) {
+      ipc.send('saveDefaultSettings');
+    }
+    loadSettings(settings.getAll());
   }
 
-  function initDefaultSettings() {
-    db.settings.findOne({
-      name: 'settings'
-    }, function(err, docs) {
-      loadDefaultSettings(docs);
-    });
+  function saveGameSettings() {
+    db.games.insert(params, function(err, newDoc) { loadGameSettings() });
   }
 
-  function loadDefaultSettings(p) {
-    params = p;
-    checkEmptyCountries();
-  }
-
-  function initSettings() {
+  function loadGameSettings() {
     db.games.findOne({
-      name: 'settings'
+      name: 'gow-settings'
     }, function(err, docs) {
+
       loadSettings(docs);
     });
   }
 
   function loadSettings(p) {
     params = p;
+    renderOptions();
     checkEmptyCountries();
     displayPhase();
   }
 
   function checkEmptyCountries() {
-    var text = "<x-menu>";
-    if (params.zoznamKrajin.length > 0) {
-      for (k of params.zoznamKrajin) {
-        //text += "<option>" + k + "</option>";
-        text += "<x-menuitem value=" + k +"  selected='true'><x-label>" + k + "</x-label></x-menuitem>";
+    var text = "<x-menu>",
+      first = true;
+    if (params.countryList.length > 0) {
+      for (k of params.countryList) {
+
+        text += "<x-menuitem value=" + k;
+        if (params.countryCodes[k].playing) {
+          text += " disabled";
+        }
+        if (first && !params.countryCodes[k].playing) {
+          first = false;
+          text += " selected='true'";
+        }
+        text += " class=" + k + "><x-label>" + params.countryCodes[k].country + "</x-label></x-menuitem>";
+
       }
     }
     text += "</x-menu>";
     $('#krajiny').html(text);
   }
   // Nová hra
-
-  function saveGameSettings() {
-    db.games.insert(params, function(err, newDoc) {});
-  }
 
   $("#submitGame").click(function() {
     $('.noGameName').hide();
@@ -235,10 +91,9 @@ $(function() {
       $('#novaHra').addClass("has-error");
       $('.noGameName').show();
     } else {
-      newgame = true;
+      newgame = true; // TODO Dorobiť overovanie, či hra s takýmto názvom už neexstuje
       currentGame = $("#newgame").val() + ".db";
       addGame();
-
     }
   });
 
@@ -259,20 +114,24 @@ $(function() {
       fieldName: 'krajina',
       unique: true
     }, function(err) {});
+    if (newgame) { saveGameSettings(); } else {
+      loadGameSettings();
+
+    };
     displayTeamSelect();
   }
 
   function displayTeamSelect() {
-    //initSettings();
-    $("#infobox").append("<div>Hra: <strong>" + currentGame + "</strong></div><div class='year'></div><div class='phase'></div>");
-    //if (!newgame) { $("#startGame").text("Pokračuj v hre") };
-    $("#gameControls").show();
-    $("#newGameBox").hide();
-    if (newgame) { saveGameSettings() } else { initSettings(); };
+
     //createMenu();
     //displayTeamSelect();
     displayGameSetup();
     readGame();
+    $("#infobox").append("<div>Hra: <strong>" + currentGame + "</strong></div><div class='year'></div><div class='phase'></div>");
+    //if (!newgame) { $("#startGame").text("Pokračuj v hre") }; // TODO Toto sa bude dať ešte opraviť
+
+    $("#gameControls").show();
+    $("#newGameBox").hide();
   };
 
   function startGame(country) {
@@ -316,8 +175,7 @@ $(function() {
       var text = "";
 
       docs = sortGame(docs);
-
-      ipc.send('transferCurrentGame', docs);
+      ipc.send('transferCurrentGame', docs, params);
       for (var i = 0, k; k = docs[i]; i++) {
         if (k['body'] == null) {
           k['body'] = 0;
@@ -328,7 +186,10 @@ $(function() {
         if (k['poradie'] == null) {
           k['poradie'] = 0;
         }
-        text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + k['krajina'] + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td><td class='ulohy'>" + k['ulohy'] + "</td>";
+        if (k['krajina'] == null || k['krajina'] == "") {
+          continue; // TODO Problém s tým, ak je undefined krajina regnutá ako hrajúca
+        }
+        text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + params.countryCodes[k['krajina']].country + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td><td class='ulohy'>" + k['ulohy'] + "</td>";
         if (started) {
           text += "<td class='points-box'><x-numberinput value='0' class='year-variable rozdiel'><x-stepper></x-stepper></x-numberinput></td>";
           //text += "<td class='points-box'><x-buttons tracking='-1'><x-button class='plus'><x-icon name='add-circle'></x-icon></x-button><span class='year-variable rozdiel'>0</span><x-button class='minus'><x-icon name='remove-circle'></x-icon></x-button></x-buttons></td>";
@@ -343,7 +204,7 @@ $(function() {
       $("#tabulkatimov").html(text);
 
     });
-    if (!started) {db.games.update({ name: 'settings' }, { $set: { zoznamKrajin: params.zoznamKrajin } }, { multi: true }, function(err, numReplaced) {});}
+    if (!started) { db.games.update({ name: 'gow-settings' }, { $set: { countryList: params.countryList } }, { multi: true }, function(err, numReplaced) {}); }
     displayStats();
   }
 
@@ -353,32 +214,32 @@ $(function() {
   }
 
   // Pridávanie bodov
-/* DEPRECATED AFTER MIGRATION TO XEL
+  /* DEPRECATED AFTER MIGRATION TO XEL
 
-  $("table").delegate(".minus", "click", function() {
-    var rozdiel = parseInt($(this).closest('td').find('.rozdiel').text(), 10);
-    --rozdiel;
-    $(this).closest('td').find('.rozdiel').text(rozdiel);
-  });
-  $("table").delegate(".plus", "click", function() {
-    var rozdiel = parseInt($(this).closest('td').find('.rozdiel').text(), 10);
-    ++rozdiel;
-    $(this).closest('td').find('.rozdiel').text(rozdiel);
-  });
+    $("table").delegate(".minus", "click", function() {
+      var rozdiel = parseInt($(this).closest('td').find('.rozdiel').text(), 10);
+      --rozdiel;
+      $(this).closest('td').find('.rozdiel').text(rozdiel);
+    });
+    $("table").delegate(".plus", "click", function() {
+      var rozdiel = parseInt($(this).closest('td').find('.rozdiel').text(), 10);
+      ++rozdiel;
+      $(this).closest('td').find('.rozdiel').text(rozdiel);
+    });
 
-  // Pridávanie splnených úloh
+    // Pridávanie splnených úloh
 
-  $("table").delegate(".quest-remove", "click", function() {
-    var rozdiel = parseInt($(this).closest('td').find('.noveulohy').text(), 10);
-    --rozdiel;
-    $(this).closest('td').find('.noveulohy').text(rozdiel);
-  });
-  $("table").delegate(".quest-add", "click", function() {
-    var rozdiel = parseInt($(this).closest('td').find('.noveulohy').text(), 10);
-    ++rozdiel;
-    $(this).closest('td').find('.noveulohy').text(rozdiel);
-  });
-*/
+    $("table").delegate(".quest-remove", "click", function() {
+      var rozdiel = parseInt($(this).closest('td').find('.noveulohy').text(), 10);
+      --rozdiel;
+      $(this).closest('td').find('.noveulohy').text(rozdiel);
+    });
+    $("table").delegate(".quest-add", "click", function() {
+      var rozdiel = parseInt($(this).closest('td').find('.noveulohy').text(), 10);
+      ++rozdiel;
+      $(this).closest('td').find('.noveulohy').text(rozdiel);
+    });
+  */
   // Odoberanie tímov
 
   $("table").delegate(".delete", "click", function() {
@@ -387,9 +248,11 @@ $(function() {
       krajina: k
     }, {}, function(err, numRemoved) {});
 
-    let index = params.zoznamKrajin.indexOf(k);
-    if (index < 0) {
-      params.zoznamKrajin.push(k)
+    let index = params.countryList.indexOf(k);
+    if (index > -1) {
+      params.countryCodes[k].playing = 0;
+
+      //params.countryList.push(k)
     }
     checkEmptyCountries();
     readGame();
@@ -412,9 +275,11 @@ $(function() {
     } else {
       --sort;
       addTeam($('#krajiny').val(), $('#tim').val(), sort);
-      let index = params.zoznamKrajin.indexOf($('#krajiny').val());
+
+      let index = params.countryList.indexOf($('#krajiny').val());
       if (index > -1) {
-        params.zoznamKrajin.splice(index, 1);
+        params.countryCodes[$('#krajiny').val()].playing = 1;
+        //params.countryList.splice(index, 1);
       }
       checkEmptyCountries();
       readGame();
@@ -464,7 +329,7 @@ $(function() {
     spolumisie = quests + noveulohy;
     db.games.update({ krajina: country }, { $set: { body: spolubody, ulohy: spolumisie, poradie: x }, $push: { kola: rozdiel } }, { multi: true }, function(err, numReplaced) {
 
-      createLog("POINTS CHANGED: Points " + points + " + "+ rozdiel + " = " + spolubody + " Missions " + quests + " + "+ noveulohy + " = " + spolumisie + " (" + country + ")\r\n");
+      createLog("POINTS CHANGED: Points " + points + " + " + rozdiel + " = " + spolubody + " Missions " + quests + " + " + noveulohy + " = " + spolumisie + " (" + country + ")\r\n");
       readGame();
     });
     //endRound(country, points, rozdiel);                                       // SLEDOVAŤ ČI TO NEPRINIESLO NEJAKÝ PROBLÉM
@@ -477,8 +342,8 @@ $(function() {
   function changePhase() {
 
     if (params.year > 8) { displayPhase() } else {
-      let y = params.pocetrokov - 1;
-      let n = params.fazy.length - 1;
+      let y = params.yearCount - 1;
+      let n = params.phases.length - 1;
       /*let year = params.year;
       let phase = params.phase;*/
       if (params.phase == n - 1) { savePoints(); }
@@ -487,7 +352,7 @@ $(function() {
         params.year += 1;
 
       } else { params.phase++; }
-      db.games.update({ name: 'settings' }, { $set: { year: params.year, phase: params.phase } }, { multi: true }, function(err, numReplaced) {});
+      db.games.update({ name: 'gow-settings' }, { $set: { year: params.year, phase: params.phase } }, { multi: true }, function(err, numReplaced) {});
       displayPhase();
       displaySpravy();
       createLog("PHASE CHANGED: Year = " + params.year + ", Phase = " + params.phase + "\r\n");
@@ -500,7 +365,7 @@ $(function() {
     let phase = params.phase;
     curr = "<div class='newsArticle'><h4>" + params.worldEvents[year].title + "</h4><p>" + params.worldEvents[year].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year].title + "</h4><p>" + params.ufoEvents[year].text + "</p></div>";
     if (year != 0) { past = "<div class='newsArticle'><h4>" + params.worldEvents[year - 1].title + "</h4><p>" + params.worldEvents[year - 1].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year - 1].title + "</h4><p>" + params.ufoEvents[year - 1].text + "</p></div>"; }
-    if (year < params.pocetrokov - 1) { future = "<div class='newsArticle'><h4>" + params.worldEvents[year + 1].title + "</h4><p>" + params.worldEvents[year + 1].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year + 1].title + "</h4><p>" + params.ufoEvents[year + 1].text + "</p></div>"; }
+    if (year < params.yearCount - 1) { future = "<div class='newsArticle'><h4>" + params.worldEvents[year + 1].title + "</h4><p>" + params.worldEvents[year + 1].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year + 1].title + "</h4><p>" + params.ufoEvents[year + 1].text + "</p></div>"; }
     $('.currNews').html(curr);
     $('.pastNews').html(past);
     $('.futNews').html(future);
@@ -508,13 +373,13 @@ $(function() {
   }
 
   function displayPhase() {
-    let n = params.pocetrokov - 1;
+    let n = params.yearCount - 1;
     let y = params.year + 1;
     let p = params.phase;
     if (p == -1) {} else {
-      ipc.send('transferPhase', y, params.fazy[p], params.pocetrokov);
+      ipc.send('transferPhase', y, params.phases[p], params.yearCount);
       $('.year').html("Rok " + y);
-      $('.phase').html(params.fazy[p].title);
+      $('.phase').html(params.phases[p].title);
       if (params.year > n) { endGame(); }
     }
   }
@@ -537,7 +402,7 @@ $(function() {
           k['poradie'] = 0;
         }
         text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + k['krajina'] + "</td><td class='tim'>" + k['tim'] + "</td>"
-        for (n = 0; n < params.pocetrokov; n++) {
+        for (n = 0; n < params.yearCount; n++) {
           text += "<td class='" + n + "'>"
           if (k['kola'][n] != null) { text += k['kola'][n] };
           text += "</td>";
@@ -560,22 +425,22 @@ $(function() {
 
   /* Logovanie udalostí */
 
-  function createLog(text){
-    var file = fs.openSync("savegame/"+currentGame.slice(0, -3)+".log", 'a');
+  function createLog(text) {
+    var file = fs.openSync("savegame/" + currentGame.slice(0, -3) + ".log", 'a');
     fs.writeFile(file, text, function(err) {
-      if(err) {
-          return console.log(err);
+      if (err) {
+        return console.log(err);
       }
       console.log("The log was saved!");
-  });
+    });
   }
 
-/* Krok späť */
+  /* Krok späť */
 
-  function stepBack(){
-    if (params.year > params.pocetrokov) { displayPhase() } else {
-      let y = params.pocetrokov - 1;
-      let n = params.fazy.length - 1;
+  function stepBack() {
+    if (params.year > params.yearCount) { displayPhase() } else {
+      let y = params.yearCount - 1;
+      let n = params.phases.length - 1;
       /*let year = params.year;
       let phase = params.phase;*/
       if (params.phase == 3) { revertPoints(); } // Not working yet
@@ -584,19 +449,20 @@ $(function() {
         params.year -= 1;
 
       } else { params.phase--; }
-      db.games.update({ name: 'settings' }, { $set: { year: params.year, phase: params.phase } }, { multi: true }, function(err, numReplaced) {});
+      db.games.update({ name: 'gow-settings' }, { $set: { year: params.year, phase: params.phase } }, { multi: true }, function(err, numReplaced) {});
       displayPhase();
       displaySpravy();
       createLog("PHASE CHANGED: Year = " + params.year + ", Phase = " + params.phase + "\r\n");
+    }
   }
-}
-function revertPoints(){
+
+  function revertPoints() {
     /* $('#stats-table > tbody  > tr').each(function() {
       let curr = parseInt($(this).children('.body').text(), 10);
       let next = parseInt($(this).children('.'+(params.year-1)).children('.rozdiel').text(), 10);
       updateTeam($(this).attr('id'), curr, (0-next), 0,0,0);
     }); */
-}
+  }
 
   $("#statsTab").click(function() {
     displayStats();
@@ -644,4 +510,134 @@ function revertPoints(){
     //if (x) { $("#projectorBtn").text('Vypni projekciu') } else $("#projectorBtn").text('Spusti projekciu')
     // Opraviť Toggle pri manuálnom vypnutí projekcie
   });
+
+  // Options Module
+  function renderOptions() {
+    var text = "",
+      i = 0,
+      n = 0;
+    text += "<h2>Herné nastavenia</h2>"
+
+    // baseGame Settings
+
+    text += "<x-box vertical>"
+    text += "<x-box><x-label>Počet herných rokov</x-label>"
+    text += "<x-numberinput id='yearCountOpt' skin='flat' min='1' value='" + params.yearCount + "'>"
+    text += "<x-label>Počet rokov</x-label>"
+    text += "<x-stepper></x-stepper>"
+    text += "</x-numberinput></x-box>"
+    text += "<x-box><x-label>Krátke časovače (min)</x-label>"
+    text += "<x-numberinput id='shortPauseOpt' skin='flat' min='0' step='0.50' value='" + params.shortPause + "'>"
+    text += "<x-label>Krátke časovače</x-label>"
+    text += "<x-stepper></x-stepper>"
+    text += "</x-numberinput></x-box>"
+    text += "<x-box><x-label>Dlhé časovače (min)</x-label>"
+    text += "<x-numberinput id='longPauseOpt' skin='flat' min='0' step='0.50' value='" + params.longPause + "'>"
+    text += "<x-label>Dlhé časovače</x-label>"
+    text += "<x-stepper></x-stepper>"
+    text += "</x-numberinput></x-box>"
+    text += "</x-box>"
+
+// ufoEvents block
+
+    text += "<h3>Mimozemské udalosti</h3>";
+    text += "<x-box vertical id='ufoEventsOpt'>";
+    text += "<x-box class='optHorizontalBox tableHeader'><x-label name='ufoEventsOpt' class='title'>Názov</x-label><x-label name='ufoEventsOpt' class='text'>Text na projekciu</x-label><x-label name='ufoEventsOpt' class='secret'>Text pre nás</x-label></x-box>";
+    for (k of params.ufoEvents) {
+      i++;
+      text += "<x-box id='ufoEvent-" + i + "' class='optHorizontalBox'>";
+      //text += "<x-label>"+i+"</x-label>";
+      text += "<x-label>"+i+"</x-label><x-textarea name='ufoEventsOpt' id='ufoTitle-" + i + "' class='title tableInput' value='" + k.title + "'></x-textarea>";
+      text += "<x-textarea name='ufoEventsOpt' id='ufoText-" + i + "' class='text tableInput' value='" + k.text + "'></x-textarea>";
+      text += "<x-textarea name='ufoEventsOpt' id='ufoSecret-" + i + "' class='secret tableInput' value='" + k.secret + "'></x-textarea>";
+      text += "</x-box>";
+    }
+    text += "</x-box>";
+
+// worldEvents block
+
+    text += "<h3>Hlavné udalosti</h3>";
+    text += "<x-box vertical id='worldEventsOpt'>"
+    text += "<x-box class='optHorizontalBox tableHeader'><x-label name='ufoEventsOpt' class='title'>Názov</x-label><x-label name='ufoEventsOpt' class='text'>Text na projekciu</x-label><x-label name='ufoEventsOpt' class='secret'>Text pre nás</x-label></x-box>";
+    for (k of params.worldEvents) {
+      n++;
+      text += "<x-box  id='worldEvent-" + n + "' class='optHorizontalBox'>";
+      //text += "<x-label>"+i+"</x-label>";
+      text += "<x-label class='tableLabel'>"+n+"</x-label><x-textarea name='worldEventsOpt' id='worldTitle-" + n + "' class='title tableInput' value='" + k.title + "'></x-textarea>";
+      text += "<x-textarea name='worldEventsOpt' id='worldText-" + n + "' class='text tableInput' value='" + k.text + "'></x-textarea>";
+      text += "<x-textarea name='worldEventsOpt' id='worldSecret-" + n + "' class='secret tableInput' value='" + k.secret + "'></x-textarea>";
+      text += "</x-box>";
+    }
+    text += "</x-box>";
+
+// phases block
+
+    text += "<h3>Fázy kola</h3>";
+    text += "<x-box vertical id='phasesOpt'>"
+    text += "<x-box class='optHorizontalBox tableHeader'><x-label name='ufoEventsOpt' class='title'>Názov</x-label><x-label name='ufoEventsOpt' class='text'>Text na projekciu</x-label></x-box>";
+    for (k of params.phases) {
+      n++;
+      text += "<x-box id='phase-" + n + "' class='optHorizontalBox'>";
+      //text += "<x-label>"+i+"</x-label>";
+      text += "<x-label class='title tableLabel'>"+k.title+"</x-label>";
+      text += "<x-textarea name='phaseOpt' id='phaseText-" + n + "' class='text tableInput' value='" + k.text + "'></x-textarea>";
+      text += "</x-box>";
+    }
+    text += "</x-box>";
+
+    $("#gow-options").children("#tableOpt").html(text);
+  }
+
+
+  // TODO - ukladanie nastavení - aj Predvolených (checkbox)
+  function saveOptions() {
+    params.yearCount = $("#yearCountOpt").val();
+    params.shortPause = $("#shortPauseOpt").val();
+    params.longPause = $("#longPauseOpt").val();
+    $("#ufoEventsOpt").find("x-box[id^='ufoEvent']").each(function(index) {
+      params.ufoEvents[index].title = $(this).children("[id^='ufoTitle']").val();
+      params.ufoEvents[index].text = $(this).children("[id^='ufoText']").val();
+      params.ufoEvents[index].secret = $(this).children("[id^='ufoSecret']").val();
+    });
+    $("#worldEventsOpt").find("x-box[id^='worldEvent']").each(function(index) {
+      params.worldEvents[index].title = $(this).children("[id^='worldTitle']").val();
+      params.worldEvents[index].text = $(this).children("[id^='worldText']").val();
+      params.worldEvents[index].secret = $(this).children("[id^='worldSecret']").val();
+    });
+    $("#phasesOpt").find("x-box[id^='phase']").each(function(index) {
+      params.phases[index].text = $(this).children("[id^='phaseText']").val();
+    /*  params.worldEvents[index].title = $(this).children("[id^='worldTitle']").val();
+      params.worldEvents[index].text = $(this).children("[id^='worldText']").val();
+      params.worldEvents[index].secret = $(this).children("[id^='worldSecret']").val();*/
+    });
+    db.games.remove({ name: 'gow-settings' }, {}, function(err, numRemoved) {});
+    db.games.insert(params, function(err, newDoc) { loadGameSettings() });
+    console.log($("#saveDefaultCheck"));
+    if ($("#saveDefaultCheck").is(':checked')){
+      console.log("Heureka");
+      settings.setAll(params);
+    }
+  }
+
+  $("#saveOpts").click(function() {
+    saveOptions();
+  });
+  $("#reloadOpts").click(function() {
+    renderOptions();
+  });
+  $("#setDefaultOpts").click(function() {
+    loadSettings(settings.getAll());
+  });
+
+  // Display Top Menu
+  function createMenu() {
+    var text = "";
+    for (i = 1; i <= params.yearCount; i++) {
+      text = "<li class='dropdown'>";
+      text += "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Rok " + i + "<span class='caret'></span></a>";
+      text += "<ul class='dropdown-menu'><li><a href='#'>Stratégia" + i + "</a></li><li><a href='#'>Diplomacia" + i + "</a></li><li><a href='#'>Boj" + i + "</a></li><li><a href='#'>Správy" + i + "</a></li></ul>";
+      text += "</li>";
+      $('.nav').append(text);
+    }
+  }
 });
