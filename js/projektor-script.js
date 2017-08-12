@@ -11,9 +11,11 @@ $(function() {
   const settings = require('electron').remote.require('electron-settings');
   // renderer process
 
-  ipc.on('readCurrentGame', (event, arg1, arg2) => {
+  ipc.on('readCurrentGame', (event, arg1) => {
     renderTable(arg1);
-    params = arg2;
+  });
+  ipc.on('readParams', (event, arg1) => {
+    params = arg1;
   });
   ipc.on('readNews', (event, arg) => {
     renderNews(arg);
@@ -42,7 +44,7 @@ $(function() {
       if (k['body'] == null) {
         k['body'] = 0;
       }
-      text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + k['krajina'] + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td>";
+      text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + params.countryCodes[k['krajina']].country + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td>";
       text += "</tr>";
     }
     $("#tabulkatimov").html(text);
@@ -58,15 +60,14 @@ $(function() {
     resetView()
     if (year > pocetrokov) {
       $('#spravy').hide();
-      $('#currYear').html("<h2 class='year'>Rok " + (year + 2035) + "</h2>");
+      $('#currYear').html("<h3 class='year'>" + year + ".&nbsp;rok&nbsp;" + (year + 2037) + "</h3>");
       $('#currPhase').html("<h3>Koniec sveta</h3>");
       $('#currPhaseText').html("");
       $('#infobox').show();
       if (timer != undefined) timer.running = false;
       $('#timerdiv').hide();
     } else {
-      year = year + 2037;
-      $('#currYear').html("<h2 class='year'>Rok " + year + "</h2>");
+      $('#currYear').html("<h3 class='year'>" + year + ".&nbsp;rok&nbsp;" + (year + 2037) + "</h3>");
       $('#currPhase').html("<h2 class='phase'>" + phase.title + " </h2>");
       $('#currPhaseText').html("<span class='phasetext'>" + phase.text + "</span>");
       $('#infobox').show();
@@ -87,8 +88,6 @@ $(function() {
         case "Čas na strategické rozhodnutia":
         $('#spravy').show();
         $('#timerdiv').show();
-        //displayCounter(settings.get("shortPause") * 60);
-        console.log(params.shortPause);
         displayCounter(params.shortPause * 60);
           break;
         case "Rozkladanie armád":
@@ -98,7 +97,7 @@ $(function() {
         case "Diplomacia":
           $('#spravy').show();
           $('#timerdiv').show();
-          displayCounter(settings.get("longPause") * 60);
+          displayCounter(params.longPause * 60);
           break;
         case "Vyhodnotenie bojov":
           $('#timerdiv').hide();
@@ -108,8 +107,7 @@ $(function() {
         case "Pauza":
           $('#timerdiv').show();
           $('.currNews').hide();
-          console.log(settings.get("longPause"));
-          displayCounter(settings.get("longPause") * 60);
+          displayCounter(params.longPause * 60);
           break;
       }
     }

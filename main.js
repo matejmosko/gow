@@ -15,8 +15,11 @@ global.params = {};
 
 var fs = require('fs');
 
-ipcMain.on('transferCurrentGame', (event, arg1, arg2) => {
-  projektorWindow.webContents.send('readCurrentGame', arg1, arg2);
+ipcMain.on('transferCurrentGame', (event, arg1) => {
+  projektorWindow.webContents.send('readCurrentGame', arg1);
+})
+ipcMain.on('transferParams', (event, arg1) => {
+  projektorWindow.webContents.send('readParams', arg1);
 })
 ipcMain.on('transferNews', (event, arg) => {
   projektorWindow.webContents.send('readNews', arg);
@@ -28,17 +31,20 @@ ipcMain.on('toggleRules', (event) => {
   projektorWindow.webContents.send('transferRules');
 })
 ipcMain.on('toggleFullscreen', (event) => {
-  if (projektorWindow.isFullScreen()) { projektorWindow.setFullScreen(false) } else projektorWindow.setFullScreen(true);
+  if (projektorWindow.isFullScreen()) {
+    projektorWindow.setFullScreen(false);
+  } else {
+    projektorWindow.setFullScreen(true);
+  }
 })
 ipcMain.on('toggleProjector', (event) => {
   if (projektorWindow.isVisible()) {
     projektorWindow.hide();
-    x = false;
-    mainWindow.webContents.send('projectorSwitch', x);
+    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", false);
+    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
   } else {
     projektorWindow.show();
-    x = true;
-    mainWindow.webContents.send('projectorSwitch', x);
+    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", true);
   }
 })
 
@@ -124,7 +130,15 @@ function createProjektor() {
   })
   projektorWindow.on('close', event => {
     event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
+    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", false);
+    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
     projektorWindow.hide();
+  })
+  projektorWindow.on('leave-full-screen', () => {
+    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
+  })
+  projektorWindow.on('enter-full-screen', () => {
+    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", true);
   })
   projektorWindow.webContents.on('did-finish-load', () => {
 
@@ -165,6 +179,40 @@ if (!fs.existsSync(dir)) {
 // code. You can also put them in separate files and require them here.
 // Game Worlds scripts
 
+// Logs generating
+
+function currentDate() {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+
+  if (mm < 10) {
+    mm = '0' + mm
+  }
+
+  today = yyyy + '-' + mm + '-' + dd;
+  return today;
+}
+
+function createLog(text) {
+  var file = fs.openSync(app.gatPath('userData') + "log-" + currentDate() + ".log", 'a');
+  fs.writeFile(file, text, function(err) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("The log was saved!");
+  });
+}
+
+ipcMain.on('saveLogs', (event, text) => {
+  //createLog(text);
+})
+
 //app.on('ready', defaultSettings);
 ipcMain.on('saveDefaultSettings', (event) => {
   defaultSettings();
@@ -180,21 +228,21 @@ function defaultSettings() {
     countryCount: 15,
     yearCount: 5,
     countryCodes: {
-      'SVK': {country: 'Slovensko', playing: 0},
-      'RUS': {country: 'Rusko', playing: 0},
-      'USA': {country: 'USA', playing: 0},
-      'JAR': {country: 'JAR', playing: 0},
-      'AUS': {country: 'Austrália', playing: 0},
-      'CHN': {country: 'Čína', playing: 0},
-      'JPN': {country: 'Japonsko', playing: 0},
-      'GBR': {country: 'Veľká Británia', playing: 0},
-      'CAN': {country: 'Kanada', playing: 0},
-      'BRA': {country: 'Brazília', playing: 0},
-      'MEX': {country: 'Mexiko', playing: 0},
-      'IND': {country: 'India', playing: 0},
-      'IRN': {country: 'Irán', playing: 0},
-      'VEN': {country: 'Venezuela', playing: 0},
-      'FRA': {country: 'Francúzsko', playing: 0}
+      'SVK': { country: 'Slovensko', playing: 0 },
+      'RUS': { country: 'Rusko', playing: 0 },
+      'USA': { country: 'USA', playing: 0 },
+      'JAR': { country: 'JAR', playing: 0 },
+      'AUS': { country: 'Austrália', playing: 0 },
+      'CHN': { country: 'Čína', playing: 0 },
+      'JPN': { country: 'Japonsko', playing: 0 },
+      'GBR': { country: 'Veľká Británia', playing: 0 },
+      'CAN': { country: 'Kanada', playing: 0 },
+      'BRA': { country: 'Brazília', playing: 0 },
+      'MEX': { country: 'Mexiko', playing: 0 },
+      'IND': { country: 'India', playing: 0 },
+      'IRN': { country: 'Irán', playing: 0 },
+      'VEN': { country: 'Venezuela', playing: 0 },
+      'FRA': { country: 'Francúzsko', playing: 0 }
     },
     countryList: [
       'SVK',
@@ -237,44 +285,52 @@ function defaultSettings() {
     }],
     ufoEvents: [{
       title: 'Vpád mimozemšťanov',
-      text: 'Nad niektorými územiami sa objavili mimozemské taniere a pustošia ľudské obydlia.',
-      secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Ekvádor / Etiópia / Mongolsko. Na každom území je 5 ich armády a 2 mimozemské AK'
+      text: 'Prileteli mimozemské lode a drancujú svet. Pri ich zničení sa dajú získať mimozemské technológie.',
+      secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Ekvádor / Poľsko / Mongolsko. Na každom území je 5 ich armády a 2 mimozemské AK'
     }, {
       title: 'Mimozemská základňa',
-      text: 'Tajný agent v službách jej veličenstva odhalil v Poľsku základňu mimozemšťanov. Rolex uviedol na trh novú kolekciu náramkových hodiniek.',
-      secret: 'V Poľsku sa objavila základňa mimozemšťanov. Je tam 24 mimozemských armád a 6 mimozemských AK.'
+      text: 'Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia, ktorou dokáže vymazať celé územia z povrchu Zeme.',
+      secret: 'V Kongu sa objavila základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK '
     }, {
       title: 'Pád UFO a Mimozemské útoky',
-      text: 'V Egypte sa zrútilo mimozemské UFO. Podľa zaručených zdrojov túto haváriu spôsobili Chemtrails. Mimozemšťania menia taktiku a útočia priamo na armády jednotlivých krajín.',
-      secret: 'V Egypte budú k dispozícii 4 mimozemské AK. Kto (tím alebo aliancia) tam dá najviac armád získa tie karty (+ hodnota AK)'
+      text: 'V Kongu sa zrútilo UFO. Priekupníci z celého sveta si brúsia zuby na stroskotanú mimozemskú technológiu. Mimozemšťania po havárii menia taktiku. Útočia priamo na bojujúce armády.',
+      secret: 'V Kongu budú k dispozícii 4 mimozemské AK. Kto (tím alebo aliancia) tam dá najviac armád získa tie karty (+ hodnota AK) Mimozemšťania sa silou 6-10 zapoja do troch náhodných bojov (ich armáda sa pridá po rozdaní žétonov hráčov v strategickej fáze). Ak budú mimozemšťania porazení, budú tam 2 mimozemské AK'
     }, {
       title: 'Vpád mimozemšťanov',
-      text: 'Nad niektorými trvalými územiami sa objavili mimozemské taniere a pustošia ľudské obydlia.',
-      secret: 'Objavili sa mimozemské lode a drancujú tieto trvalé územia: Aljaška / Madagaskar / Pakistan. Na každom území je 10 ich armády a 2 mimozemské AK'
+      text: 'Prileteli mimozemské lode a drancujú svet. Pri ich zničení sa dajú získať mimozemské technológie.',
+      secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Alžírsko, Západný Sibír, Čile. Na každom území je 10 armád a 2 mimozemské AK.'
     }, {
       title: 'Zem je plochá',
       text: 'Vďaka tajným technológiám mimozemšťanov sa podarilo zistiť, že Zem je vlastné plochá. Už sa necestuje po trojuholníkoch, cestuje sa zdarma.',
       secret: 'Cestovanie medzi kontinentmi je zdarma.'
+    }, {
+      title: '',
+      text: '',
+      secret: ''
     }],
     worldEvents: [{
-      title: 'Kongres OSN',
-      text: 'V ponuke sú 3 AK typu Gastráče',
-      secret: ''
-    }, {
-      title: 'Únik plánov stíhačky ALT-F4',
-      text: 'V hlavnej udalosti je možné získať 4 žetóny armády',
-      secret: ''
-    }, {
       title: 'Nové ložiská za Uralom',
-      text: 'V hlavnej udalosti je možné získať 8 ks kovu',
-      secret: ''
+      text: 'Investori zháňajú peniaze na stavbu vrtných veží. V hlavnej udalosti je možné získať 6 surovín ropy.',
+      secret: 'V ponuke je 6 surovín ropy.'
+    }, {
+      title: 'Kongres OSN',
+      text: 'Na kongrese sú švédske stoly. V ponuke sú 4 AK typu Gastráče.',
+      secret: 'V ponuke sú 4 AK typu Gastráče.'
+    }, {
+      title: 'Najlepší tajný agent',
+      text: 'Útok mimozemšťanov odhalil štyroch kryogenicky zmrazených tajných agentov. V hlavnej udalosti je možné získať 4 špeciálne karty "Austin Powers".',
+      secret: 'V ponuke sú 4 špeciálne karty "Austin Powers".'
     }, {
       title: 'Výpredaje na svetových trhoch',
-      text: 'V hlavnej udalosti je možné získať 8 náhodných AK',
-      secret: ''
+      text: 'Svet stojí pred hypotekárnou krízou. Za lacno sa dá získať 8 náhodných AK.',
+      secret: 'V ponuke je 8 náhodných AK.'
     }, {
       title: 'Olympijske hry',
-      text: 'V hlavnej udalosti je možné získať 6 AK',
+      text: 'Chlieb a hry musia pokračovať aj pri mimozemskej invázii. Kto si kúpi možnosť organizovať OH, získa 6 AK.',
+      secret: 'V ponuke sú 6 AK typu Plusové body.'
+    }, {
+      title: '',
+      text: '',
       secret: ''
     }]
   });

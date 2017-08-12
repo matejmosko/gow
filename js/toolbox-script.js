@@ -49,16 +49,16 @@ $(function() {
     db.games.findOne({
       name: 'gow-settings'
     }, function(err, docs) {
-
       loadSettings(docs);
     });
   }
 
   function loadSettings(p) {
     params = p;
+    ipc.send('transferParams', params);
     renderOptions();
-    checkEmptyCountries();
     displayPhase();
+    checkEmptyCountries();
   }
 
   function checkEmptyCountries() {
@@ -113,25 +113,29 @@ $(function() {
     db.games.ensureIndex({
       fieldName: 'krajina',
       unique: true
-    }, function(err) {});
-    if (newgame) { saveGameSettings(); } else {
-      loadGameSettings();
+    }, function(err) {
+      if (newgame) {
+        saveGameSettings();
+        displayTeamSelect();
+      } else {
+        loadGameSettings();
+        displayTeamSelect();
+      };
+    });
 
-    };
-    displayTeamSelect();
   }
 
   function displayTeamSelect() {
-
-    //createMenu();
-    //displayTeamSelect();
-    displayGameSetup();
-    readGame();
-    $("#infobox").append("<div>Hra: <strong>" + currentGame + "</strong></div><div class='year'></div><div class='phase'></div>");
-    //if (!newgame) { $("#startGame").text("Pokračuj v hre") }; // TODO Toto sa bude dať ešte opraviť
-
-    $("#gameControls").show();
-    $("#newGameBox").hide();
+    if (!started) {
+      checkEmptyCountries();
+      $('#pridajTim').show(0);
+      $('#gameTables').show(0);
+      $("#infobox").append("<div>Hra: <strong>" + currentGame + "</strong></div><div class='year'></div><div class='phase'></div>");
+      if (!newgame) { $("#startGame").find("x-label").text("Pokračuj v hre") };
+      $("#gameControls").show();
+      $("#newGameBox").hide();
+      readGame();
+    }
   };
 
   function startGame(country) {
@@ -153,7 +157,39 @@ $(function() {
       let d = document.body;
       d.className += " started";
       readGame();
-      createLog("SYSTEM: The Game of Worlds has started" + "\r\n");
+      saveLogs("SYSTEM: The Game of Worlds has started" + "\r\n");
+
+      adminTable = document.getElementById("admin-table");
+      adminTable.addEventListener("incrementstart", function() {
+        node = event.target.parentNode;
+        if (node.value > 0) {
+          event.target.parentNode.classList.add("positive");
+          event.target.parentNode.classList.remove("negative");
+        }
+        if (node.value < 0) {
+          event.target.parentNode.classList.add("negative");
+          event.target.parentNode.classList.remove("positive");
+        }
+        if (node.value == 0) {
+          event.target.parentNode.classList.remove("negative");
+          event.target.parentNode.classList.remove("positive");
+        }
+      });
+      adminTable.addEventListener("decrementstart", function() {
+        node = event.target.parentNode;
+        if (node.value > 0) {
+          event.target.parentNode.classList.add("positive");
+          event.target.parentNode.classList.remove("negative");
+        }
+        if (node.value < 0) {
+          event.target.parentNode.classList.add("negative");
+          event.target.parentNode.classList.remove("positive");
+        }
+        if (node.value == 0) {
+          event.target.parentNode.classList.remove("negative");
+          event.target.parentNode.classList.remove("positive");
+        }
+      });
     }
   }
 
@@ -175,7 +211,8 @@ $(function() {
       var text = "";
 
       docs = sortGame(docs);
-      ipc.send('transferCurrentGame', docs, params);
+      ipc.send('transferParams', params);
+      ipc.send('transferCurrentGame', docs);
       for (var i = 0, k; k = docs[i]; i++) {
         if (k['body'] == null) {
           k['body'] = 0;
@@ -206,11 +243,7 @@ $(function() {
     });
     if (!started) { db.games.update({ name: 'gow-settings' }, { $set: { countryList: params.countryList } }, { multi: true }, function(err, numReplaced) {}); }
     displayStats();
-  }
 
-  function displayGameSetup() {
-    $('#pridajTim').show(0);
-    $('#gameTables').show(0);
   }
 
   // Pridávanie bodov
@@ -251,8 +284,6 @@ $(function() {
     let index = params.countryList.indexOf(k);
     if (index > -1) {
       params.countryCodes[k].playing = 0;
-
-      //params.countryList.push(k)
     }
     checkEmptyCountries();
     readGame();
@@ -261,7 +292,7 @@ $(function() {
   // Pridávanie tímov
 
   $("#submitTim").click(function() {
-    if ($('#krajiny').val() != null) {
+    if ($('#krajiny').val() != null && $('#krajiny').val() != "") {
       submitAddTeam();
     }
   });
@@ -279,7 +310,6 @@ $(function() {
       let index = params.countryList.indexOf($('#krajiny').val());
       if (index > -1) {
         params.countryCodes[$('#krajiny').val()].playing = 1;
-        //params.countryList.splice(index, 1);
       }
       checkEmptyCountries();
       readGame();
@@ -329,7 +359,7 @@ $(function() {
     spolumisie = quests + noveulohy;
     db.games.update({ krajina: country }, { $set: { body: spolubody, ulohy: spolumisie, poradie: x }, $push: { kola: rozdiel } }, { multi: true }, function(err, numReplaced) {
 
-      createLog("POINTS CHANGED: Points " + points + " + " + rozdiel + " = " + spolubody + " Missions " + quests + " + " + noveulohy + " = " + spolumisie + " (" + country + ")\r\n");
+      saveLogs("POINTS CHANGED: Points " + points + " + " + rozdiel + " = " + spolubody + " Missions " + quests + " + " + noveulohy + " = " + spolumisie + " (" + country + ")\r\n");
       readGame();
     });
     //endRound(country, points, rozdiel);                                       // SLEDOVAŤ ČI TO NEPRINIESLO NEJAKÝ PROBLÉM
@@ -355,7 +385,7 @@ $(function() {
       db.games.update({ name: 'gow-settings' }, { $set: { year: params.year, phase: params.phase } }, { multi: true }, function(err, numReplaced) {});
       displayPhase();
       displaySpravy();
-      createLog("PHASE CHANGED: Year = " + params.year + ", Phase = " + params.phase + "\r\n");
+      saveLogs("PHASE CHANGED: Year = " + params.year + ", Phase = " + params.phase + "\r\n");
     }
   }
 
@@ -363,9 +393,9 @@ $(function() {
     let curr, past, future;
     let year = params.year;
     let phase = params.phase;
-    curr = "<div class='newsArticle'><h4>" + params.worldEvents[year].title + "</h4><p>" + params.worldEvents[year].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year].title + "</h4><p>" + params.ufoEvents[year].text + "</p></div>";
-    if (year != 0) { past = "<div class='newsArticle'><h4>" + params.worldEvents[year - 1].title + "</h4><p>" + params.worldEvents[year - 1].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year - 1].title + "</h4><p>" + params.ufoEvents[year - 1].text + "</p></div>"; }
-    if (year < params.yearCount - 1) { future = "<div class='newsArticle'><h4>" + params.worldEvents[year + 1].title + "</h4><p>" + params.worldEvents[year + 1].text + "</p></div><div class='newsArticle'><h4>" + params.ufoEvents[year + 1].title + "</h4><p>" + params.ufoEvents[year + 1].text + "</p></div>"; }
+    curr = "<div class='newsArticle' title='" + params.worldEvents[year].secret + "'><h4>" + params.worldEvents[year].title + "</h4><p>" + params.worldEvents[year].text + "</p></div><div class='newsArticle' title='" + params.ufoEvents[year].secret + "'><h4>" + params.ufoEvents[year].title + "</h4><p>" + params.ufoEvents[year].text + "</p></div>";
+    if (year != 0) { past = "<div class='newsArticle' title='" + params.worldEvents[year - 1].secret + "'><h4>" + params.worldEvents[year - 1].title + "</h4><p>" + params.worldEvents[year - 1].text + "</p></div><div class='newsArticle' title='" + params.ufoEvents[year - 1].secret + "'><h4>" + params.ufoEvents[year - 1].title + "</h4><p>" + params.ufoEvents[year - 1].text + "</p></div>"; }
+    if (year < params.yearCount - 1) { future = "<div class='newsArticle' title='" + params.worldEvents[year + 1].secret + "'><h4>" + params.worldEvents[year + 1].title + "</h4><p>" + params.worldEvents[year + 1].text + "</p></div><div class='newsArticle' title='" + params.ufoEvents[year + 1].secret + "'><h4>" + params.ufoEvents[year + 1].title + "</h4><p>" + params.ufoEvents[year + 1].text + "</p></div>"; }
     $('.currNews').html(curr);
     $('.pastNews').html(past);
     $('.futNews').html(future);
@@ -417,27 +447,17 @@ $(function() {
 
   function endGame() {
     savePoints();
-    $('#right-4').html("<h2>Koniec hry</h2>");
+    $('.currNews').html("<h2>Koniec hry</h2>");
     $('#nextPhase').hide();
     $('.year').text("Koniec hry");
     $('.phase').text("");
-  }
-
-  /* Logovanie udalostí */
-
-  function createLog(text) {
-    var file = fs.openSync("savegame/" + currentGame.slice(0, -3) + ".log", 'a');
-    fs.writeFile(file, text, function(err) {
-      if (err) {
-        return console.log(err);
-      }
-      console.log("The log was saved!");
-    });
+    saveLogs("SYSTEM: Hra skončila");
   }
 
   /* Krok späť */
 
   function stepBack() {
+    $('#nextPhase').show();
     if (params.year > params.yearCount) { displayPhase() } else {
       let y = params.yearCount - 1;
       let n = params.phases.length - 1;
@@ -452,7 +472,7 @@ $(function() {
       db.games.update({ name: 'gow-settings' }, { $set: { year: params.year, phase: params.phase } }, { multi: true }, function(err, numReplaced) {});
       displayPhase();
       displaySpravy();
-      createLog("PHASE CHANGED: Year = " + params.year + ", Phase = " + params.phase + "\r\n");
+      saveLogs("(BACK) PHASE CHANGED: Year = " + params.year + ", Phase = " + params.phase + "\r\n");
     }
   }
 
@@ -506,9 +526,10 @@ $(function() {
     dialog.opened = false;
   });
 
-  ipc.on('projectorSwitch', (event, x) => {
-    //if (x) { $("#projectorBtn").text('Vypni projekciu') } else $("#projectorBtn").text('Spusti projekciu')
-    // Opraviť Toggle pri manuálnom vypnutí projekcie
+  ipc.on('buttonSwitch', (event, btn, x) => { // Toggle "toggled" state of top buttons when non-click event change status
+    if (x) {
+      $(btn).prop("toggled", true)
+    } else $(btn).prop("toggled", false);
   });
 
   // Options Module
@@ -538,7 +559,7 @@ $(function() {
     text += "</x-numberinput></x-box>"
     text += "</x-box>"
 
-// ufoEvents block
+    // ufoEvents block
 
     text += "<h3>Mimozemské udalosti</h3>";
     text += "<x-box vertical id='ufoEventsOpt'>";
@@ -547,14 +568,14 @@ $(function() {
       i++;
       text += "<x-box id='ufoEvent-" + i + "' class='optHorizontalBox'>";
       //text += "<x-label>"+i+"</x-label>";
-      text += "<x-label>"+i+"</x-label><x-textarea name='ufoEventsOpt' id='ufoTitle-" + i + "' class='title tableInput' value='" + k.title + "'></x-textarea>";
+      text += "<x-label>" + i + "</x-label><x-textarea name='ufoEventsOpt' id='ufoTitle-" + i + "' class='title tableInput' value='" + k.title + "'></x-textarea>";
       text += "<x-textarea name='ufoEventsOpt' id='ufoText-" + i + "' class='text tableInput' value='" + k.text + "'></x-textarea>";
       text += "<x-textarea name='ufoEventsOpt' id='ufoSecret-" + i + "' class='secret tableInput' value='" + k.secret + "'></x-textarea>";
       text += "</x-box>";
     }
     text += "</x-box>";
 
-// worldEvents block
+    // worldEvents block
 
     text += "<h3>Hlavné udalosti</h3>";
     text += "<x-box vertical id='worldEventsOpt'>"
@@ -563,14 +584,14 @@ $(function() {
       n++;
       text += "<x-box  id='worldEvent-" + n + "' class='optHorizontalBox'>";
       //text += "<x-label>"+i+"</x-label>";
-      text += "<x-label class='tableLabel'>"+n+"</x-label><x-textarea name='worldEventsOpt' id='worldTitle-" + n + "' class='title tableInput' value='" + k.title + "'></x-textarea>";
+      text += "<x-label class='tableLabel'>" + n + "</x-label><x-textarea name='worldEventsOpt' id='worldTitle-" + n + "' class='title tableInput' value='" + k.title + "'></x-textarea>";
       text += "<x-textarea name='worldEventsOpt' id='worldText-" + n + "' class='text tableInput' value='" + k.text + "'></x-textarea>";
       text += "<x-textarea name='worldEventsOpt' id='worldSecret-" + n + "' class='secret tableInput' value='" + k.secret + "'></x-textarea>";
       text += "</x-box>";
     }
     text += "</x-box>";
 
-// phases block
+    // phases block
 
     text += "<h3>Fázy kola</h3>";
     text += "<x-box vertical id='phasesOpt'>"
@@ -579,7 +600,7 @@ $(function() {
       n++;
       text += "<x-box id='phase-" + n + "' class='optHorizontalBox'>";
       //text += "<x-label>"+i+"</x-label>";
-      text += "<x-label class='title tableLabel'>"+k.title+"</x-label>";
+      text += "<x-label class='title tableLabel'>" + k.title + "</x-label>";
       text += "<x-textarea name='phaseOpt' id='phaseText-" + n + "' class='text tableInput' value='" + k.text + "'></x-textarea>";
       text += "</x-box>";
     }
@@ -587,7 +608,6 @@ $(function() {
 
     $("#gow-options").children("#tableOpt").html(text);
   }
-
 
   // TODO - ukladanie nastavení - aj Predvolených (checkbox)
   function saveOptions() {
@@ -606,15 +626,14 @@ $(function() {
     });
     $("#phasesOpt").find("x-box[id^='phase']").each(function(index) {
       params.phases[index].text = $(this).children("[id^='phaseText']").val();
-    /*  params.worldEvents[index].title = $(this).children("[id^='worldTitle']").val();
-      params.worldEvents[index].text = $(this).children("[id^='worldText']").val();
-      params.worldEvents[index].secret = $(this).children("[id^='worldSecret']").val();*/
+      /*  params.worldEvents[index].title = $(this).children("[id^='worldTitle']").val();
+        params.worldEvents[index].text = $(this).children("[id^='worldText']").val();
+        params.worldEvents[index].secret = $(this).children("[id^='worldSecret']").val();*/
     });
     db.games.remove({ name: 'gow-settings' }, {}, function(err, numRemoved) {});
     db.games.insert(params, function(err, newDoc) { loadGameSettings() });
-    console.log($("#saveDefaultCheck"));
-    if ($("#saveDefaultCheck").is(':checked')){
-      console.log("Heureka");
+
+    if ($("#saveDefaultCheck").is(':checked')) {
       settings.setAll(params);
     }
   }
@@ -628,6 +647,51 @@ $(function() {
   $("#setDefaultOpts").click(function() {
     loadSettings(settings.getAll());
   });
+
+
+  /* Logovanie udalostí */
+
+  function saveLocalLogs(text) {
+    var file = fs.openSync("savegame/" + currentGame.slice(0, -3) + ".log", 'a');
+    fs.writeFile(file, text, function(err) {
+      if (err) {
+        return console.log(err);
+      }
+    });
+  }
+
+  function saveLogs(text) {
+    text = currentDate(true) + " " + text;
+    console.log(text);
+    saveLocalLogs(text)
+    ipc.send('saveLogs', text);
+  }
+
+  /* Get Current Date for logging purposes */
+
+  function currentDate(type = false) {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    var hh = today.getHours();
+    var min = today.getMinutes();
+    var sec = today.getSeconds();
+
+    if (dd < 10) {
+      dd = '0' + dd
+    }
+
+    if (mm < 10) {
+      mm = '0' + mm
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    if (type) {
+      today += " " + hh + ":" + min + ":" + sec;
+    }
+    return today;
+  }
 
   // Display Top Menu
   function createMenu() {
