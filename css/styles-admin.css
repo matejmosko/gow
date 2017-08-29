@@ -5,14 +5,16 @@
   margin-bottom: 30px;
 }
 
-#infobox{
-	flex: 4 0 70%;
+#infobox {
+  flex: 4 0 70%;
   padding-right: 30px;
-	display:flex;
+  display: flex;
 }
-#infobox div, #projectorControls{
-	flex: 1 1 auto;
+
+#infobox div, #projectorControls {
+  flex: 1 1 auto;
 }
+
 #top-buttons {
   flex: 1 1 25%;
 }
@@ -22,8 +24,8 @@
   display: flex;
 }
 
-#content{
-	flex: 4 0 70%;
+#content {
+  flex: 4 0 70%;
   padding-right: 30px;
 }
 
@@ -42,76 +44,107 @@
 #currPhaseText {
   flex: 4 0 auto;
 }
-table.content-table{
+
+table.content-table {
   min-width: 100%;
 }
-#novaHra, #oldGame{
-	padding:10px;
+
+#novaHra, #oldGame {
+  padding: 10px;
 }
-#gameTables{
-	padding: 20px;
+
+#gameTables {
+  padding: 20px;
 }
-#phasesOpt .optHorizontalBox .title{
+
+#phasesOpt .optHorizontalBox .title {
   min-width: 25%;
 }
-.optHorizontalBox{
-  width:100%;
+
+.optHorizontalBox {
+  width: 100%;
 }
-.optHorizontalBox .title{
+
+.optHorizontalBox .title {
   font-weight: bold;
 }
-x-label{
-  padding-right:5px;
+
+x-label {
+  padding-right: 5px;
 }
-.tableHeader x-label{
+
+.tableHeader x-label {
   min-width: 33%;
   text-align: right;
 }
-.content-table{
-  padding: 15px;
-}
-.sortinput{
-	width: 30px;
-}
-.danger{
-	background-color: #ff8a65;
-}
-th.quest-box, th.points-box{
-	display:none;
-}
-.started .tools{
-	display:none;
-}
-#admin-table td{
-	vertical-align: middle;
-}
-.year-variable{
-	display:inline-block;
-	min-width: 25px;
-	font-weight: bold;
-	text-align:center;
 
-}
-.news{
+.content-table {
   padding: 15px;
 }
-.news h4{
-  margin: 0 0 5px 0;
+
+.sortinput {
+  width: 30px;
 }
-x-dialog h4, x-dialog p{
+
+.danger {
+  background-color: #ff8a65;
+}
+
+th.quest-box, th.points-box {
+  display: none;
+}
+
+.started .tools {
+  display: none;
+}
+
+#admin-table td {
+  vertical-align: middle;
+}
+
+.year-variable {
+  display: inline-block;
+  min-width: 25px;
+  font-weight: bold;
   text-align: center;
 }
-x-dialog x-buttons{
-    margin: 0 auto;
-}
-x-dialog{
-  padding:20px;
+
+.news {
+  padding: 15px;
 }
 
-x-numberinput.positive{
+.news h4 {
+  margin: 0 0 5px 0;
+}
+
+x-dialog h4, x-dialog p {
+  text-align: center;
+}
+
+x-dialog x-buttons {
+  margin: 0 auto;
+}
+
+x-dialog {
+  padding: 20px;
+}
+
+x-numberinput.positive {
   background-color: lightgreen;
 }
 
-x-numberinput.negative{
+x-numberinput.negative {
   background-color: indianred;
+}
+
+.center {
+  text-align: center;
+}
+
+.odd {
+  background-color: lightgrey;
+}
+
+tr:hover td {
+  background-color: #80CBC4;
 }
