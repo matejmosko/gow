@@ -201,9 +201,11 @@ a, a:visited, a:hover {
 }
 
 table, #infobox , #timerdiv, .newsArticle p{
+  background-color: rgba(255, 255, 255, 0.15);
+}
+#infobox , #timerdiv, .newsArticle p{
   padding: 5px;
   margin-bottom: 10px;
-  background-color: rgba(255, 255, 255, 0.15);
 }
 
 h2.phase{
@@ -222,9 +224,24 @@ h2.phase{
   font-family: DosisBold, Arial, Helvetica, sans-serif;
 }
 
-table, table td, table th {
+table{
+  padding: 0px;
+}
+
+table tr{
+  padding: 0px 5px;
+}
+
+table td, table th {
   font-size: 1.0em;
   text-align: center;
+}
+table th{
+  border-bottom: 1px dashed gray;
+}
+
+.odd {
+/*  background-color: rgba(255, 255, 255, 0.15);*/
 }
 
 .phase {

@@ -51,40 +51,44 @@
     </div>
     <div id="main">
       <div id="content">
-        <div id="newGameBox">
-          <x-box id="novaHra">
-            <x-input id="newgame" required>
-              <x-icon name="receipt"></x-icon>
-              <x-label>Názov novej hry</x-label>
-            </x-input>
-            <x-button id="submitGame">
-              <x-box>
-                <x-icon name="add"></x-icon>
-                <x-label>Nová hra</x-label>
-              </x-box>
-            </x-button>
-          </x-box>
+        <div id="newGameBox" class="form-group x-card-div">
+          <x-card>
+            <x-box id="novaHra">
+              <x-input id="newgame" required>
+                <x-icon name="receipt"></x-icon>
+                <x-label>Názov novej hry</x-label>
+              </x-input>
+              <x-button id="submitGame">
+                <x-box>
+                  <x-icon name="add"></x-icon>
+                  <x-label>Nová hra</x-label>
+                </x-box>
+              </x-button>
+            </x-box>
           <x-box id="oldGame">
           </x-box>
+          </x-card>
         </div>
-        <div id="pridajTim" style="display:none;" class="form-group">
-          <h3>Pridaj tím</h3>
-          <x-box>
-            <x-input id="tim" required>
-              <x-icon name="receipt"></x-icon>
-              <x-label>Názov tímu</x-label>
-            </x-input>
-            <x-select id="krajiny" required>
-            </x-select>
-            <x-button id="submitTim">
-              <x-box>
-                <x-icon name="add"></x-icon>
-                <x-label>Pridaj krajinu</x-label>
-              </x-box>
-            </x-button>
-          </x-box>
+        <div id="pridajTim" style="display:none;" class="form-group x-card-div">
+          <x-card>
+            <x-box>
+              <x-label>Pridaj tím</x-label>
+              <x-input id="tim" required>
+                <x-icon name="receipt"></x-icon>
+                <x-label>Názov tímu</x-label>
+              </x-input>
+              <x-select id="krajiny" required>
+              </x-select>
+              <x-button id="submitTim">
+                <x-box>
+                  <x-icon name="add"></x-icon>
+                  <x-label>Pridaj krajinu</x-label>
+                </x-box>
+              </x-button>
+          </x-card>
         </div>
-        <div id="gameTables" style="display:none;">
+        </x-card>
+        <div id="gameTables" style="display:none;" class="x-card-div">
           <x-card id="contentCard">
             <x-tabs centered>
               <x-tab selected id="gameTab">
@@ -166,11 +170,11 @@
       <div id="sidebar">
         <div id="newsBox" style="display:none;">
           <h3>Aktuálne udalosti</h3>
-          <x-card class="currNews news"></x-card>
+          <x-card id="currNews" class="currNews news"></x-card>
           <h3>Udalosti z budúcnosti</h3>
-          <x-card class="futNews news"></x-card>
+          <x-card id="futNews" class="futNews news"></x-card>
           <h3>Minulé udalosti</h3>
-          <x-card class="pastNews news"></x-card>
+          <x-card id="pastNews" class="pastNews news"></x-card>
 
         </div>
 

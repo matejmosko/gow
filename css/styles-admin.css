@@ -1,3 +1,8 @@
+#container{
+  height:100vh;
+  overflow:hidden;
+}
+
 #topbox {
   width: 100%;
   display: flex;
@@ -27,10 +32,14 @@
 #content {
   flex: 4 0 70%;
   padding-right: 30px;
+  max-height: 95vh;
+  overflow-y: scroll;
 }
 
 #sidebar {
   flex: 1 1 25%;
+  max-height: 95vh;
+  overflow-y: scroll;
 }
 
 #currYear {
@@ -53,8 +62,12 @@ table.content-table {
   padding: 10px;
 }
 
-#gameTables {
-  padding: 20px;
+.x-card-div {
+  padding: 0px 20px;
+}
+
+.form-group x-card{
+  padding: 10px;
 }
 
 #phasesOpt .optHorizontalBox .title {

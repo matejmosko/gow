@@ -2,12 +2,13 @@
 
 $(function() {
   var ipc = require('electron').ipcRenderer,
-  params = {},
-  current,
-  timer;
+    params = {},
+    current,
+    timer;
 
   const path = require('path');
   const url = require('url');
+  const ms = require('mustache');
   const settings = require('electron').remote.require('electron-settings');
   // renderer process
 
@@ -33,45 +34,55 @@ $(function() {
   }
 
   function renderNews(curr) {
-    resetView()
+    resetView();
     $('.currNews').html(curr);
   }
 
   function renderTable(docs) {
     resetView();
-    var text = "";
-    for (var i = 0, k; k = docs[i]; i++) {
-      if (k['body'] == null) {
-        k['body'] = 0;
-      }
-      text += "<tr id=" + k['krajina'] + "><td class='nazovkrajiny'>" + params.countryCodes[k['krajina']].country + "</td><td class='tim'>" + k['tim'] + "</td><td class='body'>" + k['body'] + "</td>";
-      text += "</tr>";
-    }
+    var tplProjectionFourthWorld = `
+    <div class='newsArticle'>
+      <h4>Pomoc krajine štvrtého sveta</h4>
+      <p>Dobročinné organizácie WHO, OSN, UNICEF a TV JOJ vyhlásili, že krajinou, ktorá si zaslúži pomoc je <strong>{{last}}</strong> a pomôže jej nádej našej civilizácie, <strong>{{first}}</strong>.</p>
+    </div>
+    `;
+    var tplProjectionCountryTable = `
+    {{#countries}}
+      <tr id={{krajina}} class="{{striped}}">
+        <td class='nazovkrajiny'>{{nicename}}</td>
+        <td class='tim'>{{tim}}</td>
+        <td class='body'>{{points}}</td>
+      </tr>
+    {{/countries}}
+    `;
+    var odd = true;
+    text = ms.render(tplProjectionCountryTable, {
+      "countries": docs,
+      "points": function() { if (this.body != null) { return this.body; } else { return 0; } },
+      //"quests": function() { if (this.ulohy != null) { return this.ulohy; } else { return 0; } },
+      "nicename": function() { return params.countryCodes[this.krajina].country; },
+      "striped": function() { if (odd) { odd = false; return "odd"; } else { odd = true; return "even"; } }
+    });
     $("#tabulkatimov").html(text);
-    let last = $("tbody tr:last-child").attr('id');
-    let first = $("tbody tr:first-child").attr('id');
-
-    let curr = "<div class='newsArticle'><h4>Pomoc krajine štvrtého sveta</h4><p>Dobročinné organizácie WHO, OSN, UNICEF a TV JOJ vyhlásili, že krajinou, ktorá si zaslúži pomoc je <strong>" + last + "</strong> a pomôže jej nádej našej civilizácie, <strong>" + first + "</strong>.</p></div>";
-// <div class='sprava'><h4>Plány krajín sa podarilo prekročiť o " + Math.floor((Math.random() * 100) + 101) + " %</h4><p>Zástupcovia jednotlivých krajín si teraz vyberú plody práce svojho pracovitého ľudu. <br /> Inými slovami: Choďte za organizátorom po zdroje.</p></div>
+    let last = params.countryCodes[$("tbody tr:last-child").attr('id')].country;
+    let first = params.countryCodes[$("tbody tr:first-child").attr('id')].country;
+    let curr = ms.render(tplProjectionFourthWorld, { "first": first, "last": last });
     $('.endNews').html(curr);
   }
 
   function renderPhase(year, phase, pocetrokov) {
-    resetView()
+    resetView();
+
     if (year > pocetrokov) {
       $('#spravy').hide();
-      $('#currYear').html("<h3 class='year'>" + year + ".&nbsp;rok&nbsp;" + (year + 2037) + "</h3>");
       $('#currPhase').html("<h3>Koniec sveta</h3>");
       $('#currPhaseText').html("");
-      $('#infobox').show();
       if (timer != undefined) timer.running = false;
       $('#timerdiv').hide();
     } else {
-      $('#currYear').html("<h3 class='year'>" + year + ".&nbsp;rok&nbsp;" + (year + 2037) + "</h3>");
       $('#currPhase').html("<h2 class='phase'>" + phase.title + " </h2>");
       $('#currPhaseText').html("<span class='phasetext'>" + phase.text + "</span>");
       $('#infobox').show();
-
 
       switch (phase.title) {
         case "Pomoc štvrtému svetu":
@@ -86,9 +97,9 @@ $(function() {
           if (timer != undefined) timer.running = false;
           break;
         case "Čas na strategické rozhodnutia":
-        $('#spravy').show();
-        $('#timerdiv').show();
-        displayCounter(params.shortPause * 60);
+          $('#spravy').show();
+          $('#timerdiv').show();
+          displayCounter(params.shortPause * 60);
           break;
         case "Rozkladanie armád":
           $('#timerdiv').hide();
@@ -111,7 +122,8 @@ $(function() {
           break;
       }
     }
-
+    $('#infobox').show();
+    $('#currYear').html("<h3 class='year'>" + year + ".&nbsp;rok&nbsp;" + (year + 2037) + "</h3>");
   }
 
   // COUNTDOWN TIMER
