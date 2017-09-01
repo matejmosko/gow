@@ -15,6 +15,12 @@ global.params = {};
 
 var fs = require('fs');
 
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let gowWindows = {};
+
+// main process
+
 var windowState = {};
 try {
   windowState = settings.get('windowstate', {
@@ -37,36 +43,27 @@ try {
       "isMaximized": false
     }
   });
-  console.log(windowState);
 } catch (err) {
-  console.log("ups");
   // the file is there, but corrupt. Handle appropriately.
 }
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
-let projectorWindow;
-
-// main process
-
 var storeWindowState = function() {
-  windowState.main.isMaximized = mainWindow.isMaximized();
-  windowState.projector.isMaximized = projectorWindow.isMaximized();
+  windowState.main.isMaximized = gowWindows.main.isMaximized();
+  windowState.projector.isMaximized = gowWindows.projector.isMaximized();
   if (!windowState.main.isMaximized) {
     // only update bounds if the window isn't currently maximized
-    windowState.main.bounds = mainWindow.getBounds();
+    windowState.main.bounds = gowWindows.main.getBounds();
   }
   if (!windowState.projector.isMaximized) {
     // only update bounds if the window isn't currently maximized
-    windowState.projector.bounds = projectorWindow.getBounds();
+    windowState.projector.bounds = gowWindows.projector.getBounds();
   }
   settings.set('windowstate', windowState);
 };
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({
+  gowWindows.main = new BrowserWindow({
     x: windowState.main.bounds && windowState.main.bounds.x || undefined,
     y: windowState.main.bounds && windowState.main.bounds.y || undefined,
     width: windowState.main.bounds && windowState.main.bounds.width || 800,
@@ -77,24 +74,24 @@ function createWindow() {
   });
 
   if (windowState.main.isMaximized) {
-    mainWindow.maximize();
+    gowWindows.main.maximize();
   }
 
   // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
+  gowWindows.main.loadURL(url.format({
     pathname: path.join(__dirname, 'console.html'),
     protocol: 'file:',
     slashes: true
   }));
   // Open the DevTools.
-  //  mainWindow.webContents.openDevTools()
+  //  gowWindows.main.webContents.openDevTools()
 
-  mainWindow.on('close', event => {
+  gowWindows.main.on('close', event => {
     storeWindowState();
     event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
-    mainWindow.webContents.send('quitModal');
+    gowWindows.main.webContents.send('quitModal');
     /* DEPRECATED BY USING XEL MODALS
-    let child = new BrowserWindow({parent: mainWindow, modal: true, resizable: false, width: 440, height: 180, show: false})
+    let child = new BrowserWindow({parent: gowWindows.main, modal: true, resizable: false, width: 440, height: 180, show: false})
     child.loadURL(url.format({
         pathname: path.join(__dirname, 'quit.html'),
         protocol: 'file:',
@@ -106,20 +103,20 @@ function createWindow() {
 
     //app.exit();
   });
-  mainWindow.on('resize move close', function() {
+  gowWindows.main.on('resize move close', function() {
     storeWindowState();
   });
   // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
+  gowWindows.main.on('closed', function() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    mainWindow = null;
+    gowWindows.main = null;
   });
-  mainWindow.on('resize', function() {
+  gowWindows.main.on('resize', function() {
     storeWindowState();
   });
-  mainWindow.on('move', function() {
+  gowWindows.main.on('move', function() {
     storeWindowState();
   });
 }
@@ -128,7 +125,7 @@ function createWindow() {
 
 function createProjector() {
   // Create the browser window.
-  projectorWindow = new BrowserWindow({
+  gowWindows.projector = new BrowserWindow({
     x: windowState.projector.bounds && windowState.projector.bounds.x || undefined,
     y: windowState.projector.bounds && windowState.projector.bounds.y || undefined,
     width: windowState.projector.bounds && windowState.projector.bounds.width || 800,
@@ -140,11 +137,11 @@ function createProjector() {
   });
 
   if (windowState.projector.isMaximized) {
-    mainWindow.maximize();
+    gowWindows.projector.maximize();
   }
 
   // and load the index.html of the app.
-  projectorWindow.loadURL(url.format({
+  gowWindows.projector.loadURL(url.format({
     pathname: path.join(__dirname, 'projector.html'),
     protocol: 'file:',
     slashes: true,
@@ -152,36 +149,36 @@ function createProjector() {
   }));
 
   // Open the DevTools.
-  //    projectorWindow.webContents.openDevTools()
+  //    gowWindows.projector.webContents.openDevTools()
 
   // Emitted when the window is closed.
-  projectorWindow.on('closed', function() {
+  gowWindows.projector.on('closed', function() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    projectorWindow = null;
+    gowWindows.projector = null;
   });
-  projectorWindow.on('close', event => {
+  gowWindows.projector.on('close', event => {
     storeWindowState();
     event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
-    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", false);
-    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
-    projectorWindow.hide();
+    gowWindows.main.webContents.send('buttonSwitch', "#projectorBtn", false);
+    gowWindows.main.webContents.send('buttonSwitch', "#fullscreenBtn", false);
+    gowWindows.projector.hide();
   });
-  projectorWindow.on('leave-full-screen', () => {
-    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
+  gowWindows.projector.on('leave-full-screen', () => {
+    gowWindows.main.webContents.send('buttonSwitch', "#fullscreenBtn", false);
   });
-  projectorWindow.on('enter-full-screen', () => {
-    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", true);
+  gowWindows.projector.on('enter-full-screen', () => {
+    gowWindows.main.webContents.send('buttonSwitch', "#fullscreenBtn", true);
   });
-  projectorWindow.webContents.on('did-finish-load', () => {
+  gowWindows.projector.webContents.on('did-finish-load', () => {
 
   });
 
-  projectorWindow.on('resize', function() {
+  gowWindows.projector.on('resize', function() {
     storeWindowState();
   });
-  projectorWindow.on('move', function() {
+  gowWindows.projector.on('move', function() {
     storeWindowState();
   });
 }
@@ -206,7 +203,7 @@ app.on('window-all-closed', function() {
 app.on('activate', function() {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
+  if (gowWindows.main === null) {
     createWindow();
   }
 });
@@ -374,43 +371,43 @@ function defaultSettings() {
   });
 }
 ipcMain.on('startGame', (event) => {
-  projectorWindow.webContents.send('startGame');
+  gowWindows.projector.webContents.send('startGame');
 });
 ipcMain.on('transferCurrentGame', (event, arg1) => {
-  projectorWindow.webContents.send('readCurrentGame', arg1);
+  gowWindows.projector.webContents.send('readCurrentGame', arg1);
 });
 ipcMain.on('transferParams', (event, arg1) => {
-  projectorWindow.webContents.send('readParams', arg1);
+  gowWindows.projector.webContents.send('readParams', arg1);
 });
 ipcMain.on('transferNews', (event, arg) => {
-  projectorWindow.webContents.send('readNews', arg);
+  gowWindows.projector.webContents.send('readNews', arg);
 });
 ipcMain.on('transferPhase', (event, arg1, arg2, arg3) => {
-  projectorWindow.webContents.send('readPhase', arg1, arg2, arg3);
+  gowWindows.projector.webContents.send('readPhase', arg1, arg2, arg3);
 });
 ipcMain.on('toggleRules', (event) => {
-  projectorWindow.webContents.send('transferRules');
+  gowWindows.projector.webContents.send('transferRules');
 });
 ipcMain.on('toggleFullscreen', (event) => {
-  if (projectorWindow.isFullScreen()) {
-    projectorWindow.setFullScreen(false);
+  if (gowWindows.projector.isFullScreen()) {
+    gowWindows.projector.setFullScreen(false);
   } else {
-    projectorWindow.setFullScreen(true);
+    gowWindows.projector.setFullScreen(true);
   }
 });
 ipcMain.on('toggleProjector', (event) => {
-  if (projectorWindow.isVisible()) {
-    projectorWindow.hide();
-    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", false);
-    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
+  if (gowWindows.projector.isVisible()) {
+    gowWindows.projector.hide();
+    gowWindows.main.webContents.send('buttonSwitch', "#projectorBtn", false);
+    gowWindows.main.webContents.send('buttonSwitch', "#fullscreenBtn", false);
   } else {
-    projectorWindow.show();
-    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", true);
+    gowWindows.projector.show();
+    gowWindows.main.webContents.send('buttonSwitch', "#projectorBtn", true);
   }
 });
 ipcMain.on('reloadWindows', (event) => {
-  projectorWindow.webContents.reload();
-  mainWindow.webContents.reload();
+  gowWindows.projector.webContents.reload();
+  gowWindows.main.webContents.reload();
 });
 ipcMain.on('saveLogs', (event, text) => {
   //createLog(text);
