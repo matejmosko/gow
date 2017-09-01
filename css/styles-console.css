@@ -1,3 +1,7 @@
+body{
+  font: caption;
+}
+
 #container{
   height:100vh;
   overflow:hidden;
@@ -160,4 +164,8 @@ x-numberinput.negative {
 
 tr:hover td {
   background-color: #80CBC4;
+}
+.fullwidth{
+  width: 100%;
+  justify-content: space-between;
 }

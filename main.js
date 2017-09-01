@@ -15,49 +15,70 @@ global.params = {};
 
 var fs = require('fs');
 
-ipcMain.on('transferCurrentGame', (event, arg1) => {
-  projektorWindow.webContents.send('readCurrentGame', arg1);
-});
-ipcMain.on('transferParams', (event, arg1) => {
-  projektorWindow.webContents.send('readParams', arg1);
-});
-ipcMain.on('transferNews', (event, arg) => {
-  projektorWindow.webContents.send('readNews', arg);
-});
-ipcMain.on('transferPhase', (event, arg1, arg2, arg3) => {
-  projektorWindow.webContents.send('readPhase', arg1, arg2, arg3);
-});
-ipcMain.on('toggleRules', (event) => {
-  projektorWindow.webContents.send('transferRules');
-});
-ipcMain.on('toggleFullscreen', (event) => {
-  if (projektorWindow.isFullScreen()) {
-    projektorWindow.setFullScreen(false);
-  } else {
-    projektorWindow.setFullScreen(true);
-  }
-});
-ipcMain.on('toggleProjector', (event) => {
-  if (projektorWindow.isVisible()) {
-    projektorWindow.hide();
-    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", false);
-    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
-  } else {
-    projektorWindow.show();
-    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", true);
-  }
-});
+var windowState = {};
+try {
+  windowState = settings.get('windowstate', {
+    "main": {
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 800,
+        "height": 600
+      },
+      "isMaximized": false
+    },
+    "projector": {
+      "bounds": {
+        "x": 100,
+        "y": 100,
+        "width": 800,
+        "height": 600
+      },
+      "isMaximized": false
+    }
+  });
+  console.log(windowState);
+} catch (err) {
+  console.log("ups");
+  // the file is there, but corrupt. Handle appropriately.
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-let projektorWindow;
+let projectorWindow;
 
 // main process
 
+var storeWindowState = function() {
+  windowState.main.isMaximized = mainWindow.isMaximized();
+  windowState.projector.isMaximized = projectorWindow.isMaximized();
+  if (!windowState.main.isMaximized) {
+    // only update bounds if the window isn't currently maximized
+    windowState.main.bounds = mainWindow.getBounds();
+  }
+  if (!windowState.projector.isMaximized) {
+    // only update bounds if the window isn't currently maximized
+    windowState.projector.bounds = projectorWindow.getBounds();
+  }
+  settings.set('windowstate', windowState);
+};
+
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 800, height: 600, icon: path.join(__dirname, 'img/icon.png'), title: 'GOW Admin', backgroundColor: '#13132A' });
+  mainWindow = new BrowserWindow({
+    x: windowState.main.bounds && windowState.main.bounds.x || undefined,
+    y: windowState.main.bounds && windowState.main.bounds.y || undefined,
+    width: windowState.main.bounds && windowState.main.bounds.width || 800,
+    height: windowState.main.bounds && windowState.main.bounds.height || 600,
+    icon: path.join(__dirname, 'img/icon.png'),
+    title: 'GOW Admin',
+    backgroundColor: '#13132A'
+  });
+
+  if (windowState.main.isMaximized) {
+    mainWindow.maximize();
+  }
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -65,11 +86,11 @@ function createWindow() {
     protocol: 'file:',
     slashes: true
   }));
-
   // Open the DevTools.
   //  mainWindow.webContents.openDevTools()
 
   mainWindow.on('close', event => {
+    storeWindowState();
     event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
     mainWindow.webContents.send('quitModal');
     /* DEPRECATED BY USING XEL MODALS
@@ -82,18 +103,11 @@ function createWindow() {
     ipcMain.on('reallyQuit', (event) => {
       app.exit();
     });
-    /* DEPRECATED BY USING XEL MODALS
-      ipcMain.on('doNotQuit', (event) => {
-        child.hide();
-      })
-      child.on('closed', function() {
-          child.hide();
-      })
-      child.once('ready-to-show', () => {
-      child.show()
-})
-*/
+
     //app.exit();
+  });
+  mainWindow.on('resize move close', function() {
+    storeWindowState();
   });
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
@@ -102,16 +116,35 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+  mainWindow.on('resize', function() {
+    storeWindowState();
+  });
+  mainWindow.on('move', function() {
+    storeWindowState();
+  });
 }
 
 
 
-function createProjektor() {
+function createProjector() {
   // Create the browser window.
-  projektorWindow = new BrowserWindow({ width: 640, height: 480, icon: path.join(__dirname, 'img/icon.png'), title: 'GOW', backgroundColor: '#13132A', show: false });
+  projectorWindow = new BrowserWindow({
+    x: windowState.projector.bounds && windowState.projector.bounds.x || undefined,
+    y: windowState.projector.bounds && windowState.projector.bounds.y || undefined,
+    width: windowState.projector.bounds && windowState.projector.bounds.width || 800,
+    height: windowState.projector.bounds && windowState.projector.bounds.height || 600,
+    icon: path.join(__dirname, 'img/icon.png'),
+    title: 'GOW',
+    backgroundColor: '#13132A',
+    show: false
+  });
+
+  if (windowState.projector.isMaximized) {
+    mainWindow.maximize();
+  }
 
   // and load the index.html of the app.
-  projektorWindow.loadURL(url.format({
+  projectorWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'projector.html'),
     protocol: 'file:',
     slashes: true,
@@ -119,37 +152,46 @@ function createProjektor() {
   }));
 
   // Open the DevTools.
-  //    projektorWindow.webContents.openDevTools()
+  //    projectorWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
-  projektorWindow.on('closed', function() {
+  projectorWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    projektorWindow = null;
+    projectorWindow = null;
   });
-  projektorWindow.on('close', event => {
+  projectorWindow.on('close', event => {
+    storeWindowState();
     event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
     mainWindow.webContents.send('buttonSwitch', "#projectorBtn", false);
     mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
-    projektorWindow.hide();
+    projectorWindow.hide();
   });
-  projektorWindow.on('leave-full-screen', () => {
+  projectorWindow.on('leave-full-screen', () => {
     mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
   });
-  projektorWindow.on('enter-full-screen', () => {
+  projectorWindow.on('enter-full-screen', () => {
     mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", true);
   });
-  projektorWindow.webContents.on('did-finish-load', () => {
+  projectorWindow.webContents.on('did-finish-load', () => {
 
   });
+
+  projectorWindow.on('resize', function() {
+    storeWindowState();
+  });
+  projectorWindow.on('move', function() {
+    storeWindowState();
+  });
 }
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
-app.on('ready', createProjektor);
+app.on('ready', createProjector);
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
   // On OS X it is common for applications and their menu bar
@@ -209,19 +251,15 @@ function createLog(text) {
   });
 }
 
-ipcMain.on('saveLogs', (event, text) => {
-  //createLog(text);
-});
-
-//app.on('ready', defaultSettings);
-ipcMain.on('saveDefaultSettings', (event) => {
-  defaultSettings();
-});
-
 function defaultSettings() {
   settings.setAll({
     year: 0,
     phase: 0,
+    clock: {
+      "pause": 7,
+      "diplomacy": 4,
+      "brief": 0.5
+    },
     longPause: 7,
     shortPause: 0.5,
     name: 'gow-settings',
@@ -335,3 +373,50 @@ function defaultSettings() {
     }]
   });
 }
+ipcMain.on('startGame', (event) => {
+  projectorWindow.webContents.send('startGame');
+});
+ipcMain.on('transferCurrentGame', (event, arg1) => {
+  projectorWindow.webContents.send('readCurrentGame', arg1);
+});
+ipcMain.on('transferParams', (event, arg1) => {
+  projectorWindow.webContents.send('readParams', arg1);
+});
+ipcMain.on('transferNews', (event, arg) => {
+  projectorWindow.webContents.send('readNews', arg);
+});
+ipcMain.on('transferPhase', (event, arg1, arg2, arg3) => {
+  projectorWindow.webContents.send('readPhase', arg1, arg2, arg3);
+});
+ipcMain.on('toggleRules', (event) => {
+  projectorWindow.webContents.send('transferRules');
+});
+ipcMain.on('toggleFullscreen', (event) => {
+  if (projectorWindow.isFullScreen()) {
+    projectorWindow.setFullScreen(false);
+  } else {
+    projectorWindow.setFullScreen(true);
+  }
+});
+ipcMain.on('toggleProjector', (event) => {
+  if (projectorWindow.isVisible()) {
+    projectorWindow.hide();
+    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", false);
+    mainWindow.webContents.send('buttonSwitch', "#fullscreenBtn", false);
+  } else {
+    projectorWindow.show();
+    mainWindow.webContents.send('buttonSwitch', "#projectorBtn", true);
+  }
+});
+ipcMain.on('reloadWindows', (event) => {
+  projectorWindow.webContents.reload();
+  mainWindow.webContents.reload();
+});
+ipcMain.on('saveLogs', (event, text) => {
+  //createLog(text);
+});
+
+//app.on('ready', defaultSettings);
+ipcMain.on('saveDefaultSettings', (event) => {
+  defaultSettings();
+});

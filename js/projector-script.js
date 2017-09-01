@@ -5,6 +5,7 @@ $(function() {
     var ipc = require('electron').ipcRenderer,
       params = {},
       current,
+      started = false,
       timer;
 
     const path = require('path');
@@ -13,6 +14,9 @@ $(function() {
     const settings = require('electron').remote.require('electron-settings');
     // renderer process
 
+    ipc.on('startGame', (event) => {
+      started = true;
+    });
     ipc.on('readCurrentGame', (event, arg1) => {
       renderTable(arg1);
     });
@@ -65,26 +69,26 @@ $(function() {
         "striped": function() { if (odd) { odd = false; return "odd"; } else { odd = true; return "even"; } }
       });
       $("#tabulkatimov").html(text);
-      let last = params.countryCodes[$("tbody tr:last-child").attr('id')].country;
-      let first = params.countryCodes[$("tbody tr:first-child").attr('id')].country;
-      let curr = ms.render(tplProjectionFourthWorld, { "first": first, "last": last });
-      $('.endNews').html(curr);
+      if (started && params.phase > 0) {
+        let last = params.countryCodes[$("tbody tr:last-child").attr('id')].country;
+        let first = params.countryCodes[$("tbody tr:first-child").attr('id')].country;
+        let curr = ms.render(tplProjectionFourthWorld, { "first": first, "last": last });
+        $('.endNews').html(curr);
+      }
     }
 
     function renderPhase(year, phase, pocetrokov) {
       resetView();
-
-      if (year > pocetrokov) {
+      if (year > pocetrokov && started) {
         $('#spravy').hide();
         $('#currPhase').html("<h3>Koniec sveta</h3>");
         $('#currPhaseText').html("");
         if (timer != undefined) timer.running = false;
         $('#timerdiv').hide();
-      } else {
+        $('#currYear').html("<h3 class='year'>" + year + ".&nbsp;rok&nbsp;" + (year + 2037) + "</h3>");
+      } else if (started) {
         $('#currPhase').html("<h2 class='phase'>" + phase.title + " </h2>");
         $('#currPhaseText').html("<span class='phasetext'>" + phase.text + "</span>");
-        $('#infobox').show();
-
         switch (phase.title) {
           case "Pomoc štvrtému svetu":
             $('#timerdiv').hide();
@@ -100,7 +104,7 @@ $(function() {
           case "Čas na strategické rozhodnutia":
             $('#spravy').show();
             $('#timerdiv').show();
-            displayCounter(params.shortPause * 60);
+            displayCounter(params.clock.brief * 60);
             break;
           case "Rozkladanie armád":
             $('#timerdiv').hide();
@@ -109,7 +113,7 @@ $(function() {
           case "Diplomacia":
             $('#spravy').show();
             $('#timerdiv').show();
-            displayCounter(params.longPause * 60);
+            displayCounter(params.clock.diplomacy * 60);
             break;
           case "Vyhodnotenie bojov":
             $('#timerdiv').hide();
@@ -119,12 +123,16 @@ $(function() {
           case "Pauza":
             $('#timerdiv').show();
             $('.currNews').hide();
-            displayCounter(params.longPause * 60);
+            displayCounter(params.clock.pause * 60);
             break;
         }
+        $('#currYear').html("<h3 class='year'>" + year + ".&nbsp;rok&nbsp;" + (year + 2037) + "</h3>");
+      } else {
+        $('#currYear').html("<h3 class='year'></h3>");
+        $('#currPhase').html("<h2 class='phase'>Game of Worlds</h2>");
+        $('#currPhaseText').html("<span class='phasetext'>Vitajte na hre Game of Worlds. Svoj tím môžete prihlásiť u organizátorov hry.</span>");
       }
-      $('#infobox').show();
-      $('#currYear').html("<h3 class='year'>" + year + ".&nbsp;rok&nbsp;" + (year + 2037) + "</h3>");
+$('#infobox').show();
     }
 
     // COUNTDOWN TIMER

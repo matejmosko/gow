@@ -90,18 +90,29 @@ $(function() {
         <x-stepper></x-stepper>
         </x-numberinput>
       </x-box>
+      <x-box class="fullwidth">
+      {{#clock}}
       <x-box>
-        <x-label>Krátke časovače (min)</x-label>
-        <x-numberinput id='shortPauseOpt' skin='flat' min='0' step='0.50' value='{{shortPause}}'>
+        <x-label>Krátka porada (min)</x-label>
+        <x-numberinput id='pauseClockOpt' skin='flat' min='0' step='0.50' value='{{pause}}'>
         <x-stepper></x-stepper>
         </x-numberinput>
       </x-box>
       <x-box>
-        <x-label>Dlhé časovače (min)</x-label>
-        <x-numberinput id='longPauseOpt' skin='flat' min='0' step='0.50' value='{{longPause}}'>
+        <x-label>Diplomacia (min)</x-label>
+        <x-numberinput id='diplomacyClockOpt' skin='flat' min='0' step='0.50' value='{{diplomacy}}'>
         <x-label>Dlhé časovače</x-label>
         <x-stepper></x-stepper>
         </x-numberinput>
+      </x-box>
+      <x-box>
+        <x-label>Pauza (min)</x-label>
+        <x-numberinput id='briefClockOpt' skin='flat' min='0' step='0.50' value='{{brief}}'>
+        <x-label>Dlhé časovače</x-label>
+        <x-stepper></x-stepper>
+        </x-numberinput>
+      </x-box>
+      {{/clock}}
       </x-box>
   </x-box>
 
@@ -295,6 +306,7 @@ $(function() {
         $(".afterstart").show();
         mousetrap.bind(['space'], function() { changePhase(); });
         mousetrap.bind(['ctrl+backspace'], function() { stepBack(); });
+        ipc.send('startGame');
         started = true;
         let d = document.body;
         d.className += " started";
@@ -611,6 +623,9 @@ $(function() {
     $("#fullscreenBtn").click(function() {
       ipc.send('toggleFullscreen');
     });
+    $("#reloadBtn").click(function() {
+      ipc.send('reloadWindows');
+    });
     $("#rulesBtn").click(function() {
       ipc.send('toggleRules');
     });
@@ -638,8 +653,7 @@ $(function() {
     function renderOptions() {
       var text = ms.render(tplOptions, {
         "yearCount": params.yearCount,
-        "shortPause": params.shortPause,
-        "longPause": params.longPause,
+        "clock": params.clock,
         "ufoEvents": params.ufoEvents,
         "worldEvents": params.worldEvents,
         "phases": params.phases,
@@ -650,8 +664,9 @@ $(function() {
     // TODO - ukladanie nastavení - aj Predvolených (checkbox)
     function saveOptions() {
       params.yearCount = $("#yearCountOpt").val();
-      params.shortPause = $("#shortPauseOpt").val();
-      params.longPause = $("#longPauseOpt").val();
+      params.clock.pause = $("#pauseClockOpt").val();
+      params.clock.diplomacy = $("#diplomacyClockOpt").val();
+      params.clock.brief = $("#briefClockOpt").val();
       $("#ufoEventsOpt").find("x-box[id^='ufoEvent']").each(function(index) {
         params.ufoEvents[index].title = $(this).children("[id^='ufoTitle']").val();
         params.ufoEvents[index].text = $(this).children("[id^='ufoText']").val();
