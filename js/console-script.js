@@ -1,7 +1,7 @@
 // Mixing jQuery and Node.js code in the same file? Yes please!
 
 $(function() {
-  var impPlayerConsole = (function() {
+  var gowConsole = (function() {
     const path = require('path');
     const url = require('url');
     const fs = require('fs');

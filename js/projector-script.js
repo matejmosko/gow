@@ -1,7 +1,7 @@
 // Mixing jQuery and Node.js code in the same file? Yes please!
 
 $(function() {
-  var impPlayerProjector = (function() {
+  var gowProjector = (function() {
     var ipc = require('electron').ipcRenderer,
       params = {},
       current,
