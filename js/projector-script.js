@@ -2,8 +2,8 @@
 
 $(function() {
   var gowProjector = (function() {
-    var ipc = require('electron').ipcRenderer,
-      params = {},
+    const ipc = require('electron').ipcRenderer;
+    let params = {},
       current,
       started = false,
       timer;
@@ -16,6 +16,7 @@ $(function() {
 
     ipc.on('startGame', (event) => {
       started = true;
+      document.body.classList.add("started");
     });
     ipc.on('readCurrentGame', (event, arg1) => {
       renderTable(arg1);
@@ -53,25 +54,57 @@ $(function() {
     `;
       var tplProjectionCountryTable = `
     {{#countries}}
-      <tr id={{krajina}} class="{{striped}}">
-        <td class='nazovkrajiny'>{{nicename}}</td>
-        <td class='tim'>{{tim}}</td>
-        <td class='body'>{{points}}</td>
-      </tr>
+      <div class="{{striped}} tblCountryRow {{playing}}" id="{{krajina}}" >
+        <!--<div class='tblCountryRank'></div>-->
+        <div class='tblCountryName'>{{nicename}}</div>
+        <div class='tblCountryDesc'>{{desc}}</div>
+        <div class='tblCountryTeam'>{{tim}}</div>
+        <div class='tblCountryPoints'>{{points}}</div>
+      </div>
     {{/countries}}
     `;
       var odd = true;
-      text = ms.render(tplProjectionCountryTable, {
-        "countries": docs,
-        "points": function() { if (this.body != null) { return this.body; } else { return 0; } },
-        //"quests": function() { if (this.ulohy != null) { return this.ulohy; } else { return 0; } },
-        "nicename": function() { return params.countryCodes[this.krajina].country; },
-        "striped": function() { if (odd) { odd = false; return "odd"; } else { odd = true; return "even"; } }
-      });
-      $("#tabulkatimov").html(text);
+      if (started) {
+        text = ms.render(tplProjectionCountryTable, {
+          "countries": docs,
+          "points": function() { if (this.body != null) { return this.body; } else { return 0; } },
+          "desc": "",
+          "nicename": function() { return params.countryCodes[this.krajina].country; },
+          "striped": function() { if (odd) { odd = false; return "odd"; } else { odd = true; return "even"; } },
+          "playing": function() { if (params.countryCodes[this.krajina].playing) { return "playing" } else return ""}
+        });
+      } else {
+        text = ms.render(tplProjectionCountryTable, {
+          "countries": params.countryList,
+          "points": function() {
+            for (k in docs) {
+              if (docs[k].krajina == this){
+                if (docs[k].body != null) { return docs[k].body; } else { return 0; }
+               }
+            }
+          },
+          "krajina": function() { return this; },
+          "tim": function() {
+            for (k in docs) {
+              if (docs[k].krajina == this) return docs[k].tim;
+            }
+          },
+          //"quests": function() { if (this.ulohy != null) { return this.ulohy; } else { return 0; } },
+          "nicename": function() { return params.countryCodes[this].country; },
+          "desc": function() { return params.countryCodes[this].desc; },
+          "striped": function() { if (odd) { odd = false; return "odd"; } else { odd = true; return "even"; } },
+          "playing": function() { if (params.countryCodes[this].playing) { return "playing" } else {return ""}}
+        });
+      }
+      teamsTable = document.getElementById("teamsTable");
+      teamsTable.innerHTML = text;
+      if (started) {
+        teamsTable.classList.remove("grid");
+        teamsTable.classList.add("table");
+      }
       if (started && params.phase > 0) {
-        let last = params.countryCodes[$("tbody tr:last-child").attr('id')].country;
-        let first = params.countryCodes[$("tbody tr:first-child").attr('id')].country;
+        let last = params.countryCodes[$("#teamsTable .tblCountryRow:last-child").attr('id')].country; /* TODO Čerpať dáta z docs */
+        let first = params.countryCodes[$("#teamsTable .tblCountryRow:first-child").attr('id')].country;
         let curr = ms.render(tplProjectionFourthWorld, { "first": first, "last": last });
         $('.endNews').html(curr);
       }
@@ -132,7 +165,7 @@ $(function() {
         $('#currPhase').html("<h2 class='phase'>Game of Worlds</h2>");
         $('#currPhaseText').html("<span class='phasetext'>Vitajte na hre Game of Worlds. Svoj tím môžete prihlásiť u organizátorov hry.</span>");
       }
-$('#infobox').show();
+      $('#infobox').show();
     }
 
     // COUNTDOWN TIMER

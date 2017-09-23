@@ -31,19 +31,19 @@ html {
 
 @media all and (min-height: 600px) {
   body {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
 @media all and (min-height: 700px) {
   body {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
 @media all and (min-height: 800px) {
   body {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 
@@ -151,8 +151,12 @@ body {
   padding-right: 30px;
 }
 
-#sidebar {
+.started #sidebar {
   flex: 1 1 25%;
+  display: block;
+}
+#sidebar {
+  display: none;
 }
 
 #game-table {
@@ -218,7 +222,7 @@ h2.phase{
   font-family: DosisBold, Arial, Helvetica, sans-serif;
 }
 
-.nazovkrajiny, .body {
+.tblCountryName, .tblCountryPoints {
   font-size: 1.5em;
   text-transform: capitalize;
   font-family: DosisBold, Arial, Helvetica, sans-serif;
@@ -290,67 +294,143 @@ table th{
 
 /* KRAJINY - GOMBÍKY */
 
-tr td:first-child {
-  background-size: 40px 40px;
+.tblCountryRow .tblCountryName {
+  background-size: 32px 32px;
   background-repeat: no-repeat;
+  padding-left: 45px;
 }
 
-#GBR td:first-child {
+#GBR .tblCountryName {
   background-image: url('../img/krajiny/GBR.png');
 }
 
-#SVK td:first-child {
+#SVK .tblCountryName {
   background-image: url('../img/krajiny/SVK.png');
 }
 
-#USA td:first-child {
+#USA .tblCountryName {
   background-image: url('../img/krajiny/USA.png');
 }
 
-#JAR td:first-child {
+#JAR .tblCountryName {
   background-image: url('../img/krajiny/JAR.png');
 }
 
-#AUS td:first-child {
+#AUS .tblCountryName {
   background-image: url('../img/krajiny/AUS.png');
 }
 
-#CHN td:first-child {
+#CHN .tblCountryName {
   background-image: url('../img/krajiny/CHN.png');
 }
 
-#JPN td:first-child {
+#JPN .tblCountryName {
   background-image: url('../img/krajiny/JPN.png');
 }
 
-#RUS td:first-child {
+#RUS .tblCountryName {
   background-image: url('../img/krajiny/RUS.png');
 }
 
-#CAN td:first-child {
+#CAN .tblCountryName {
   background-image: url('../img/krajiny/CAN.png');
 }
 
-#BRA td:first-child {
+#BRA .tblCountryName {
   background-image: url('../img/krajiny/BRA.png');
 }
 
-#MEX td:first-child {
+#MEX .tblCountryName {
   background-image: url('../img/krajiny/MEX.png');
 }
 
-#IND td:first-child {
+#IND .tblCountryName {
   background-image: url('../img/krajiny/IND.png');
 }
 
-#IRN td:first-child {
+#IRN .tblCountryName {
   background-image: url('../img/krajiny/IRN.png');
 }
 
-#VEN td:first-child {
+#VEN .tblCountryName {
   background-image: url('../img/krajiny/VEN.png');
 }
 
-#FRA td:first-child {
+#FRA .tblCountryName {
   background-image: url('../img/krajiny/FRA.png');
+}
+.table{
+  display:flex;
+  flex-flow: column nowrap;
+  max-height: 75vw;
+}
+.grid{
+  display:flex;
+  flex-flow: row wrap;
+}
+.tblCountryRow{
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.15);
+  margin-bottom: 1px;
+  padding: 3px;
+}
+
+.grid .tblCountryRow{
+  flex-flow: row wrap;
+  flex: 1 0 30%;
+  margin: 3px;
+  padding: 3px;
+}
+
+@keyframes gridToTable {
+    from {flex: 1 0 30%;}
+    to {flex: 0 0 100%;}
+}
+@keyframes GridToRow {
+    from {width:100%;}
+    to {min-width: 33%;
+    max-width: 40%;
+    flex: 1 1 33%;}
+}
+.started .tblCountryRow{
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  flex: 0 0 100%;
+  /*animation-name: gridToTable;
+  animation-duration: 5s;
+  animation-iteration-count: 1;*/
+}
+.started .tblCountryRow div{
+  /*animation-name: gridToRow;
+  animation-duration: 5s;
+  animation-iteration-count: 1;*/
+  flex: 1 1 33%;
+}
+.grid .tblCountryRow div{
+  width: 100%;
+}
+.grid .tblCountryRow.playing{
+  background-color: rgba(255, 70, 0, 0.15);
+}
+.grid .tblCountryRow .tblCountryPoints, .started .tblCountryRow .tblCountryDesc{
+  display:none;
+}
+.started .tblCountryRow .tblCountryPoints{
+  display:block;
+}
+.tblCountryPoints{
+  text-align: right;
+  max-width: 80px;
+}
+.tblCountryTeam{
+  text-align: center;
+  font-weight: bold;
+}
+.playing .tblCountryTeam{
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.85)
+}
+.started .playing .tblCountryTeam{
+  color: #DDD;
+  background-color: transparent;
 }

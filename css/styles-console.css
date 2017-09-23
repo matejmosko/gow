@@ -1,31 +1,35 @@
-body{
+body {
   /*font: caption;*/
 }
 
-#container{
-  height:100vh;
-  overflow:hidden;
+#container {
+  height: calc(100vh-10px);
+  overflow: hidden;
+  padding: 5px;
 }
 
 #topbox {
   width: 100%;
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin: 0px 0px 15px 0px;
+  justify-content: space-between;
+  padding: 5px;
 }
 
-#infobox {
-  flex: 4 0 70%;
-  padding-right: 30px;
-  display: flex;
+#infobox, #gameControls, #projectorControls {
+  flex: 0 1 auto;
 }
-
-#infobox div, #projectorControls {
+#infobox{
   flex: 1 1 auto;
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: space-around;
 }
 
-#top-buttons {
-  flex: 1 1 25%;
+#infobox div {
+  flex: 1 1 auto;
+  text-align: center;
 }
 
 #main {
@@ -65,13 +69,26 @@ table.content-table {
 #novaHra, #oldGame {
   padding: 10px;
 }
-
-.x-card-div {
-  padding: 0px 20px;
+.form-group{
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px;
+}
+.form-group.vertical{
+  flex-flow: nowrap column;
+}
+.form-group.horizontal{
+  flex-flow: nowrap row;
+}
+.form-item{
+  flex: 0 1 auto;
 }
 
-.form-group x-card{
-  padding: 10px;
+.form-item#tim{
+  flex: 1 1 auto;
+  min-width: 120px;
+max-width: 400px;
 }
 
 #phasesOpt .optHorizontalBox .title {
@@ -100,11 +117,11 @@ x-label {
 }
 
 .sortinput {
-  width: 30px;
+  max-width: 60px;
 }
 
 .danger {
-  background-color: #ff8a65;
+  background-color: #cc3300;
 }
 
 th.quest-box, th.points-box {
@@ -151,7 +168,7 @@ x-numberinput.positive {
 }
 
 x-numberinput.negative {
-  background-color: indianred;
+  background-color: #cc3300;
 }
 
 .center {
@@ -159,13 +176,15 @@ x-numberinput.negative {
 }
 
 .odd {
-  background-color: lightgrey;
+  background-color: #333;
 }
 
 tr:hover td {
-  background-color: #80CBC4;
+  background-color: #DDD;
+  color: #333;
 }
-.fullwidth{
+
+.fullwidth {
   width: 100%;
   justify-content: space-between;
 }

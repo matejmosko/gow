@@ -32,8 +32,8 @@ $(function() {
     var tplCountryDropdown = `
     <x-menu>
     {{#countries}}
-      <x-menuitem value='{{.}}' {{disabled}} selected='{{selected}}' class='{{.}}'>
-        <x-label>{{nicename}}</x-label>
+      <x-menuitem value='{{code}}' {{disabled}} selected='{{selected}}' class='{{code}}'>
+        <x-label>{{country}}</x-label>
       </x-menuitem>
       {{/countries}}
     </x-menu>
@@ -151,6 +151,23 @@ $(function() {
     {{/worldEvents}}
   </x-box>
 
+  <!-- countries Settings -->
+  <h3>Krajiny</h3>
+  <x-box vertical id='countriesOpt'>
+    <x-box class='optHorizontalBox tableHeader'>
+      <x-label name='countriesOpt' class='title'>Krajina</x-label>
+      <x-label name='countriesOpt' class='text'>Kód krajiny</x-label>
+      <x-label name='countriesOpt' class='secret'>Špeciálna schopnosť</x-label>
+    </x-box>
+    {{#countries}}
+    <x-box id='country-{{code}}' class='optHorizontalBox'>
+      <x-label>{{code}}</x-label>
+      <x-label>{{country}}</x-label>
+      <x-textarea name='countriesOpt' id='countriesDesc-{{code}}' class='secret tableInput' value='{{desc}}'></x-textarea>
+    </x-box>
+    {{/countries}}
+  </x-box>
+
   <!-- Phases Settings -->
   <h3>Fázy kola</h3>
   <x-box vertical id='phasesOpt'>
@@ -212,13 +229,22 @@ $(function() {
       checkEmptyCountries();
     }
 
+    function getCountryObject(code) {
+      console.log("Text " + code)
+      for (k in params.countryCodes) {
+        //console.log(params.countryCodes[k]);
+        if (params.countryCodes[k].code == code) { console.log("FIne"); return params.countryCodes[k]; } else { console.log("Not Finene"); return null; }
+      }
+    }
 
+    //console.log(this); console.log(params.countryCodes[this].country);
 
     function checkEmptyCountries() {
       var first = true;
       var text = ms.render(tplCountryDropdown, {
         "countries": params.countryList,
-        "nicename": function() { return params.countryCodes[this].country; },
+        "code": function() { return this; },
+        "country": function(){ return params.countryCodes[this].country},
         "disabled": function() { if (params.countryCodes[this].playing) { return "disabled"; } else return ""; },
         "selected": function() { if (!params.countryCodes[this].playing && first) { let first = false; return "true"; } else { return "false"; } }
       });
@@ -393,7 +419,8 @@ $(function() {
 
       let index = params.countryList.indexOf(k);
       if (index > -1) {
-        params.countryCodes[k].playing = 0;
+        params.countryCodes[k].playing = false;
+        db.games.update({ name: 'gow-settings' }, { $set: { countryCodes: params.countryCodes } }, { multi: true }, function(err, numReplaced) {});
       }
       checkEmptyCountries();
       readGame();
@@ -415,11 +442,13 @@ $(function() {
         $('.teamname').addClass("has-error");
       } else {
         --sort;
-        addTeam($('#krajiny').val(), $('#tim').val(), sort);
+        addedCountry = $('#krajiny').val();
+        addTeam(addedCountry, $('#tim').val(), sort);
 
-        let index = params.countryList.indexOf($('#krajiny').val());
+        let index = params.countryList.indexOf(addedCountry);
         if (index > -1) {
-          params.countryCodes[$('#krajiny').val()].playing = 1;
+          params.countryCodes[addedCountry].playing = true;
+          db.games.update({ name: 'gow-settings' }, { $set: { countryCodes: params.countryCodes } }, { multi: true }, function(err, numReplaced) {});
         }
         checkEmptyCountries();
         readGame();
@@ -651,11 +680,13 @@ $(function() {
 
     // Options Module
     function renderOptions() {
+      //console.log(params.countryCodes);
       var text = ms.render(tplOptions, {
         "yearCount": params.yearCount,
         "clock": params.clock,
         "ufoEvents": params.ufoEvents,
         "worldEvents": params.worldEvents,
+        "countries": params.countryCodes,
         "phases": params.phases,
       });
       document.getElementById("tableOpt").innerHTML = text;
