@@ -56,7 +56,7 @@ $(function() {
     {{#countries}}
       <div class="{{striped}} tblCountryRow {{playing}}" id="{{krajina}}" >
         <!--<div class='tblCountryRank'></div>-->
-        <div class='tblCountryName'>{{nicename}}</div>
+        <div class='tblCountryTitle'><span class="tblCountryName">{{nicename}}</span><span class='tblCountryArea'> {{area}}</span></div>
         <div class='tblCountryDesc'>{{desc}}</div>
         <div class='tblCountryTeam'>{{tim}}</div>
         <div class='tblCountryPoints'>{{points}}</div>
@@ -91,6 +91,7 @@ $(function() {
           },
           //"quests": function() { if (this.ulohy != null) { return this.ulohy; } else { return 0; } },
           "nicename": function() { return params.countryCodes[this].country; },
+          "area": function() { return params.countryCodes[this].area; },
           "desc": function() { return params.countryCodes[this].desc; },
           "striped": function() { if (odd) { odd = false; return "odd"; } else { odd = true; return "even"; } },
           "playing": function() { if (params.countryCodes[this].playing) { return "playing" } else {return ""}}

@@ -263,21 +263,21 @@ function defaultSettings() {
     countryCount: 15,
     yearCount: 5,
     countryCodes: {
-      'SVK': { code: 'SVK', country: 'Slovensko', playing: false, desc:"Môže mať až 9 žetónov armády, pretože má vždy o jedného kapitána viac ako ostatní." },
-      'RUS': { code: 'RUS', country: 'Rusko', playing: false, desc: "Ak v aktuálnom kole získalo Rusko aspoň jednu ropu, získa po boji ďalšiu ropu."},
-      'USA': { code: 'USA', country: 'USA', playing: false, desc: "Začína s 5 žetónmi armády." },
-      'JAR': { code: 'JAR', country: 'JAR', playing: false, desc: "Vždy keď je po boji na víťaznej strane, získa 1 zlato." },
-      'AUS': { code: 'AUS', country: 'Austrália', playing: false, desc: "Vždy keď bojuje mimo svojho kontinentu má silu +1." },
-      'CHN': { code: 'CHN', country: 'Čína', playing: false, desc: "Keď prispeje do hlavnej udalosti môže sa rátať príspevok ako o 2 zdroje zlata väčší." },
-      'JPN': { code: 'JPN', country: 'Japonsko', playing: false, desc: "V každom boji môžu použiť 2 AK namiesto jednej." },
-      'GBR': { code: 'GBR', country: 'Veľká Británia', playing: false, desc: "Neplatí za presun na iný kontinent." },
-      'CAN': { code: 'CAN', country: 'Kanada', playing: false, desc: "Kedykoľvek by mali získať ropu môže si namiesto nej zobrať kov." },
-      'BRA': { code: 'BRA', country: 'Brazília', playing: false, desc: "Ropu a kov kupuje za 3 zdroje zlata." },
-      'MEX': { code: 'MEX', country: 'Mexiko', playing: false, desc: "Raz za kolo si môže za 1 kov kúpiť jednu mimozemskú akčnú kartu." },
-      'IND': { code: 'IND', country: 'India', playing: false, desc: "Ktorúkoľvek svoju AK môže použiť ako AK 'Francúzsky útok'. Rozhodnúť sa môže aj počas boja po odhalení AK." },
-      'IRN': { code: 'IRN', country: 'Irán', playing: false, desc: "AK 'Zelení turisti' poskytuje bonus +4." },
-      'VEN': { code: 'VEN', country: 'Venezuela', playing: false, desc: "Za kúpu AK môže platiť aj ropou." },
-      'FRA': { code: 'FRA', country: 'Francúzsko', playing: false, desc: "Vždy keď prehrá boj, vezme si jednu z použitých akčných kariet." }
+      'SVK': { code: 'SVK', country: 'Slovensko', area: "EuroAfrika", playing: false, desc:"Môže mať až 9 žetónov armády, pretože má vždy o jedného kapitána viac ako ostatní." },
+      'RUS': { code: 'RUS', country: 'Rusko', area: "EuroAfrika", playing: false, desc: "Ak v aktuálnom kole získalo Rusko aspoň jednu ropu, získa po boji ďalšiu ropu."},
+      'GBR': { code: 'GBR', country: 'Veľká Británia', area: "EuroAfrika", playing: false, desc: "Neplatí za presun na iný kontinent." },
+      'FRA': { code: 'FRA', country: 'Francúzsko', area: "EuroAfrika", playing: false, desc: "Vždy keď prehrá boj, vezme si jednu z použitých akčných kariet." },
+      'JAR': { code: 'JAR', country: 'JAR', area: "EuroAfrika", playing: false, desc: "Vždy keď je po boji na víťaznej strane, získa 1 zlato." },
+      'USA': { code: 'USA', country: 'USA', area: "DvojAmerika", playing: false, desc: "Začína s 5 žetónmi armády." },
+      'CAN': { code: 'CAN', country: 'Kanada', area: "DvojAmerika", playing: false, desc: "Kov nakupuje z banky za 2 zdroje zlata" },
+      'MEX': { code: 'MEX', country: 'Mexiko', area: "DvojAmerika", playing: false, desc: "Raz za kolo si môže za 1 kov kúpiť jednu mimozemskú akčnú kartu." },
+      'BRA': { code: 'BRA', country: 'Brazília', area: "DvojAmerika", playing: false, desc: "Ropu a kov kupuje za 3 zdroje zlata." },
+      'VEN': { code: 'VEN', country: 'Venezuela', area: "DvojAmerika", playing: false, desc: "V boji proti mimozemšťanom má bonus +1." },
+      'CHN': { code: 'CHN', country: 'Čína', area: "AustraloÁzia", playing: false, desc: "Keď prispeje do hlavnej udalosti môže sa rátať príspevok ako o 2 zdroje zlata väčší." },
+      'IND': { code: 'IND', country: 'India', area: "AustraloÁzia", playing: false, desc: "Ktorúkoľvek svoju AK môže použiť ako AK 'Francúzsky útok'. Rozhodnúť sa môže aj počas boja po odhalení AK." },
+      'IRN': { code: 'IRN', country: 'Irán', area: "AustraloÁzia", playing: false, desc: "AK 'Zelení turisti' poskytuje bonus +4." },
+      'JPN': { code: 'JPN', country: 'Japonsko', area: "AustraloÁzia", playing: false, desc: "V každom boji môžu použiť 2 AK namiesto jednej." },
+      'AUS': { code: 'AUS', country: 'Austrália', area: "AustraloÁzia", playing: false, desc: "Vždy keď bojuje mimo svojho kontinentu, má silu +1." }
     },
     countryList: [
       'SVK',
@@ -344,24 +344,24 @@ function defaultSettings() {
       secret: ''
     }],
     worldEvents: [{
-      title: 'Nové ložiská za Uralom',
-      text: 'Investori zháňajú peniaze na stavbu vrtných veží. V hlavnej udalosti je možné získať 6 surovín ropy.',
-      secret: 'V ponuke je 6 surovín ropy.'
+      title: 'Otvorenie čierneho trhu',
+      text: 'Na slávnostnom otvorení čierneho trhu sú pre najväčšieho investora pripravené 4 mimozemské akčné karty.',
+      secret: 'V ponuke sú 4 mimozemské AK.'
     }, {
-      title: 'Kongres OSN',
-      text: 'Na kongrese sú švédske stoly. V ponuke sú 4 AK typu Gastráče.',
-      secret: 'V ponuke sú 4 AK typu Gastráče.'
+      title: 'Kde domov ich?',
+      text: 'Domobrana bývalej Českej republiky ponúka svoje sily. Dražia sa 4 žetóny armád.',
+      secret: 'V ponuke sú 4 žetóny armády.'
     }, {
-      title: 'Najlepší tajný agent',
+      title: 'Hybernatus',
       text: 'Útok mimozemšťanov odhalil štyroch kryogenicky zmrazených tajných agentov. V hlavnej udalosti je možné získať 4 špeciálne karty "Austin Powers".',
       secret: 'V ponuke sú 4 špeciálne karty "Austin Powers".'
     }, {
-      title: 'Výpredaje na svetových trhoch',
-      text: 'Svet stojí pred hypotekárnou krízou. Za lacno sa dá získať 8 náhodných AK.',
-      secret: 'V ponuke je 8 náhodných AK.'
+      title: 'Dobytie severného pólu',
+      text: 'Expedícia Karla Němca na severný pól odhalila obrovské náleziská kovov. Najväčší investor získa 6 kusov kovu.',
+      secret: 'V hlavnej udalosti je možné získať 6 surovín kovu'
     }, {
-      title: 'Olympijske hry',
-      text: 'Chlieb a hry musia pokračovať aj pri mimozemskej invázii. Kto si kúpi možnosť organizovať OH, získa 6 AK.',
+      title: 'Voľba sekretára',
+      text: 'Rada OSN zasadla, aby transparentne zvolila sekretára pre generálneho sekretára OSN. Krajina, ktorá presadí svojho nominanta, získa bonusové body.',
       secret: 'V ponuke sú 6 AK typu Plusové body.'
     }, {
       title: '',

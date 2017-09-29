@@ -16,6 +16,10 @@
   /*URL to font*/
 }
 
+:root{
+  font-size: calc(1vh + 1vw + 0.5vmin);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -28,6 +32,339 @@ html {
   width: 100%;
   height: 100%;
 }
+
+body {
+  padding: 30px;
+  background-color: #13132A;
+  background-image: url('../img/gow-bg-blue.png');
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-family: DosisNormal, Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+#infobox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+#infobox div{
+  padding: 0 10px;
+}
+
+#main {
+  width: 100%;
+  display: flex;
+}
+
+#currYear {
+  flex: 1 1 auto;
+}
+
+#currPhase {
+  flex: 2 1 auto;
+}
+
+#currPhaseText {
+  flex: 4 1 auto;
+}
+
+#gametablediv {
+  flex: 4 0 70%;
+  padding-right: 30px;
+}
+
+.started #sidebar {
+  flex: 1 1 25%;
+  display: block;
+}
+#sidebar {
+  display: none;
+}
+
+#game-table {
+  width: 100%;
+}
+
+body.timeisup {
+  background-color: maroon;
+  background-image: url('../img/gow-bg-red.png');
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1.3rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+h4 {
+  font-size: 1.1rem;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: Nasalization, Arial, Helvetica, sans-serif;
+}
+
+a, a:visited, a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.newsArticle {
+  margin: 10px 0;
+}
+
+.newsArticle strong {
+}
+
+.newsArticle p {
+  font-size: 1.0rem;
+}
+
+table, #infobox , #timerdiv, .newsArticle p{
+  background-color: rgba(255, 255, 255, 0.15);
+}
+#infobox , #timerdiv, .newsArticle p{
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+h2.phase{
+  text-align: center;
+}
+
+#timerdiv {
+  text-align: center;
+  font-size: 2.0rem;
+  font-weight: bold;
+}
+
+table{
+  padding: 0px;
+}
+
+table tr{
+  padding: 0px 5px;
+}
+
+table td, table th {
+  font-size: 0.6em;
+  text-align: center;
+}
+table th{
+  border-bottom: 1px dashed gray;
+}
+
+.odd {
+/*  background-color: rgba(255, 255, 255, 0.15);*/
+}
+
+.phase {
+  font-size: 1.2rem;
+}
+
+.phasetext {
+  font-size: 1.0rem;
+}
+
+.overlay, .rules {
+  z-index: 10;
+  background-color: black;
+  font-family: Nasalization, Arial, Helvetica, sans-serif;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  text-align: center;
+}
+
+.rules {
+  display: none;
+}
+
+.rules ul li {
+  text-align: left;
+  padding-bottom: 15px;
+  font-family: "Exo", sans-serif;
+  font-size: 1.0rem;
+}
+
+.overlay h2 {
+  font-size: 1.2rem;
+}
+
+.overlay p {
+  font-size: 1.0rem;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  border-top: 0px;
+  height:40px;
+}
+
+/* KRAJINY - GOMBÍKY */
+
+.tblCountryRow .tblCountryTitle {
+  background-size: 32px 32px;
+  background-repeat: no-repeat;
+  padding-left: 45px;
+  padding-right: 5px;
+}
+
+#GBR .tblcountryTitle {
+  background-image: url('../img/krajiny/GBR.png');
+}
+
+#SVK .tblcountryTitle {
+  background-image: url('../img/krajiny/SVK.png');
+}
+
+#USA .tblcountryTitle {
+  background-image: url('../img/krajiny/USA.png');
+}
+
+#JAR .tblcountryTitle {
+  background-image: url('../img/krajiny/JAR.png');
+}
+
+#AUS .tblcountryTitle {
+  background-image: url('../img/krajiny/AUS.png');
+}
+
+#CHN .tblcountryTitle {
+  background-image: url('../img/krajiny/CHN.png');
+}
+
+#JPN .tblcountryTitle {
+  background-image: url('../img/krajiny/JPN.png');
+}
+
+#RUS .tblcountryTitle {
+  background-image: url('../img/krajiny/RUS.png');
+}
+
+#CAN .tblcountryTitle {
+  background-image: url('../img/krajiny/CAN.png');
+}
+
+#BRA .tblcountryTitle {
+  background-image: url('../img/krajiny/BRA.png');
+}
+
+#MEX .tblcountryTitle {
+  background-image: url('../img/krajiny/MEX.png');
+}
+
+#IND .tblcountryTitle {
+  background-image: url('../img/krajiny/IND.png');
+}
+
+#IRN .tblcountryTitle {
+  background-image: url('../img/krajiny/IRN.png');
+}
+
+#VEN .tblCountryTitle {
+  background-image: url('../img/krajiny/VEN.png');
+}
+
+#FRA .tblCountryTitle {
+  background-image: url('../img/krajiny/FRA.png');
+}
+.table{
+  display:flex;
+  flex-flow: column nowrap;
+  max-height: 75vw;
+}
+.grid{
+  display:flex;
+  flex-flow: row wrap;
+}
+.tblCountryRow{
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.15);
+  margin-bottom: 1px;
+  padding: 3px;
+}
+.grid .tblCountryRow{
+  flex-flow: row wrap;
+  align-content: space-between;
+  flex: 1 0 30%;
+  margin: 3px;
+  padding: 3px;
+}
+.grid .tblCountryTitle{
+  margin: -3px;
+  background-color: rgba(255,255,255,0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 6.5vh;
+}
+.grid .tblCountryTitle span{
+}
+
+
+.tblCountryDesc{
+  font-size: 0.8rem;
+}
+.tblCountryName, .tblCountryPoints {
+  font-size: 1.0rem;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.tblCountryArea{
+  font-size: 0.8rem;
+  text-align: right;
+}
+.started .tblCountryRow{
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  flex: 0 0 100%;
+}
+.started .tblCountryRow div{
+  flex: 1 1 33%;
+}
+.grid .tblCountryRow div{
+  width: 100%;
+}
+.grid .tblCountryRow.playing{
+  background-color: rgba(255, 70, 0, 0.15);
+}
+.grid .tblCountryRow .tblCountryPoints, .started .tblCountryRow .tblCountryDesc{
+  display:none;
+}
+.started .tblCountryRow .tblCountryPoints{
+  display:block;
+}
+.tblCountryPoints{
+  text-align: right;
+  max-width: 80px;
+}
+.tblCountryTeam{
+  text-align: center;
+  font-weight: bold;
+}
+.playing .tblCountryTeam{
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.85);
+  font-size: 0.7rem;
+}
+.started .playing .tblCountryTeam{
+  color: #DDD;
+  background-color: transparent;
+}
+/*
 
 @media all and (min-height: 600px) {
   body {
@@ -106,331 +443,4 @@ html {
     font-size: 40px;
   }
 }
-
-body {
-  padding: 30px;
-  background-color: #13132A;
-  background-image: url('../img/gow-bg-blue.png');
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  color: #fff;
-  font-family: DosisNormal, Arial, Helvetica, sans-serif;
-  overflow: hidden;
-}
-
-#infobox {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-#infobox div{
-  padding: 0 10px;
-}
-
-#main {
-  width: 100%;
-  display: flex;
-}
-
-#currYear {
-  flex: 1 1 auto;
-}
-
-#currPhase {
-  flex: 2 1 auto;
-}
-
-#currPhaseText {
-  flex: 4 1 auto;
-}
-
-#gametablediv {
-  flex: 4 0 70%;
-  padding-right: 30px;
-}
-
-.started #sidebar {
-  flex: 1 1 25%;
-  display: block;
-}
-#sidebar {
-  display: none;
-}
-
-#game-table {
-  width: 100%;
-}
-
-body.timeisup {
-  background-color: maroon;
-  background-image: url('../img/gow-bg-red.png');
-}
-
-h1 {
-  font-size: 2.0em;
-}
-
-h2 {
-  font-size: 1.5em;
-}
-
-h3 {
-  font-size: 1.3em;
-}
-
-h4 {
-  font-size: 1.3em;
-}
-
-h1, h2, h3, h4, h5 {
-  font-family: Nasalization, Arial, Helvetica, sans-serif;
-}
-
-a, a:visited, a:hover {
-  color: #fff;
-  text-decoration: none;
-}
-
-.newsArticle {
-  margin: 10px 0;
-}
-
-.newsArticle strong {
-}
-
-.newsArticle p {
-  font-size: 1.1em;
-}
-
-table, #infobox , #timerdiv, .newsArticle p{
-  background-color: rgba(255, 255, 255, 0.15);
-}
-#infobox , #timerdiv, .newsArticle p{
-  padding: 5px;
-  margin-bottom: 10px;
-}
-
-h2.phase{
-  text-align: center;
-}
-
-#timerdiv {
-  text-align: center;
-  font-size: 4.0em;
-  font-family: DosisBold, Arial, Helvetica, sans-serif;
-}
-
-.tblCountryName, .tblCountryPoints {
-  font-size: 1.5em;
-  text-transform: capitalize;
-  font-family: DosisBold, Arial, Helvetica, sans-serif;
-}
-
-table{
-  padding: 0px;
-}
-
-table tr{
-  padding: 0px 5px;
-}
-
-table td, table th {
-  font-size: 1.0em;
-  text-align: center;
-}
-table th{
-  border-bottom: 1px dashed gray;
-}
-
-.odd {
-/*  background-color: rgba(255, 255, 255, 0.15);*/
-}
-
-.phase {
-  font-size: xx-large;
-}
-
-.phasetext {
-  font-size: large;
-}
-
-.overlay, .rules {
-  z-index: 10;
-  background-color: black;
-  font-family: Nasalization, Arial, Helvetica, sans-serif;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 30px;
-  text-align: center;
-}
-
-.rules {
-  display: none;
-}
-
-.rules ul li {
-  text-align: left;
-  padding-bottom: 15px;
-  font-family: "Exo", sans-serif;
-  font-size: 24px;
-}
-
-.overlay h2 {
-  font-size: 4.0em;
-}
-
-.overlay p {
-  font-size: 1.5em;
-}
-
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-  border-top: 0px;
-  height:40px;
-}
-
-/* KRAJINY - GOMBÍKY */
-
-.tblCountryRow .tblCountryName {
-  background-size: 32px 32px;
-  background-repeat: no-repeat;
-  padding-left: 45px;
-}
-
-#GBR .tblCountryName {
-  background-image: url('../img/krajiny/GBR.png');
-}
-
-#SVK .tblCountryName {
-  background-image: url('../img/krajiny/SVK.png');
-}
-
-#USA .tblCountryName {
-  background-image: url('../img/krajiny/USA.png');
-}
-
-#JAR .tblCountryName {
-  background-image: url('../img/krajiny/JAR.png');
-}
-
-#AUS .tblCountryName {
-  background-image: url('../img/krajiny/AUS.png');
-}
-
-#CHN .tblCountryName {
-  background-image: url('../img/krajiny/CHN.png');
-}
-
-#JPN .tblCountryName {
-  background-image: url('../img/krajiny/JPN.png');
-}
-
-#RUS .tblCountryName {
-  background-image: url('../img/krajiny/RUS.png');
-}
-
-#CAN .tblCountryName {
-  background-image: url('../img/krajiny/CAN.png');
-}
-
-#BRA .tblCountryName {
-  background-image: url('../img/krajiny/BRA.png');
-}
-
-#MEX .tblCountryName {
-  background-image: url('../img/krajiny/MEX.png');
-}
-
-#IND .tblCountryName {
-  background-image: url('../img/krajiny/IND.png');
-}
-
-#IRN .tblCountryName {
-  background-image: url('../img/krajiny/IRN.png');
-}
-
-#VEN .tblCountryName {
-  background-image: url('../img/krajiny/VEN.png');
-}
-
-#FRA .tblCountryName {
-  background-image: url('../img/krajiny/FRA.png');
-}
-.table{
-  display:flex;
-  flex-flow: column nowrap;
-  max-height: 75vw;
-}
-.grid{
-  display:flex;
-  flex-flow: row wrap;
-}
-.tblCountryRow{
-  display: flex;
-  background-color: rgba(255, 255, 255, 0.15);
-  margin-bottom: 1px;
-  padding: 3px;
-}
-
-.grid .tblCountryRow{
-  flex-flow: row wrap;
-  flex: 1 0 30%;
-  margin: 3px;
-  padding: 3px;
-}
-
-@keyframes gridToTable {
-    from {flex: 1 0 30%;}
-    to {flex: 0 0 100%;}
-}
-@keyframes GridToRow {
-    from {width:100%;}
-    to {min-width: 33%;
-    max-width: 40%;
-    flex: 1 1 33%;}
-}
-.started .tblCountryRow{
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  flex: 0 0 100%;
-  /*animation-name: gridToTable;
-  animation-duration: 5s;
-  animation-iteration-count: 1;*/
-}
-.started .tblCountryRow div{
-  /*animation-name: gridToRow;
-  animation-duration: 5s;
-  animation-iteration-count: 1;*/
-  flex: 1 1 33%;
-}
-.grid .tblCountryRow div{
-  width: 100%;
-}
-.grid .tblCountryRow.playing{
-  background-color: rgba(255, 70, 0, 0.15);
-}
-.grid .tblCountryRow .tblCountryPoints, .started .tblCountryRow .tblCountryDesc{
-  display:none;
-}
-.started .tblCountryRow .tblCountryPoints{
-  display:block;
-}
-.tblCountryPoints{
-  text-align: right;
-  max-width: 80px;
-}
-.tblCountryTeam{
-  text-align: center;
-  font-weight: bold;
-}
-.playing .tblCountryTeam{
-  color: #333;
-  background-color: rgba(255, 255, 255, 0.85)
-}
-.started .playing .tblCountryTeam{
-  color: #DDD;
-  background-color: transparent;
-}
+*/
