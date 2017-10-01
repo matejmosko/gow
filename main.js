@@ -408,7 +408,7 @@ function defaultSettings() {
       text: 'Generáli, presuňte sa naspäť k strategickej mape. Teraz sa rozhodne o budúcnosti sveta.'
     }, {
       title: 'Pauza',
-      text: 'Vypočujte si, čo o svojej vláde píšu v zapredaných médiách, dohodnite sa na ďalšej stratégii a užite si pauzu.'
+      text: 'Dohodnite sa na ďalšej stratégii a užite si pauzu.'
     }],
     ufoEvents: [{
       title: 'Vpád mimozemšťanov',
@@ -416,12 +416,12 @@ function defaultSettings() {
       secret: 'Objavili sa mimozemské lode a drancujú 3 územia. Na každom území je 5 ich armády a 2 mimozemské AK.'
     }, {
       title: 'Mimozemská základňa',
-      text: 'Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia, ktorou dokáže vymazať niektoré územia z povrchu Zeme.',
+      text: 'Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia. Základňa dokáže vymazať niektoré územia z povrchu Zeme.',
       secret: 'Objavila sa základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK '
     }, {
       title: 'Mimozemská tajná služba',
       text: 'Mimozemšťania sa infiltrovali do tajných služieb. Celé kolo nie je možné použiť AK "Zahraničná návšteva" a "Agent Snow den"',
-      secret: 'Celé kolo nie je možné použiť AK "Zahraničná návšteva" a "Agent Snow den"'
+      secret: 'Celé kolo nie je možné použiť AK "Zahraničná návšteva" a "Agent Snowden"'
     }, {
       title: 'Pád UFO a Mimozemské útoky',
       text: 'Zrútilo sa UFO. Správa sa rozniesla ako blesk. Priekupníci z celého sveta si brúsia zuby na mimozemskú technológiu. Mimozemšťania po havárii menia taktiku. Útočia priamo na bojujúce armády.',
