@@ -8,7 +8,9 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 
-const { ipcMain } = require('electron');
+const {
+  ipcMain
+} = require('electron');
 const settings = require('electron-settings');
 
 global.params = {};
@@ -263,38 +265,128 @@ function defaultSettings() {
     countryCount: 15,
     yearCount: 5,
     countryCodes: {
-      'SVK': { code: 'SVK', country: 'Slovensko', area: "EuroAfrika", playing: false, desc:"Môže mať až 9 žetónov armády, pretože má vždy o jedného kapitána viac ako ostatní." },
-      'RUS': { code: 'RUS', country: 'Rusko', area: "EuroAfrika", playing: false, desc: "Ak v aktuálnom kole získalo Rusko aspoň jednu ropu, získa po boji ďalšiu ropu."},
-      'GBR': { code: 'GBR', country: 'Veľká Británia', area: "EuroAfrika", playing: false, desc: "Neplatí za presun na iný kontinent." },
-      'FRA': { code: 'FRA', country: 'Francúzsko', area: "EuroAfrika", playing: false, desc: "Vždy keď prehrá boj, vezme si jednu z použitých akčných kariet." },
-      'JAR': { code: 'JAR', country: 'JAR', area: "EuroAfrika", playing: false, desc: "Vždy keď je po boji na víťaznej strane, získa 1 zlato." },
-      'USA': { code: 'USA', country: 'USA', area: "DvojAmerika", playing: false, desc: "Začína s 5 žetónmi armády." },
-      'CAN': { code: 'CAN', country: 'Kanada', area: "DvojAmerika", playing: false, desc: "Kov nakupuje z banky za 2 zdroje zlata" },
-      'MEX': { code: 'MEX', country: 'Mexiko', area: "DvojAmerika", playing: false, desc: "Raz za kolo si môže za 1 kov kúpiť jednu mimozemskú akčnú kartu." },
-      'BRA': { code: 'BRA', country: 'Brazília', area: "DvojAmerika", playing: false, desc: "Ropu a kov kupuje za 3 zdroje zlata." },
-      'VEN': { code: 'VEN', country: 'Venezuela', area: "DvojAmerika", playing: false, desc: "V boji proti mimozemšťanom má bonus +1." },
-      'CHN': { code: 'CHN', country: 'Čína', area: "AustraloÁzia", playing: false, desc: "Keď prispeje do hlavnej udalosti môže sa rátať príspevok ako o 2 zdroje zlata väčší." },
-      'IND': { code: 'IND', country: 'India', area: "AustraloÁzia", playing: false, desc: "Ktorúkoľvek svoju AK môže použiť ako AK 'Francúzsky útok'. Rozhodnúť sa môže aj počas boja po odhalení AK." },
-      'IRN': { code: 'IRN', country: 'Irán', area: "AustraloÁzia", playing: false, desc: "AK 'Zelení turisti' poskytuje bonus +4." },
-      'JPN': { code: 'JPN', country: 'Japonsko', area: "AustraloÁzia", playing: false, desc: "V každom boji môžu použiť 2 AK namiesto jednej." },
-      'AUS': { code: 'AUS', country: 'Austrália', area: "AustraloÁzia", playing: false, desc: "Vždy keď bojuje mimo svojho kontinentu, má silu +1." }
+      'SVK': {
+        code: 'SVK',
+        country: 'Slovensko',
+        area: "EuroAfrika",
+        playing: false,
+        desc: "Môže mať až 9 žetónov armády, pretože má vždy o jedného kapitána viac ako ostatní."
+      },
+      'RUS': {
+        code: 'RUS',
+        country: 'Rusko',
+        area: "EuroAfrika",
+        playing: false,
+        desc: "Ak v aktuálnom kole získalo Rusko aspoň jednu ropu, získa po boji ďalšiu ropu."
+      },
+      'GBR': {
+        code: 'GBR',
+        country: 'Veľká Británia',
+        area: "EuroAfrika",
+        playing: false,
+        desc: "Neplatí za presun na iný kontinent."
+      },
+      'FRA': {
+        code: 'FRA',
+        country: 'Francúzsko',
+        area: "EuroAfrika",
+        playing: false,
+        desc: "Vždy keď prehrá boj, vezme si jednu z použitých akčných kariet."
+      },
+      'JAR': {
+        code: 'JAR',
+        country: 'JAR',
+        area: "EuroAfrika",
+        playing: false,
+        desc: "Vždy keď je po boji na víťaznej strane, získa 1 zlato."
+      },
+      'USA': {
+        code: 'USA',
+        country: 'USA',
+        area: "DvojAmerika",
+        playing: false,
+        desc: "Začína s 5 žetónmi armády."
+      },
+      'CAN': {
+        code: 'CAN',
+        country: 'Kanada',
+        area: "DvojAmerika",
+        playing: false,
+        desc: "Kov nakupuje z banky za 2 zdroje zlata"
+      },
+      'MEX': {
+        code: 'MEX',
+        country: 'Mexiko',
+        area: "DvojAmerika",
+        playing: false,
+        desc: "Raz za kolo si môže za 1 kov kúpiť jednu mimozemskú akčnú kartu."
+      },
+      'BRA': {
+        code: 'BRA',
+        country: 'Brazília',
+        area: "DvojAmerika",
+        playing: false,
+        desc: "Ropu a kov kupuje za 3 zdroje zlata."
+      },
+      'VEN': {
+        code: 'VEN',
+        country: 'Venezuela',
+        area: "DvojAmerika",
+        playing: false,
+        desc: "V boji proti mimozemšťanom má bonus +1."
+      },
+      'CHN': {
+        code: 'CHN',
+        country: 'Čína',
+        area: "AustraloÁzia",
+        playing: false,
+        desc: "Keď prispeje do hlavnej udalosti môže sa rátať príspevok ako o 2 zdroje zlata väčší."
+      },
+      'IND': {
+        code: 'IND',
+        country: 'India',
+        area: "AustraloÁzia",
+        playing: false,
+        desc: "Ktorúkoľvek svoju AK môže použiť ako AK 'Francúzsky útok'. Rozhodnúť sa môže aj počas boja po odhalení AK."
+      },
+      'IRN': {
+        code: 'IRN',
+        country: 'Irán',
+        area: "AustraloÁzia",
+        playing: false,
+        desc: "AK 'Zelení turisti' poskytuje bonus +4."
+      },
+      'JPN': {
+        code: 'JPN',
+        country: 'Japonsko',
+        area: "AustraloÁzia",
+        playing: false,
+        desc: "V každom boji môžu použiť 2 AK namiesto jednej."
+      },
+      'AUS': {
+        code: 'AUS',
+        country: 'Austrália',
+        area: "AustraloÁzia",
+        playing: false,
+        desc: "Vždy keď bojuje mimo svojho kontinentu, má silu +1."
+      }
     },
     countryList: [
+      'VEN',
+      'FRA',
       'SVK',
+      'GBR',
       'RUS',
       'USA',
       'JAR',
       'AUS',
       'CHN',
       'JPN',
-      'GBR',
       'CAN',
       'BRA',
       'MEX',
       'IND',
-      'IRN',
-      'VEN',
-      'FRA'
+      'IRN'
     ],
     phases: [{
       title: 'Pomoc štvrtému svetu',
@@ -321,23 +413,23 @@ function defaultSettings() {
     ufoEvents: [{
       title: 'Vpád mimozemšťanov',
       text: 'Prileteli mimozemské lode a drancujú svet. Pri ich zničení sa dajú získať mimozemské technológie.',
-      secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Ekvádor / Poľsko / Mongolsko. Na každom území je 5 ich armády a 2 mimozemské AK'
+      secret: 'Objavili sa mimozemské lode a drancujú 3 územia. Na každom území je 5 ich armády a 2 mimozemské AK.'
     }, {
       title: 'Mimozemská základňa',
-      text: 'Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia, ktorou dokáže vymazať celé územia z povrchu Zeme.',
-      secret: 'V Kongu sa objavila základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK '
+      text: 'Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia, ktorou dokáže vymazať niektoré územia z povrchu Zeme.',
+      secret: 'Objavila sa základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK '
+    }, {
+      title: 'Mimozemská tajná služba',
+      text: 'Mimozemšťania sa infiltrovali do tajných služieb. Celé kolo nie je možné použiť AK "Zahraničná návšteva" a "Agent Snow den"',
+      secret: 'Celé kolo nie je možné použiť AK "Zahraničná návšteva" a "Agent Snow den"'
     }, {
       title: 'Pád UFO a Mimozemské útoky',
-      text: 'V Kongu sa zrútilo UFO. Priekupníci z celého sveta si brúsia zuby na stroskotanú mimozemskú technológiu. Mimozemšťania po havárii menia taktiku. Útočia priamo na bojujúce armády.',
-      secret: 'V Kongu budú k dispozícii 4 mimozemské AK. Kto (tím alebo aliancia) tam dá najviac armád získa tie karty (+ hodnota AK) Mimozemšťania sa silou 6-10 zapoja do troch náhodných bojov (ich armáda sa pridá po rozdaní žétonov hráčov v strategickej fáze). Ak budú mimozemšťania porazení, budú tam 2 mimozemské AK'
+      text: 'Zrútilo sa UFO. Správa sa rozniesla ako blesk. Priekupníci z celého sveta si brúsia zuby na mimozemskú technológiu. Mimozemšťania po havárii menia taktiku. Útočia priamo na bojujúce armády.',
+      secret: 'Na území budú k dispozícii 4 mimozemské AK. Kto (tím alebo aliancia) tam dá najviac armád získa tie karty (+ hodnota AK) Mimozemšťania sa silou 6-10 zapoja do troch náhodných bojov (ich armáda sa pridá po rozdaní žétonov hráčov v strategickej fáze). Ak budú mimozemšťania porazení, budú tam 2 mimozemské AK.'
     }, {
-      title: 'Vpád mimozemšťanov',
-      text: 'Prileteli mimozemské lode a drancujú svet. Pri ich zničení sa dajú získať mimozemské technológie.',
-      secret: 'Objavili sa mimozemské lode a drancujú tieto územia: Alžírsko, Západný Sibír, Čile. Na každom území je 10 armád a 2 mimozemské AK.'
-    }, {
-      title: 'Zem je plochá',
-      text: 'Vďaka tajným technológiám mimozemšťanov sa podarilo zistiť, že Zem je vlastné plochá. Už sa necestuje po trojuholníkoch, cestuje sa zdarma.',
-      secret: 'Cestovanie medzi kontinentmi je zdarma.'
+      title: 'Pád GPS',
+      text: 'Mimozemšťania zničili satelity pre GPS. V uliciach miest vypukli masové nepokoje hráčov Pokemon GO. Stúpol predaj Sudoku. Celé kolo nie je možné použiť AK "Neuralizér" a "Príhovor kapitána D."',
+      secret: 'Celé kolo nie je možné použiť AK "Neuralizér" a "Príhovor kapitána D."'
     }, {
       title: '',
       text: '',

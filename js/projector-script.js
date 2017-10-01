@@ -89,7 +89,6 @@ $(function() {
               if (docs[k].krajina == this) return docs[k].tim;
             }
           },
-          //"quests": function() { if (this.ulohy != null) { return this.ulohy; } else { return 0; } },
           "nicename": function() { return params.countryCodes[this].country; },
           "area": function() { return params.countryCodes[this].area; },
           "desc": function() { return params.countryCodes[this].desc; },
