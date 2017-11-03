@@ -390,24 +390,31 @@ function defaultSettings() {
     ],
     phases: [{
       title: 'Pomoc štvrtému svetu',
+      slug: 'pomoc',
       text: 'Nastal čas splniť svoje sľuby a pomocť krajinám, ktoré vašu pomoc potrebujú.'
     }, {
       title: 'Správy zo sveta',
+      slug: 'spravy',
       text: 'Usaďte sa pri svojich domovských stoloch a vypočujte si, čo o vašich vládach hovoria zmanipulované médiá.'
     }, {
       title: 'Čas na strategické rozhodnutia',
+      slug: 'porada',
       text: 'Teraz sa môžu generáli, diplomati a prezidenti dohodnúť na ďalšej stratégii. Využite tento čas dobre.'
     }, {
       title: 'Rozkladanie armád',
+      slug: 'rozkladanie',
       text: 'Generáli, presuňte sa k strategickej mape, budete rozkladať svoje armády.'
     }, {
       title: 'Diplomacia',
+      slug: 'diplomacia',
       text: 'Je čas vyjednávať s ostatnými krajinami a ukladať na mapu akčné karty.'
     }, {
       title: 'Vyhodnotenie bojov',
+      slug: 'vyhodnotenie',
       text: 'Generáli, presuňte sa naspäť k strategickej mape. Teraz sa rozhodne o budúcnosti sveta.'
     }, {
       title: 'Pauza',
+      slug: 'pauza',
       text: 'Dohodnite sa na ďalšej stratégii a užite si pauzu.'
     }],
     ufoEvents: [{

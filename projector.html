@@ -11,11 +11,11 @@
 </head>
 
 <body>
-  <div class="overlay" style="display:none">
+  <div id="overtime" class="overlay hidden">
     <h2>Čas vypršal</h2>
     <p>Generáli, presuňte sa naspäť k strategickej mape. Teraz budete rozhodovať o budúcnosti sveta.</p>
   </div>
-  <div class="rules">
+  <div id="rules" class="overlay hidden">
     <h2>Toto sú pravidlá</h2>
     <ul>
       <li>Hráči v tíme majú rôzne funkcie (prezident, diplomati, generál).</li>
@@ -27,16 +27,13 @@
     </ul>
   </div>
   <div id="container">
-    <div id="infobox" style="display:none">
-      <div id="currYear">
-
+    <div id="infobox">
+      <div id="currYear"></div>
+      <div id="phaseBox" class="vertical">
+        <div id="currPhase"></div>
+        <div id="currPhaseText"></div>
       </div>
-      <div id="currPhase">
-
-      </div>
-      <div id="currPhaseText">
-
-      </div>
+      <div id="timerdiv"></div>
     </div>
     <div id="main">
 
@@ -57,10 +54,9 @@
         </div>
       </div>
       <div id="sidebar">
-        <div id="timerdiv" style="display:none"></div>
-        <div id="spravy">
+        <div id="spravy" class="hidden">
           <div class="currNews"></div>
-          <div class="endNews" style="display:none"></div>
+          <div class="endNews"></div>
         </div>
 
       </div>

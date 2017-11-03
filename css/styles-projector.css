@@ -1,28 +1,23 @@
 @font-face {
-  font-family: 'DosisNormal';
+  font-family: 'gowNormal';
   src: url('fonts/Exo/Exo-Light.ttf');
   /*URL to font*/
 }
 
 @font-face {
-  font-family: 'DosisBold';
-  src: url('fonts/Exo/Exo-Medium.ttf');
+  font-family: 'gowHeading';
+  src: url('fonts/nasalization-rg.ttf');
   /*URL to font*/
 }
 
 @font-face {
-  font-family: 'Nasalization';
-  src: url('fonts/nasalization-rg.ttf');
+  font-family: 'gowMonospace';
+  src: url('fonts/NovaMono.ttf');
   /*URL to font*/
 }
 
 :root {
   font-size: calc(1vh + 1vw + 0.5vmin);
-}
-
-* {
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -31,6 +26,15 @@ html {
   left: 0;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -40,19 +44,23 @@ body {
   background-size: 100% auto;
   background-repeat: no-repeat;
   color: #fff;
-  font-family: DosisNormal, Arial, Helvetica, sans-serif;
+  font-family: gowNormal, Arial, Helvetica, sans-serif;
   overflow: hidden;
 }
 
 #infobox {
   width: 100%;
   display: flex;
-  align-items: center;
-  margin-bottom: 30px;
+  align-items: stretch;
 }
 
-#infobox div {
+#infobox>div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0 10px;
+  background-color: rgba(255, 255, 255, 0.15);
+  margin: 0 1px;
 }
 
 #main {
@@ -64,12 +72,13 @@ body {
   flex: 1 1 auto;
 }
 
-#currPhase {
-  flex: 2 1 auto;
+#phaseBox {
+  flex: 3 1 auto;
+  align-items: flex-start;
 }
 
-#currPhaseText {
-  flex: 4 1 auto;
+#timerdiv {
+  flex: 1 1 auto;
 }
 
 #gametablediv {
@@ -112,7 +121,7 @@ h4 {
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: Nasalization, Arial, Helvetica, sans-serif;
+  font-family: gowHeading, Arial, Helvetica, sans-serif;
 }
 
 a, a:visited, a:hover {
@@ -130,23 +139,17 @@ a, a:visited, a:hover {
   font-size: 1.0rem;
 }
 
-table, #infobox, #timerdiv, .newsArticle p {
+table, .newsArticle p {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-#infobox, #timerdiv, .newsArticle p {
+#infobox, .newsArticle p {
   padding: 5px;
   margin-bottom: 10px;
 }
 
 h2.phase {
   text-align: center;
-}
-
-#timerdiv {
-  text-align: center;
-  font-size: 2.0rem;
-  font-weight: bold;
 }
 
 table {
@@ -178,35 +181,29 @@ table th {
   font-size: 1.0rem;
 }
 
-.overlay, .rules {
+.overlay {
   z-index: 10;
-  background-color: black;
-  font-family: Nasalization, Arial, Helvetica, sans-serif;
+  border: 8px solid white;
+  background-color: rgba(0, 0, 0, 0.95);
+  font-family: gowHeading, Arial, Helvetica, sans-serif;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 30px;
+  padding: calc(1vh + 1vw + 0.5vmin);
   text-align: center;
-}
-
-.rules {
-  display: none;
-}
-
-.rules ul li {
-  text-align: left;
-  padding-bottom: 15px;
-  font-family: "Exo", sans-serif;
-  font-size: 1.0rem;
 }
 
 .overlay h2 {
   font-size: 1.2rem;
 }
 
-.overlay p {
+.overlay p, .overlay ul li {
   font-size: 1.0rem;
+  text-align: left;
+  padding-bottom: 15px;
+  font-family: gowNormal, sans-serif;
+  margin: 0 8px;
 }
 
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
@@ -219,10 +216,11 @@ table th {
 .tblCountryRow .tblCountryTitle {
   background-size: 32px 32px;
   background-repeat: no-repeat;
-  background-position: left center; 
+  background-position: left center;
   padding-left: 40px;
   padding-right: 5px;
 }
+
 #VEN .tblCountryTitle {
   background-image: url('../img/krajiny/VEN.png');
 }
@@ -230,9 +228,11 @@ table th {
 #FRA .tblCountryTitle {
   background-image: url('../img/krajiny/FRA.png');
 }
+
 #GBR .tblCountryTitle {
   background-image: url('../img/krajiny/GBR.png');
 }
+
 #SVK .tblCountryTitle {
   background-image: url('../img/krajiny/SVK.png');
 }
@@ -280,8 +280,6 @@ table th {
 #IRN .tblCountryTitle {
   background-image: url('../img/krajiny/IRN.png');
 }
-
-
 
 .table {
   display: flex;
@@ -382,83 +380,127 @@ table th {
   background-color: transparent;
 }
 
-/*
-
-@media all and (min-height: 600px) {
-  body {
-    font-size: 14px;
-  }
+#infobox {
+  display: none;
 }
 
-@media all and (min-height: 700px) {
-  body {
-    font-size: 16px;
-  }
+.started #infobox {
+  display: flex;
 }
 
-@media all and (min-height: 800px) {
-  body {
-    font-size: 18px;
-  }
+.vertical {
+  display: flex;
+  flex-flow: column nowrap;
 }
 
-@media all and (min-height: 900px) {
-  body {
-    font-size: 22px;
-  }
+.hidden {
+  display: none;
 }
 
-@media all and (min-height: 1000px) {
-  body {
-    font-size: 24px;
-  }
+#infobox #timerdiv {
+  font-family: gowMonospace, monospace;
+  text-align: center;
+  font-size: 2.0rem;
+  background-color: maroon;
 }
 
-@media all and (min-height: 1100px) {
-  body {
-    font-size: 26px;
-  }
+.spravy #spravy, .pomoc #spravy {
+  border: 8px solid white;
+  z-index: 9;
+  position: absolute;
+  width: 80vw;
+  height: 80vh;
+  top: 10vh;
+  left: 10vw;
+  background-color: rgba(0, 0, 0, 0.95);
+  padding: calc(1vh + 1vw + 0.5vmin);
 }
 
-@media all and (min-height: 1200px) {
-  body {
-    font-size: 28px;
-  }
+.spravy #spravy h4, .pomoc #spravy h4 {
+  font-size: 2.0rem;
 }
 
-@media all and (min-height: 1300px) {
-  body {
-    font-size: 30px;
-  }
+.spravy #spravy p, .pomoc #spravy p {
+  background-color: transparent;
+  font-size: 1.5rem;
 }
 
-@media all and (min-height: 1400px) {
-  body {
-    font-size: 32px;
-  }
+/* Phases */
+
+.pomoc #timerdiv, .pomoc .currNews {
+  /* HIDE */
+  display: none;
 }
 
-@media all and (min-height: 1500px) {
-  body {
-    font-size: 34px;
-  }
+.pomoc .endNews {
+  /* SHOW */
+  display: block;
 }
 
-@media all and (min-height: 1500px) {
-  body {
-    font-size: 36px;
-  }
+.spravy .endNews, .spravy #timerdiv {
+  /* HIDE */
+  display: none;
 }
 
-@media all and (min-height: 1600px) {
-  body {
-    font-size: 38px;
-  }
+.spravy .currNews {
+  /* SHOW */
+  display: block;
 }
 
-@media all and (min-height: 1700px) {
-  body {
-    font-size: 40px;
-  }
+.porada .endNews {
+  /* HIDE */
+  display: none;
 }
-*/
+
+.porada .currNews {
+  /* SHOW */
+  display: block;
+}
+
+.porada #timerdiv {
+  display: flex;
+}
+
+.rozkladanie .endNews, .rozkladanie #timerdiv {
+  /* HIDE */
+  display: none;
+}
+
+.rozkladanie .currNews {
+  /* SHOW */
+  display: block;
+}
+
+.diplomacia .endNews {
+  /* HIDE */
+  display: none;
+}
+
+.diplomacia .currNews {
+  /* SHOW */
+  display: block;
+}
+
+.diplomacia #timerdiv {
+  display: flex;
+}
+
+.vyhodnotenie .endNews, .vyhodnotenie #timerdiv {
+  /* HIDE */
+  display: none;
+}
+
+.vyhodnotenie .currNews {
+  /* SHOW */
+  display: block;
+}
+
+.pauza .currNews, .pauza .endNews {
+  /* HIDE */
+  display: none;
+}
+
+.pauza #timerdiv {
+  /* SHOW */
+  display: show;
+}
