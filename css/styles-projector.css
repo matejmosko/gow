@@ -404,7 +404,11 @@ table th {
   background-color: maroon;
 }
 
-.spravy #spravy, .pomoc #spravy {
+#newsBox img{
+  width: 100%;
+}
+
+.spravy #newsBox, .pomoc #newsBox {
   border: 8px solid white;
   z-index: 9;
   position: absolute;
@@ -416,13 +420,17 @@ table th {
   padding: calc(1vh + 1vw + 0.5vmin);
 }
 
-.spravy #spravy h4, .pomoc #spravy h4 {
+.spravy #newsBox h4, .pomoc #newsBox h4 {
   font-size: 2.0rem;
 }
 
-.spravy #spravy p, .pomoc #spravy p {
+.spravy #newsBox p, .pomoc #newsBox p {
   background-color: transparent;
   font-size: 1.5rem;
+}
+
+.ended #timerdiv{
+display: none;
 }
 
 /* Phases */

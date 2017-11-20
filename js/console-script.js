@@ -515,7 +515,7 @@ $(function() {
         let n = params.phases.length - 1;
         /*let year = params.year;
         let phase = params.phase;*/
-        if (params.phase == n - 1) { savePoints(); }
+        if (params.phase == n) { savePoints(); } // Tu je definované, kedy sa pripočítavajú body.
         if (params.phase == n) {
           params.phase = 0;
           params.year += 1;

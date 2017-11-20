@@ -333,7 +333,7 @@ function defaultSettings() {
         country: 'Venezuela',
         area: "DvojAmerika",
         playing: false,
-        desc: "V boji proti mimozemšťanom má bonus +1."
+        desc: "AK 'Príhovor kapitána D.' ruší všetky AK v aktuálnom boji (aj spojenecké)."
       },
       'CHN': {
         code: 'CHN',

@@ -158,7 +158,7 @@ $(function() {
    }
 
    /* Pomoc krajinám štvrtého sveta */
-   if (started && params.phase > 0) {
+   if (started && params.year > 0 && params.phase == 0) {
     let last = [],
      first = [];
     for (i in docs) {
@@ -180,15 +180,36 @@ $(function() {
   }
 
   function renderPhase(year, phase, pocetrokov) {
-   document.body.classList.remove("pomoc", "spravy", "porada", "rozkladanie", "diplomacia", "vyhodnotenie", "pauza");
+    document.body.classList.remove("pomoc", "spravy", "porada", "rozkladanie", "diplomacia", "vyhodnotenie", "pauza");
+    resetView();
+
+    if (year > pocetrokov && started) {
+      document.body.classList.add('ended');
+      document.getElementById("newsBox").classList.remove("hidden");
+      if (timer != undefined) timer.running = false;
+     $('#currPhase').html("<h3>Koniec sveta</h3>");
+     $('#currPhaseText').html("");
+     thankyou = "<img src='img/qrcode.png' /><br /> Ďakujeme za hru. Sledujte náš facebook a web http://gow.panakrala.sk";
+     $('#newsBox').html(thankyou);
+     $('#currYear').html("<h3 class='year'>Rok " + (year + 2037) + "</h3>");
+     return;
+    }
+
    document.body.classList.add(phase.slug);
-   resetView();
+
+
+    /* END OF THE WORLD */
    if (year > pocetrokov && started) {
+     document.body.classList.add('ended');
+     document.getElementById("newsBox").classList.remove("hidden");
+     if (timer != undefined) timer.running = false;
     $('#currPhase').html("<h3>Koniec sveta</h3>");
     $('#currPhaseText').html("");
-    if (timer != undefined) timer.running = false;
-    $('#currYear').html("<h3 class='year'>" + year + ".&nbsp;rok&nbsp;" + (year + 2037) + "</h3>");
+    $('#newsBox').html("<img src='img/qrcode.png' />");
+    $('#currYear').html("<h3 class='year'>Rok " + (year + 2037) + "</h3>");
    }
+
+    /* GAME IS RUNNING */
    else if (started) {
     $('#currPhase').html("<h2 class='phase'>" + phase.title + " </h2>");
     $('#currPhaseText').html("<span class='phasetext'>" + phase.text + "</span>");
@@ -198,7 +219,7 @@ $(function() {
       if (timer != undefined) timer.running = false;
       break;
      case "Správy zo sveta":
-      document.getElementById("spravy").classList.remove("hidden");
+      document.getElementById("newsBox").classList.remove("hidden");
       if (timer != undefined) timer.running = false;
       break;
      case "Čas na strategické rozhodnutia":
