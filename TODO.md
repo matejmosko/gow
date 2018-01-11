@@ -1,0 +1,6 @@
+- [?] FIX Black screen na "Pomoc 4. svetu"
+- [x] FIX Resetovať časovač pri kroku späť
+- [x] UPDATE Upraviť udalosti pre Teambuilding
+- [ ] FEATURE REQUEST premyslieť to, že by som iba importoval nastavenia zo súboru
+- [x] UPDATE Upraviť počty krajín, pridať nové krajiny
+- [ ] FIX Skontrolovať či sa vôjde 18 krajín na projekciu, upraviť náležite CSS

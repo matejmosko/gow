@@ -213,6 +213,7 @@ $(function() {
    else if (started) {
     $('#currPhase').html("<h2 class='phase'>" + phase.title + " </h2>");
     $('#currPhaseText').html("<span class='phasetext'>" + phase.text + "</span>");
+    if (timer != undefined) timer.running = false;
 
     switch (phase.title) {
      case "Pomoc štvrtému svetu":

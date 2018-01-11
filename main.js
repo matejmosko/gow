@@ -262,7 +262,7 @@ function defaultSettings() {
     longPause: 7,
     shortPause: 0.5,
     name: 'gow-settings',
-    countryCount: 15,
+    countryCount: 18,
     yearCount: 5,
     countryCodes: {
       'SVK': {
@@ -270,7 +270,7 @@ function defaultSettings() {
         country: 'Slovensko',
         area: "EuroAfrika",
         playing: false,
-        desc: "Môže mať až 9 žetónov armády, pretože má vždy o jedného kapitána viac ako ostatní."
+        desc: "Ktorúkoľvek AK môže použiť ako AK Príhovor kapitána D."
       },
       'RUS': {
         code: 'RUS',
@@ -305,14 +305,14 @@ function defaultSettings() {
         country: 'USA',
         area: "DvojAmerika",
         playing: false,
-        desc: "Začína s 5 žetónmi armády."
+        desc: "Raz za kolo môžu za odovzdanie ropy získať 3 body."
       },
       'CAN': {
         code: 'CAN',
         country: 'Kanada',
         area: "DvojAmerika",
         playing: false,
-        desc: "Kov nakupuje z banky za 2 zdroje zlata"
+        desc: "Raz za kolo môže odovzdať 2AK a popýtať si jednu konkrétnu AK."
       },
       'MEX': {
         code: 'MEX',
@@ -326,7 +326,7 @@ function defaultSettings() {
         country: 'Brazília',
         area: "DvojAmerika",
         playing: false,
-        desc: "Ropu a kov kupuje za 3 zdroje zlata."
+        desc: "Raz za kolo môže odovzdať 2AK a získať tak 1MK."
       },
       'VEN': {
         code: 'VEN',
@@ -369,10 +369,33 @@ function defaultSettings() {
         area: "AustraloÁzia",
         playing: false,
         desc: "Vždy keď bojuje mimo svojho kontinentu, má silu +1."
+      },
+
+      'GER': {
+        code: 'GER',
+        country: 'Nemecko',
+        area: "EuroAfrika",
+        playing: false,
+        desc: "Keď je v hlavnej udalosti súčasťou víťaznej aliancie, získava naviac 3 body."
+      },
+
+      'CUB': {
+        code: 'CUB',
+        country: 'Kuba',
+        area: "DvojAmerika",
+        playing: false,
+        desc: "Keď je v boji, ktorý skončí remízou, berie si suroviny, ale nie body."
+      },
+
+      'KOR': {
+        code: 'KOR',
+        country: 'Kórea',
+        area: "AustraloÁzia",
+        playing: false,
+        desc: "Keď má na území armádu iba Kórea, dostane +1 zlato."
       }
     },
     countryList: [
-      'VEN',
       'FRA',
       'SVK',
       'GBR',
@@ -385,8 +408,12 @@ function defaultSettings() {
       'CAN',
       'BRA',
       'MEX',
+      'VEN',
       'IND',
-      'IRN'
+      'IRN',
+      'GER',
+      'CUB',
+      'KOR'
     ],
     phases: [{
       title: 'Pomoc štvrtému svetu',
@@ -418,50 +445,50 @@ function defaultSettings() {
       text: 'Dohodnite sa na ďalšej stratégii a užite si pauzu.'
     }],
     ufoEvents: [{
-      title: 'Vpád mimozemšťanov',
-      text: 'Prileteli mimozemské lode a drancujú svet. Pri ich zničení sa dajú získať mimozemské technológie.',
-      secret: 'Objavili sa mimozemské lode a drancujú 3 územia. Na každom území je 5 ich armády a 2 mimozemské AK.'
+      title: 'Pád švajčiarskych bánk',
+      text: 'Na vybrané územia spadli švajčiarske banky. Rozsypané zlato získa víťaz boja.',
+      secret: 'Padne 6x zlato.'
     }, {
-      title: 'Mimozemská základňa',
-      text: 'Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia. Základňa dokáže vymazať niektoré územia z povrchu Zeme.',
-      secret: 'Objavila sa základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK '
+      title: 'Láska hory prenáša',
+      text: 'Spoločná láska slniečkárov na mítingu v Banskej štiavnici preniesla Ural na iné vybrané územie. Kov získa víťaz boja.',
+      secret: 'Padne 6x kov.'
     }, {
-      title: 'Mimozemská tajná služba',
-      text: 'Mimozemšťania sa infiltrovali do tajných služieb. Celé kolo nie je možné použiť AK "Zahraničná návšteva" a "Agent Snow den"',
-      secret: 'Celé kolo nie je možné použiť AK "Zahraničná návšteva" a "Agent Snowden"'
+      title: 'Willy zachránený',
+      text: 'Willy sa vrátil späť do mora a hladina oceánov stúpla. Svet prišiel o niekoľko území.',
+      secret: 'Zaplaviť 4 územia.'
     }, {
-      title: 'Pád UFO a Mimozemské útoky',
-      text: 'Zrútilo sa UFO. Správa sa rozniesla ako blesk. Priekupníci z celého sveta si brúsia zuby na mimozemskú technológiu. Mimozemšťania po havárii menia taktiku. Útočia priamo na bojujúce armády.',
-      secret: 'Na území budú k dispozícii 4 mimozemské AK. Kto (tím alebo aliancia) tam dá najviac armád získa tie karty (+ hodnota AK) Mimozemšťania sa silou 6-10 zapoja do troch náhodných bojov (ich armáda sa pridá po rozdaní žétonov hráčov v strategickej fáze). Ak budú mimozemšťania porazení, budú tam 2 mimozemské AK.'
+      title: 'Nové ložiská Nafty Gbely',
+      text: 'Spoločnosť Nafta Gbely rozširuje svoje pôsobisko o 1800%. Ostraha ropných vrtov nekontroluje alobalové tašky. Ropu získava víťaz boja.',
+      secret: 'Padne 6x ropa.'
     }, {
-      title: 'Pád GPS',
-      text: 'Mimozemšťania zničili satelity pre GPS. V uliciach miest vypukli masové nepokoje hráčov Pokemon GO. Stúpol predaj Sudoku. Celé kolo nie je možné použiť AK "Neuralizér" a "Príhovor kapitána D."',
-      secret: 'Celé kolo nie je možné použiť AK "Neuralizér" a "Príhovor kapitána D."'
+      title: 'Zem je plochá',
+      text: 'Vďaka tajným technológiám mimozemšťanov sa zistilo, že Zem je plochá. Už sa necestuje po trojuholníkoch, cestuje sa zdarma.',
+      secret: 'Cestuje sa zadarmo.'
     }, {
       title: '',
       text: '',
       secret: ''
     }],
     worldEvents: [{
+      title: 'Tender v SIS',
+      text: 'Slovenská informačná služba vyhlásila tender na splnenie svojich tajných úloh. Najvyššia ponuka vyhráva 6 tajných misií.',
+      secret: '6x TM'
+    }, {
+      title: 'Hlbšie vrty',
+      text: 'Investori zháňajú peniaze na stavbu vrtných veží. V hlavnej udalosti je možné získať 6 surovín ropy.',
+      secret: '6x Ropa'
+    }, {
       title: 'Otvorenie čierneho trhu',
-      text: 'Na slávnostnom otvorení čierneho trhu sú pre najväčšieho investora pripravené 4 mimozemské akčné karty.',
-      secret: 'V ponuke sú 4 mimozemské AK.'
+      text: 'Na slávnostnom otvorení čierneho trhu sú pre najväčšieho investora pripravené 4 MK.',
+      secret: '4x MK'
     }, {
-      title: 'Kde domov ich?',
-      text: 'Domobrana bývalej Českej republiky ponúka svoje sily. Dražia sa 4 žetóny armád.',
-      secret: 'V ponuke sú 4 žetóny armády.'
+      title: 'Zľavy až 110%',
+      text: 'Svet stojí pred hypotekárnou krízou. Za lacno sa dá získať 8 náhodných AK.',
+      secret: '8 AK'
     }, {
-      title: 'Hybernatus',
-      text: 'Útok mimozemšťanov odhalil štyroch kryogenicky zmrazených tajných agentov. V hlavnej udalosti je možné získať 4 špeciálne karty "Austin Powers".',
-      secret: 'V ponuke sú 4 špeciálne karty "Austin Powers".'
-    }, {
-      title: 'Dobytie severného pólu',
-      text: 'Expedícia Karla Němca na severný pól odhalila obrovské náleziská kovov. Najväčší investor získa 6 kusov kovu.',
-      secret: 'V hlavnej udalosti je možné získať 6 surovín kovu'
-    }, {
-      title: 'Voľba sekretára',
-      text: 'Rada OSN zasadla, aby transparentne zvolila sekretára pre generálneho sekretára OSN. Krajina, ktorá presadí svojho nominanta, získa bonusové body.',
-      secret: 'V ponuke sú 6 AK typu Plusové body.'
+      title: 'Olympiáda',
+      text: 'Chlieb a hry musia pokračovať. Kto si kúpi možnosť organizovať OH, získa 6 AK typu "Bonusové body"',
+      secret: '6x Body'
     }, {
       title: '',
       text: '',

@@ -214,7 +214,7 @@ table th {
 /* KRAJINY - GOMBÍKY */
 
 .tblCountryRow .tblCountryTitle {
-  background-size: 32px 32px;
+  background-size: 28px 28px;
   background-repeat: no-repeat;
   background-position: left center;
   padding-left: 40px;
@@ -222,63 +222,99 @@ table th {
 }
 
 #VEN .tblCountryTitle {
-  background-image: url('../img/krajiny/VEN.png');
+  background-image: url('../img/krajiny/ven.png');
 }
 
 #FRA .tblCountryTitle {
-  background-image: url('../img/krajiny/FRA.png');
+  background-image: url('../img/krajiny/fra.png');
 }
 
 #GBR .tblCountryTitle {
-  background-image: url('../img/krajiny/GBR.png');
+  background-image: url('../img/krajiny/gbr.png');
 }
 
 #SVK .tblCountryTitle {
-  background-image: url('../img/krajiny/SVK.png');
+  background-image: url('../img/krajiny/svk.png');
 }
 
 #USA .tblCountryTitle {
-  background-image: url('../img/krajiny/USA.png');
+  background-image: url('../img/krajiny/usa.png');
 }
 
 #JAR .tblCountryTitle {
-  background-image: url('../img/krajiny/JAR.png');
+  background-image: url('../img/krajiny/jar.png');
 }
 
 #AUS .tblCountryTitle {
-  background-image: url('../img/krajiny/AUS.png');
+  background-image: url('../img/krajiny/aus.png');
 }
 
 #CHN .tblCountryTitle {
-  background-image: url('../img/krajiny/CHN.png');
+  background-image: url('../img/krajiny/chn.png');
 }
 
 #JPN .tblCountryTitle {
-  background-image: url('../img/krajiny/JPN.png');
+  background-image: url('../img/krajiny/jpn.png');
 }
 
 #RUS .tblCountryTitle {
-  background-image: url('../img/krajiny/RUS.png');
+  background-image: url('../img/krajiny/rus.png');
 }
 
 #CAN .tblCountryTitle {
-  background-image: url('../img/krajiny/CAN.png');
+  background-image: url('../img/krajiny/can.png');
 }
 
 #BRA .tblCountryTitle {
-  background-image: url('../img/krajiny/BRA.png');
+  background-image: url('../img/krajiny/bra.png');
 }
 
 #MEX .tblCountryTitle {
-  background-image: url('../img/krajiny/MEX.png');
+  background-image: url('../img/krajiny/mex.png');
 }
 
 #IND .tblCountryTitle {
-  background-image: url('../img/krajiny/IND.png');
+  background-image: url('../img/krajiny/ind.png');
 }
 
 #IRN .tblCountryTitle {
-  background-image: url('../img/krajiny/IRN.png');
+  background-image: url('../img/krajiny/irn.png');
+}
+
+#CUB .tblCountryTitle {
+  background-image: url('../img/krajiny/cub.png');
+}
+
+#GER .tblCountryTitle {
+  background-image: url('../img/krajiny/ger.png');
+}
+
+#KOR .tblCountryTitle {
+  background-image: url('../img/krajiny/kor.png');
+}
+
+#EGY .tblCountryTitle {
+  background-image: url('../img/krajiny/egy.png');
+}
+
+#MDG .tblCountryTitle {
+  background-image: url('../img/krajiny/mdg.png');
+}
+
+#ALJ .tblCountryTitle {
+  background-image: url('../img/krajiny/alj.png');
+}
+
+#ARG .tblCountryTitle {
+  background-image: url('../img/krajiny/arg.png');
+}
+
+#PAK .tblCountryTitle {
+  background-image: url('../img/krajiny/pak.png');
+}
+
+#KAZ .tblCountryTitle {
+  background-image: url('../img/krajiny/kaz.png');
 }
 
 .table {
@@ -296,15 +332,15 @@ table th {
   display: flex;
   background-color: rgba(255, 255, 255, 0.15);
   margin-bottom: 1px;
-  padding: 3px;
+  padding: 1px 3px;
 }
 
 .grid .tblCountryRow {
   flex-flow: row wrap;
   align-content: space-between;
   flex: 1 0 30%;
-  margin: 3px;
-  padding: 3px;
+  margin: 1px;
+  padding: 1px;
 }
 
 .grid .tblCountryTitle {
@@ -313,7 +349,7 @@ table th {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 6.5vh;
+  height: 6vh;
 }
 
 .grid .tblCountryTitle span {}
@@ -323,7 +359,7 @@ table th {
 }
 
 .tblCountryName, .tblCountryPoints {
-  font-size: 1.0rem;
+  font-size: 0.8rem;
   text-transform: capitalize;
   font-weight: bold;
 }
@@ -404,7 +440,7 @@ table th {
   background-color: maroon;
 }
 
-#newsBox img{
+#newsBox img {
   width: 100%;
 }
 
@@ -429,8 +465,8 @@ table th {
   font-size: 1.5rem;
 }
 
-.ended #timerdiv{
-display: none;
+.ended #timerdiv {
+  display: none;
 }
 
 /* Phases */
