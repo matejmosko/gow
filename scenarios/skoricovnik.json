@@ -1,0 +1,212 @@
+{
+  "scenario": "skoricovnik",
+  "style": "skoricovnik.css",
+  "year": 0,
+  "phase": 0,
+  "realyear": 0,
+  "clock": {
+    "pause": 7,
+    "diplomacy": 4,
+    "brief": 0.5
+  },
+  "longPause": 7,
+  "shortPause": 0.5,
+  "name": "gow-settings",
+  "countryCount": 18,
+  "yearCount": 5,
+  "countryCodes": {
+    "FCN": {
+      "code": "FCN",
+      "country": "FC Nippurpool",
+      "area": "",
+      "playing": false,
+      "desc": "Keď má na území armádu iba Nippurpool, dostane +1 zlato."
+    },
+    "CIT": {
+      "code": "CIT",
+      "country": "Real Citadela",
+      "area": "",
+      "playing": false,
+      "desc": "Ak v aktuálnom kole získala Citadela aspoň jednu škoricu, získa po bojoch ďalšiu škoricu."
+    },
+    "ASN": {
+      "code": "ASN",
+      "country": "AS Niniveh",
+      "area": "",
+      "playing": false,
+      "desc": "Keď je v boji, ktorý skončí remízou, berie si suroviny, ale nie body."
+    },
+    "NUT": {
+      "code": "NUT",
+      "country": "Nippur United",
+      "area": "",
+      "playing": false,
+      "desc": "Vždy keď prehrá boj, vezme si jednu z použitých akčných kariet."
+    },
+    "OLP": {
+      "code": "OLP",
+      "country": "Olympia Le Pra",
+      "area": "",
+      "playing": false,
+      "desc": "Vždy keď je po boji na víťaznej strane, získa 1 zlato."
+    },
+    "FCV": {
+      "code": "FCV",
+      "country": "FC Venta",
+      "area": "",
+      "playing": false,
+      "desc": "Začína s 5 žetónmi armády."
+    },
+    "MOL": {
+      "code": "MOL",
+      "country": "ŠK Molpír",
+      "area": "",
+      "playing": false,
+      "desc": "Kov nakupuje z banky za 2 kusy zlata."
+    },
+    "PRU": {
+      "code": "PRU",
+      "country": "Prusser Clerks",
+      "area": "",
+      "playing": false,
+      "desc": "Raz za kolo si môže za 1 kov kúpiť jednu akčnú kartu Ociphátu."
+    },
+    "HEL": {
+      "code": "HEL",
+      "country": "SK Heliopolis",
+      "area": "",
+      "playing": false,
+      "desc": "Ropu a kov kupuje za 3 zdroje zlata."
+    },
+    "OCT": {
+      "code": "OCT",
+      "country": "Juventus Octavina",
+      "area": "",
+      "playing": false,
+      "desc": "AK Príhovor kapitána D. ruší všetky AK v aktuálnom boji."
+    },
+    "TRE": {
+      "code": "TRE",
+      "country": "SC Trelleborg",
+      "area": "",
+      "playing": false,
+      "desc": "Keď prispeje do hlavnej udalosti môže sa rátať príspevok ako o 2 zdroje zlata väčší."
+    },
+    "YOR": {
+      "code": "YOR",
+      "country": "Sparta Yorvik",
+      "area": "",
+      "playing": false,
+      "desc": "Ktorúkoľvek svoju AK môže použiť ako AK Francúzsky útok. Rozhodnúť sa môže aj počas boja po odhalení AK."
+    },
+    "EPI": {
+      "code": "EPI",
+      "country": "AS Epira",
+      "area": "",
+      "playing": false,
+      "desc": "AK 'Vozová hradba' poskytuje bonus +4."
+    },
+    "BAS": {
+      "code": "BAS",
+      "country": "SSC Basshta",
+      "area": "",
+      "playing": false,
+      "desc": "V každom boji môžu použiť 2 AK namiesto jednej."
+    },
+    "MOK": {
+      "code": "MOK",
+      "country": "Metalurg Mokvas",
+      "area": "",
+      "playing": false,
+      "desc": "Keď je v hlavnej udalosti súčasťou víťaznej aliancie, získava naviac 3 body."
+    }
+  },
+  "countryList": [
+    "FCN",
+    "CIT",
+    "ASN",
+    "NUT",
+    "OLP",
+    "FCV",
+    "MOL",
+    "PRU",
+    "HEL",
+    "OCT",
+    "TRE",
+    "YOR",
+    "EPI",
+    "BAS",
+    "MOK"
+  ],
+  "phases": [{
+    "title": "Pomoc štvrtému sektoru",
+    "slug": "pomoc",
+    "text": "Nastal čas splniť svoje sľuby a pomocť mestám, ktoré vašu pomoc potrebujú."
+  }, {
+    "title": "Správy zo sveta",
+    "slug": "spravy",
+    "text": "Usaďte sa pri svojich domovských stoloch a vypočujte si, čo o vašej taktike hovoria zmanipulované médiá."
+  }, {
+    "title": "Čas na strategické rozhodnutia",
+    "slug": "porada",
+    "text": "Teraz sa môžu kapitáni, diplomati a prezidenti dohodnúť na ďalšej stratégii. Využite tento čas dobre."
+  }, {
+    "title": "Rozkladanie armád",
+    "slug": "rozkladanie",
+    "text": "Kapitáni, presuňte sa k strategickej mape, budete rozkladať svoje armády."
+  }, {
+    "title": "Diplomacia",
+    "slug": "diplomacia",
+    "text": "Je čas vyjednávať s ostatnými krajinami a ukladať na mapu stávky a akčné karty."
+  }, {
+    "title": "Vyhodnotenie bojov",
+    "slug": "vyhodnotenie",
+    "text": "Kapitáni, presuňte sa naspäť k strategickej mape. Teraz sa rozhodne o budúcnosti sveta."
+  }, {
+    "title": "Pauza",
+    "slug": "pauza",
+    "text": "Dohodnite sa na ďalšej stratégii a užite si pauzu."
+  }],
+  "ufoEvents": [{
+    "title": "Láska hory prenáša",
+    "text": "Spoločná láska slniečkárov na mítingu v Banskej štiavnici preniesla Ural na iné vybrané územie. Kov získa víťaz boja.",
+    "secret": "Padne 6x kov."
+  }, {
+    "title": "Mimozemská základňa",
+    "text": "Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia, ktorou dokáže vymazať niektoré územia z povrchu Zeme.",
+    "secret": "Objavila sa základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK"
+  }, {
+    "title": "Tomtom huge človek človeku",
+    "text": "Donald Trump bol na návšteve Andreja Danka v Pezinku. Ich spoločný príhovor vyvolal vlnu megalománie a nepochopenia. Každé víťazstvo prináša viac bodov.",
+    "secret": "Body za boje sa zdvojnásobujú."
+  }, {
+    "title": "Pád UFO",
+    "text": "Zrútilo sa UFO. Priekupníci z celého sveta si brúsia zuby na mimozemskú technológiu. Mimozemšťania útočia priamo na bojujúce armády.",
+    "secret": "Padne 6x ropa."
+  }, {
+    "title": "Zem je plochá",
+    "text": "Vďaka tajným technológiám mimozemšťanov sa zistilo, že Zem je plochá. Už sa necestuje po trojuholníkoch, cestuje sa zdarma.",
+    "secret": "Cestuje sa zadarmo."
+  }],
+  "worldEvents": [{
+    "title": "Tender v SIS",
+    "text": "Slovenská informačná služba vyhlásila tender na splnenie svojich tajných úloh. Najvyššia ponuka vyhráva 4 tajné misie.",
+    "secret": "4x TM"
+  }, {
+    "title": "Hlbšie vrty",
+    "text": "Investori zháňajú peniaze na stavbu vrtných veží. V hlavnej udalosti je možné získať 6 surovín ropy.",
+    "secret": "6x Ropa"
+  }, {
+    "title": "Otvorenie čierneho trhu",
+    "text": "Na slávnostnom otvorení čierneho trhu sú pre najväčšieho investora pripravené 4 MK.",
+    "secret": "4x MK"
+  }, {
+    "title": "Zľavy až 110%",
+    "text": "Svet stojí pred hypotekárnou krízou. Za lacno sa dá získať 8 náhodných AK.",
+    "secret": "8 AK"
+  }, {
+    "title": "Olympiáda",
+    "text": "Chlieb a hry musia pokračovať. Kto si kúpi možnosť organizovať OH, získa 4 AK typu 'Bonusové body'",
+    "secret": "4x Body"
+  }]
+}

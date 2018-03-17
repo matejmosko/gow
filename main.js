@@ -252,6 +252,7 @@ function createLog(text) {
 
 function defaultSettings() {
   settings.setAll({
+    scenario: 'default',
     year: 0,
     phase: 0,
     clock: {
@@ -260,6 +261,7 @@ function defaultSettings() {
       "brief": 0.5
     },
     longPause: 7,
+    realyear: 2037,
     shortPause: 0.5,
     name: 'gow-settings',
     countryCount: 18,
@@ -270,7 +272,7 @@ function defaultSettings() {
         country: 'Slovensko',
         area: "EuroAfrika",
         playing: false,
-        desc: "Ktorúkoľvek AK môže použiť ako AK Príhovor kapitána D."
+        desc: "Môže kúpiť dve armády za tri ropy"
       },
       'RUS': {
         code: 'RUS',
@@ -305,14 +307,14 @@ function defaultSettings() {
         country: 'USA',
         area: "DvojAmerika",
         playing: false,
-        desc: "Raz za kolo môžu za odovzdanie ropy získať 3 body."
+        desc: "Začína s 5 žetónmi armády."
       },
       'CAN': {
         code: 'CAN',
         country: 'Kanada',
         area: "DvojAmerika",
         playing: false,
-        desc: "Raz za kolo môže odovzdať 2AK a popýtať si jednu konkrétnu AK."
+        desc: "Kov nakupuje z banky za 2 zdroje zlata."
       },
       'MEX': {
         code: 'MEX',
@@ -326,14 +328,14 @@ function defaultSettings() {
         country: 'Brazília',
         area: "DvojAmerika",
         playing: false,
-        desc: "Raz za kolo môže odovzdať 2AK a získať tak 1MK."
+        desc: "Ropu a kov kupuje za 3 zdroje zlata."
       },
       'VEN': {
         code: 'VEN',
         country: 'Venezuela',
         area: "DvojAmerika",
         playing: false,
-        desc: "AK 'Príhovor kapitána D.' ruší všetky AK v aktuálnom boji (aj spojenecké)."
+        desc: "AK 'Príhovor kapitána D.' ruší všetky AK v aktuálnom boji."
       },
       'CHN': {
         code: 'CHN',
@@ -444,21 +446,23 @@ function defaultSettings() {
       slug: 'pauza',
       text: 'Dohodnite sa na ďalšej stratégii a užite si pauzu.'
     }],
+
+    /* UFO EVENTS */
     ufoEvents: [{
-      title: 'Pád švajčiarskych bánk',
-      text: 'Na vybrané územia spadli švajčiarske banky. Rozsypané zlato získa víťaz boja.',
-      secret: 'Padne 6x zlato.'
-    }, {
       title: 'Láska hory prenáša',
       text: 'Spoločná láska slniečkárov na mítingu v Banskej štiavnici preniesla Ural na iné vybrané územie. Kov získa víťaz boja.',
       secret: 'Padne 6x kov.'
     }, {
-      title: 'Willy zachránený',
-      text: 'Willy sa vrátil späť do mora a hladina oceánov stúpla. Svet prišiel o niekoľko území.',
-      secret: 'Zaplaviť 4 územia.'
+        title: 'Mimozemská základňa',
+        text: 'Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia, ktorou dokáže vymazať niektoré územia z povrchu Zeme.',
+        secret: 'Objavila sa základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK '
+      }, {
+      title: 'Tomtom huge človek človeku',
+      text: 'Donald Trump bol na návšteve Andreja Danka v Pezinku. Ich spoločný príhovor vyvolal vlnu megalománie a nepochopenia. Každé víťazstvo prináša viac bodov.',
+      secret: 'Body za boje sa zdvojnásobujú.'
     }, {
-      title: 'Nové ložiská Nafty Gbely',
-      text: 'Spoločnosť Nafta Gbely rozširuje svoje pôsobisko o 1800%. Ostraha ropných vrtov nekontroluje alobalové tašky. Ropu získava víťaz boja.',
+      title: 'Pád UFO',
+      text: 'Zrútilo sa UFO. Priekupníci z celého sveta si brúsia zuby na mimozemskú technológiu. Mimozemšťania útočia priamo na bojujúce armády.',
       secret: 'Padne 6x ropa.'
     }, {
       title: 'Zem je plochá',
@@ -469,10 +473,12 @@ function defaultSettings() {
       text: '',
       secret: ''
     }],
+
+    /* WORLD EVENTS */
     worldEvents: [{
       title: 'Tender v SIS',
-      text: 'Slovenská informačná služba vyhlásila tender na splnenie svojich tajných úloh. Najvyššia ponuka vyhráva 6 tajných misií.',
-      secret: '6x TM'
+      text: 'Slovenská informačná služba vyhlásila tender na splnenie svojich tajných úloh. Najvyššia ponuka vyhráva 4 tajné misie.',
+      secret: '4x TM'
     }, {
       title: 'Hlbšie vrty',
       text: 'Investori zháňajú peniaze na stavbu vrtných veží. V hlavnej udalosti je možné získať 6 surovín ropy.',
@@ -487,8 +493,8 @@ function defaultSettings() {
       secret: '8 AK'
     }, {
       title: 'Olympiáda',
-      text: 'Chlieb a hry musia pokračovať. Kto si kúpi možnosť organizovať OH, získa 6 AK typu "Bonusové body"',
-      secret: '6x Body'
+      text: 'Chlieb a hry musia pokračovať. Kto si kúpi možnosť organizovať OH, získa 4 AK typu "Bonusové body"',
+      secret: '4x Body'
     }, {
       title: '',
       text: '',

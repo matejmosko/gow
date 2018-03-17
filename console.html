@@ -4,9 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <title>GOW Admin</title>
-  <link rel="import" href="./node_modules/xel/xel.min.html">
-  <link rel="stylesheet" href="./node_modules/xel/stylesheets/galaxy.theme.css">
-  <link rel="stylesheet" href="./css/styles-console.css">
+  <script src="node_modules/xel/xel.min.js"></script>
+  <!--<link rel="import" href="./node_modules/xel/xel.min.html">-->
+<link rel="stylesheet" href="./node_modules/xel/stylesheets/vanilla.theme.css">
+<link rel="stylesheet" href="./css/styles-console.css">
 </head>
 
 <body>
@@ -59,6 +60,8 @@
                 <x-icon name="receipt"></x-icon>
                 <x-label>Názov novej hry</x-label>
               </x-input>
+              <x-select id="selectScenario" class="form-item" required>
+              </x-select>
               <x-button id="submitGame">
                 <x-box>
                   <x-icon name="add"></x-icon>
@@ -179,7 +182,7 @@
       </div>
     </div>
   </div>
-  <x-dialog>
+  <dialog>
     <h4>Naozaj chceš ukončiť Game of Worlds?</h4>
     <p>Priebeh hry by mal byť uložený, ale pre istotu sa aj tak pýtam. Čo ak si sa iba preklikol?</p>
     <x-buttons tracking="-1" id="windowControls">
@@ -196,7 +199,7 @@
         </x-box>
       </x-button>
     </x-buttons>
-  </x-dialog>
+  </dialog>
 
 </body>
 <script>

@@ -1,6 +1,6 @@
 {
   "name": "game-of-worlds",
-  "version": "2017.11.19",
+  "version": "2018.03.10",
   "description": "Game of Worlds App",
   "main": "main.js",
   "scripts": {
@@ -25,13 +25,12 @@
   },
   "dependencies": {
     "electron-settings": "^3.1.1",
-    "fs": "0.0.1-security",
     "jquery": "^3.1.1",
     "jsdom": "^9.11.0",
     "mousetrap": "^1.6.1",
     "mustache": "^2.3.0",
     "nedb": "^1.8.0",
-    "xel": "0.0.48"
+    "xel": "^0.0.128"
   },
   "build": {
     "productName": "Game of Worlds Admin",

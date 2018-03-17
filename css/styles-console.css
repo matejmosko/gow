@@ -151,15 +151,15 @@ th.quest-box, th.points-box {
   margin: 0 0 5px 0;
 }
 
-x-dialog h4, x-dialog p {
+dialog h4, dialog p {
   text-align: center;
 }
 
-x-dialog x-buttons {
+dialog x-buttons {
   margin: 0 auto;
 }
 
-x-dialog {
+dialog {
   padding: 20px;
 }
 
@@ -176,12 +176,12 @@ x-numberinput.negative {
 }
 
 .odd {
-  background-color: #333;
+  background-color: #DDD;
 }
 
 tr:hover td {
-  background-color: #DDD;
-  color: #333;
+  background-color: #444;
+  color: #DDD;
 }
 
 .fullwidth {
