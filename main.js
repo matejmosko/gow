@@ -151,7 +151,7 @@ function createProjector() {
   }));
 
   // Open the DevTools.
-  //    gowWindows.projector.webContents.openDevTools()
+//      gowWindows.projector.webContents.openDevTools()
 
   // Emitted when the window is closed.
   gowWindows.projector.on('closed', function() {
@@ -210,10 +210,15 @@ app.on('activate', function() {
   }
 });
 
-var dir = './savegame';
+var dirSaveGame = './savegame';
+var dirScenarios = './scenarios';
 
-if (!fs.existsSync(dir)) {
-  fs.mkdirSync(dir);
+if (!fs.existsSync(dirSaveGame)) {
+  fs.mkdirSync(dirSaveGame);
+}
+
+if (!fs.existsSync(dirScenarios)) {
+  fs.mkdirSync(dirScenarios);
 }
 
 // In this file you can include the rest of your app's specific main process
@@ -250,8 +255,21 @@ function createLog(text) {
   });
 }
 
+function saveDefaultScenario(scenario) {
+  scenarioPath = dirScenarios + '/default.json';
+  if (!fs.existsSync(scenarioPath)) {
+    var file = fs.openSync(scenarioPath, 'a');
+    fs.writeFile(file, JSON.stringify(scenario), function(err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("Default Scenario was saved.");
+    });
+  }
+}
+
 function defaultSettings() {
-  settings.setAll({
+  scenario = {
     scenario: 'default',
     year: 0,
     phase: 0,
@@ -453,10 +471,10 @@ function defaultSettings() {
       text: 'Spoločná láska slniečkárov na mítingu v Banskej štiavnici preniesla Ural na iné vybrané územie. Kov získa víťaz boja.',
       secret: 'Padne 6x kov.'
     }, {
-        title: 'Mimozemská základňa',
-        text: 'Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia, ktorou dokáže vymazať niektoré územia z povrchu Zeme.',
-        secret: 'Objavila sa základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK '
-      }, {
+      title: 'Mimozemská základňa',
+      text: 'Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia, ktorou dokáže vymazať niektoré územia z povrchu Zeme.',
+      secret: 'Objavila sa základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK '
+    }, {
       title: 'Tomtom huge človek človeku',
       text: 'Donald Trump bol na návšteve Andreja Danka v Pezinku. Ich spoločný príhovor vyvolal vlnu megalománie a nepochopenia. Každé víťazstvo prináša viac bodov.',
       secret: 'Body za boje sa zdvojnásobujú.'
@@ -500,7 +518,9 @@ function defaultSettings() {
       text: '',
       secret: ''
     }]
-  });
+  }
+  settings.setAll(scenario);
+  saveDefaultScenario(scenario);
 }
 ipcMain.on('startGame', (event) => {
   gowWindows.projector.webContents.send('startGame');

@@ -168,45 +168,45 @@
     "text": "Dohodnite sa na ďalšej stratégii a užite si pauzu."
   }],
   "ufoEvents": [{
-    "title": "Láska hory prenáša",
-    "text": "Spoločná láska slniečkárov na mítingu v Banskej štiavnici preniesla Ural na iné vybrané územie. Kov získa víťaz boja.",
-    "secret": "Padne 6x kov."
+    "title": "Popudinské Močidľany Revival",
+    "text": "Pamätníkom klubu JRD Popudinské Močidľany sa pod nánosmi transparentov podarilo objaviť pôvodný Močidľanský štadión. Tomu, kto ho obsadí, prinesie slávu a starosti s upratovacou službou.",
+    "secret": "Na mape sa objavil prázdny štadión. Víťaz získa 5 bodov."
   }, {
-    "title": "Mimozemská základňa",
-    "text": "Objavila sa základňa mimozemšťanov. Podľa získaných informácií sa v nej nachádza pokročilá technológia, ktorou dokáže vymazať niektoré územia z povrchu Zeme.",
-    "secret": "Objavila sa základňa mimozemšťanov. Je tam (2x počet tímov) mimozemských armád a 6 mimozemských AK"
+    "title": "Ociphove investície",
+    "text": "Ociphovi špecialisti na financovanie a investície stavili štyridsať ton zlata na zápas, ktorý sa vôbec nemal hrať. Národná stávková kancelária sa v strachu pred daňou z príjmu bohatstva zbavuje.",
+    "secret": "Všetky vyhrané stávky prinášajú dvojnásobné výhry."
   }, {
-    "title": "Tomtom huge človek človeku",
-    "text": "Donald Trump bol na návšteve Andreja Danka v Pezinku. Ich spoločný príhovor vyvolal vlnu megalománie a nepochopenia. Každé víťazstvo prináša viac bodov.",
-    "secret": "Body za boje sa zdvojnásobujú."
+    "title": "Zatúlané komando Ociphových žoldnierov a plienenie",
+    "text": "Ociphova nenávisť k futbalu dosiahla nové rozmery. Za sebou nechávajú spúšť a vlastné technológie. Ociphove vojská útočia priamo na fanúšikov vracajúcich sa zo zápasov.",
+    "secret": "Vo vybranej krajine budú k dispozícii 4 ociphové AK. Ociphovi žoldnieri sa silou 6-10 zapoja do troch náhodných bojov."
   }, {
-    "title": "Pád UFO",
-    "text": "Zrútilo sa UFO. Priekupníci z celého sveta si brúsia zuby na mimozemskú technológiu. Mimozemšťania útočia priamo na bojujúce armády.",
-    "secret": "Padne 6x ropa."
+    "title": "Sklady Trevora Ocipha",
+    "text": "V Citadelskom múzeu Trevora Ocipha archelógovia objavili archívnu 12 rokov starú škoricu. Archeologický krúžok svoj objav pre príliš nízky vek škorice aj archeológov vyhodil na smetisko dejín.",
+    "secret": "Padne 4x škorica."
   }, {
-    "title": "Zem je plochá",
-    "text": "Vďaka tajným technológiám mimozemšťanov sa zistilo, že Zem je plochá. Už sa necestuje po trojuholníkoch, cestuje sa zdarma.",
-    "secret": "Cestuje sa zadarmo."
+    "title": "Roszfaszovo uznanie",
+    "text": "Tvrdenie E. T. Roszfasza, že metrický systém je len nástrojom Meidanu na podrobenie ľudí, uznala Severská akadémia vied za jediné správne. Odteraz je všetko na jednom mieste. Armády je možné ukladať na ktorékoľvek územia.",
+    "secret": "Armády sa môžu ukladať kdekoľvek."
   }],
   "worldEvents": [{
-    "title": "Tender v SIS",
-    "text": "Slovenská informačná služba vyhlásila tender na splnenie svojich tajných úloh. Najvyššia ponuka vyhráva 4 tajné misie.",
-    "secret": "4x TM"
+    "title": "Nové dodávky z Reunionu",
+    "text": "Delegácia Severskej ríše sa rozhodla žobrať dodatočnú škoricu od Meidanu v ich sídle na ostrove Reunion. Meidan sa je schopný uvoľniť 4 dodávky škorice.",
+    "secret": "4x Škorica"
   }, {
-    "title": "Hlbšie vrty",
-    "text": "Investori zháňajú peniaze na stavbu vrtných veží. V hlavnej udalosti je možné získať 6 surovín ropy.",
-    "secret": "6x Ropa"
+    "title": "Kongres Severského futbalového zväzu",
+    "text": "Na kongrese prevláda kleptomania. V ponuke sú 4 AK Ukradni vlajku.",
+    "secret": "4x AK Ukradni vlajku"
+  }, {
+    "title": "Najlepší tajný agent",
+    "text": "Útok Ociphátu odhalil štyroch znudených tajných agentov na dôchodku. V hlavnej udalosti je možné získať 3 špeciálne karty typu SBS.",
+    "secret": "3x AK SBS"
   }, {
     "title": "Otvorenie čierneho trhu",
-    "text": "Na slávnostnom otvorení čierneho trhu sú pre najväčšieho investora pripravené 4 MK.",
-    "secret": "4x MK"
+    "text": "Na slávnostnom otvorení čierneho trhu sú pre najväčšieho investora pripravené 4 karty Ociphátu.",
+    "secret": "4x KO"
   }, {
-    "title": "Zľavy až 110%",
-    "text": "Svet stojí pred hypotekárnou krízou. Za lacno sa dá získať 8 náhodných AK.",
-    "secret": "8 AK"
-  }, {
-    "title": "Olympiáda",
-    "text": "Chlieb a hry musia pokračovať. Kto si kúpi možnosť organizovať OH, získa 4 AK typu 'Bonusové body'",
+    "title": "Pohár mieru",
+    "text": "Vďaka Ociphovej invázii fanúšikovia i futbalisti bojujú na ozajstnom bojisku. Na trávnikoch a štadiónoch konečne zavládol mier a tolerancia. Kto si kúpi možnosť organizovať Pohár mieru, získa 6 AK.typu Bonusové body.",
     "secret": "4x Body"
   }]
 }

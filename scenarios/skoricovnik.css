@@ -6,22 +6,27 @@ body {
   display: block;
 }
 
-.tblCountryRow, #infobox>div, table, .newsArticle p, .ended #newsBox {
+.tblCountryRow, .tblCountryTeam, #infobox>div, table, .newsArticle p, .ended #newsBox {
   background-color: rgba(255, 255, 255, 0.85);
 }
 
-.grid .tblCountryRow.playing {
-    background-color: indianred;
+.tblCountryTeam {
+  color: #333;
 }
 
-#infobox #timerdiv{
+.grid .tblCountryRow.playing {
+  background-color: indianred;
+}
+
+#infobox #timerdiv {
   background: indianred;
   color: white;
 }
 
-.newsArticle h4{
+.newsArticle h4 {
   color: white;
 }
-.overlay, .spravy #newsBox, .pomoc #newsBox {
-    color: #DDD;
+
+.overlay, .spravy #newsBox {
+  color: #DDD;
 }

@@ -1,6 +1,6 @@
 {
   "name": "game-of-worlds",
-  "version": "2018.03.10",
+  "version": "2018.03.18",
   "description": "Game of Worlds App",
   "main": "main.js",
   "scripts": {
@@ -20,15 +20,15 @@
   "license": "CC0-1.0",
   "postinstall": "install-app-deps",
   "devDependencies": {
-    "electron": "^1.7.5",
-    "electron-builder": "^18.0.1"
+    "electron": "^7.1.1",
+    "electron-builder": "^21.2.0"
   },
   "dependencies": {
-    "electron-settings": "^3.1.1",
-    "jquery": "^3.1.1",
-    "jsdom": "^9.11.0",
-    "mousetrap": "^1.6.1",
-    "mustache": "^2.3.0",
+    "electron-settings": "^3.2.0",
+    "jquery": "^3.4.1",
+    "jsdom": "^15.2.1",
+    "mousetrap": "^1.6.3",
+    "mustache": "^3.1.0",
     "nedb": "^1.8.0",
     "xel": "^0.0.128"
   },

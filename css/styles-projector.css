@@ -317,6 +317,67 @@ table th {
   background-image: url('../img/krajiny/kaz.png');
 }
 
+
+#ASN .tblCountryTitle {
+  background-image: url('../img/krajiny/asn.png');
+}
+
+#BAS .tblCountryTitle {
+  background-image: url('../img/krajiny/bas.png');
+}
+
+#CIT .tblCountryTitle {
+  background-image: url('../img/krajiny/cit.png');
+}
+
+#EPI .tblCountryTitle {
+  background-image: url('../img/krajiny/epi.png');
+}
+
+#FCN .tblCountryTitle {
+  background-image: url('../img/krajiny/fcn.png');
+}
+
+#FCV .tblCountryTitle {
+  background-image: url('../img/krajiny/fcv.png');
+}
+
+#HEL .tblCountryTitle {
+  background-image: url('../img/krajiny/hel.png');
+}
+
+#MOK .tblCountryTitle {
+  background-image: url('../img/krajiny/mok.png');
+}
+
+#MOL .tblCountryTitle {
+  background-image: url('../img/krajiny/mol.png');
+}
+
+#NUT .tblCountryTitle {
+  background-image: url('../img/krajiny/nut.png');
+}
+
+#OCT .tblCountryTitle {
+  background-image: url('../img/krajiny/oct.png');
+}
+
+#OLP .tblCountryTitle {
+  background-image: url('../img/krajiny/olp.png');
+}
+
+#TRE .tblCountryTitle {
+  background-image: url('../img/krajiny/tre.png');
+}
+
+#PRU .tblCountryTitle {
+  background-image: url('../img/krajiny/pru.png');
+}
+
+#YOR .tblCountryTitle {
+  background-image: url('../img/krajiny/yor.png');
+}
+
 .table {
   display: flex;
   flex-flow: column nowrap;
@@ -444,7 +505,7 @@ table th {
   width: 100%;
 }
 
-.spravy #newsBox, .pomoc #newsBox {
+.spravy #newsBox/*, /*.pomoc #newsBox*/ {
   border: 8px solid white;
   z-index: 9;
   position: absolute;
@@ -456,11 +517,11 @@ table th {
   padding: calc(1vh + 1vw + 0.5vmin);
 }
 
-.spravy #newsBox h4, .pomoc #newsBox h4 {
+.spravy #newsBox h4/*, .pomoc #newsBox h4*/ {
   font-size: 2.0rem;
 }
 
-.spravy #newsBox p, .pomoc #newsBox p {
+.spravy #newsBox p/*, .pomoc #newsBox p*/ {
   background-color: transparent;
   font-size: 1.5rem;
 }
