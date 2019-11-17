@@ -72,7 +72,10 @@ function createWindow() {
     height: windowState.main.bounds && windowState.main.bounds.height || 600,
     icon: path.join(__dirname, 'img/icon.png'),
     title: 'GOW Admin',
-    backgroundColor: '#13132A'
+    backgroundColor: '#13132A',
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   if (windowState.main.isMaximized) {
@@ -135,7 +138,10 @@ function createProjector() {
     icon: path.join(__dirname, 'img/icon.png'),
     title: 'GOW',
     backgroundColor: '#13132A',
-    show: false
+    show: false,
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   if (windowState.projector.isMaximized) {
@@ -151,7 +157,7 @@ function createProjector() {
   }));
 
   // Open the DevTools.
-//      gowWindows.projector.webContents.openDevTools()
+  //      gowWindows.projector.webContents.openDevTools()
 
   // Emitted when the window is closed.
   gowWindows.projector.on('closed', function() {

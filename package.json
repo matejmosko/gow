@@ -1,13 +1,13 @@
 {
   "name": "game-of-worlds",
-  "version": "2018.03.18",
+  "version": "2019.11.17",
   "description": "Game of Worlds App",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack": "build --dir",
-    "dist": "build",
-    "win": "build --win"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "win": "electron-builder --win"
   },
   "repository": "https://github.com/matejmosko/gow",
   "keywords": [
@@ -30,7 +30,7 @@
     "mousetrap": "^1.6.3",
     "mustache": "^3.1.0",
     "nedb": "^1.8.0",
-    "xel": "^0.0.128"
+    "xel": "^0.0.213"
   },
   "build": {
     "productName": "Game of Worlds Admin",
