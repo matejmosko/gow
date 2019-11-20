@@ -7,111 +7,104 @@
   <script src="../node_modules/xel/xel.min.js"></script>
   <!--<link rel="import" href="./node_modules/xel/xel.min.html">-->
   <link rel="stylesheet" href="../node_modules/xel/themes/vanilla.css">
-<link rel="stylesheet" href="./css/styles-console.css">
+  <link rel="stylesheet" href="./css/styles-console.css">
 </head>
 
 <body>
   <div id="container">
-    <x-card id="topbox">
-      <x-buttons tracking="2" id="projectorControls">
-        <x-button id="reloadBtn" class="danger">
-          <x-icon name="power-settings-new"></x-icon>
-        </x-button>
-        <x-button id="projectorBtn">
+    <div id="topbox">
+      <div id="projectorControls" class="topdiv btnRow">
+        <button id="reloadBtn" class="btn danger" skin="flat">
+          <i class="fas fa-power-off"></i>
+        </button>
+        <!--x-btn--><button id="projectorBtn" class="btn">
           <x-icon name="airplay"></x-icon>
-        </x-button>
+        </button>
 
-        <x-button id="fullscreenBtn">
+        <!--x-btn--><button id="fullscreenBtn" class="btn">
           <x-icon name="fullscreen"></x-icon>
-        </x-button>
+        </button>
 
-        <x-button id="rulesBtn">
+        <!--x-btn--><button id="rulesBtn" class="btn">
           <x-icon name="assignment"></x-icon>
-        </x-button>
-      </x-buttons>
+        </button>
+      </div>
       <div id="infobox">
         <div class="gameName" id="topPanelGameName"></div>
         <div class='year' id='topPanelYear'></div>
         <div class='phase' id='topPanelPhase'></div>
       </div>
+      <buttons tracking="-1" id="gameControls" class="hidden">
+        <button id="startGame" class="beforestart">
+          Spusti hru
+        </button>
+        <button id="nextPhase" class="afterstart">
+          Ďalšia fáza
+        </button>
+        <button id="stepBack" class="danger afterstart">
+          BACK
+        </button>
+        </x-buttons>
+    </div>
 
-      <x-buttons tracking="-1" id="gameControls" class="hidden">
-        <x-button id="startGame" class="beforestart">
-          <x-box>
-            <x-icon name="skip-next"></x-icon>
-            <x-label>Spusti hru</x-label>
-          </x-box>
-        </x-button>
-        <x-button id="nextPhase" class="afterstart">
-          <x-box>
-            <x-icon name="skip-next"></x-icon>
-            <x-label>Ďalšia fáza</x-label>
-          </x-box>
-        </x-button>
-        <x-button id="stepBack" class="danger afterstart">
-          <x-icon name="backspace"></x-icon>
-        </x-button>
-      </x-buttons>
-
-    </x-card>
     <div id="main">
       <div id="content">
-          <x-card id="newGameBox" class="form-group vertical">
-            <x-box id="novaHra" class="form-item">
-              <x-input id="newgame" required>
-                <x-icon name="receipt"></x-icon>
-                <x-label>Názov novej hry</x-label>
-              </x-input>
-              <x-select id="selectScenario" class="form-item" required>
-              </x-select>
-              <x-button id="submitGame">
-                <x-box>
-                  <x-icon name="add"></x-icon>
-                  <x-label>Nová hra</x-label>
-                </x-box>
-              </x-button>
-            </x-box>
-            <x-box id="oldGame" class="form-item">
-            </x-box>
-          </x-card>
-          <x-card id="pridajTim" class="form-group horizontal hidden">
+        <div id="newGameBox" class="form-group vertical">
+          <div id="novaHra" class="form-item">
+            <x-input id="newgame" required>
+              <x-icon name="receipt"></x-icon>
+              <x-label>Názov novej hry</x-label>
+            </x-input>
+            <select id="selectScenario" class="form-item">
+            </select>
+            <!--x-btn--><button id="submitGame">
+              <div>
+                <x-icon name="add"></x-icon>
+                <x-label>Nová hra</x-label>
+              </div>
+            </button>
+          </div>
+          <div id="oldGame" class="form-item">
+          </div>
+        </div>
+        <div id="pridajTim" class="form-group horizontal hidden">
 
-              <x-label class="form-item">Pridaj tím</x-label>
-              <x-input id="tim" required class="form-item">
-                <x-icon name="receipt"></x-icon>
-                <x-label>Názov tímu</x-label>
-              </x-input>
-              <x-select id="krajiny" class="form-item" required>
-              </x-select>
-              <x-button id="submitTim" class="form-item">
-                <x-box>
-                  <x-icon name="add"></x-icon>
-                  <x-label>Pridaj krajinu</x-label>
-                </x-box>
-              </x-button>
-          </x-card>
+          <x-label class="form-item">Pridaj tím</x-label>
+          <x-input id="tim" required class="form-item">
+            <x-icon name="receipt"></x-icon>
+            <x-label>Názov tímu</x-label>
+          </x-input>
+          <select id="krajiny" class="form-item" required>
+          </select>
+          <!--x-btn--><button id="submitTim" class="form-item">
+            <div>
+              <x-icon name="add"></x-icon>
+              <x-label>Pridaj krajinu</x-label>
+            </div>
+          </button>
+        </div>
         <div id="gameTables" class="hidden">
-          <x-card id="contentCard">
+          <div id="contentCard">
             <x-tabs centered>
               <x-tab selected id="gameTab">
-                <x-box>
+                <div>
                   <x-icon name="list"></x-icon>
                   <x-label>Aktuálny stav</x-label>
-                </x-box>
+                </div>
               </x-tab>
 
               <x-tab id="statsTab">
-                <x-box>
+                <div>
                   <x-icon name="sort"></x-icon>
                   <x-label>Štatistika</x-label>
-                </x-box>
+                </div>
               </x-tab>
 
               <x-tab id="optionsTab">
-                <x-box>
+                <div>
                   <x-icon name="settings"></x-icon>
                   <x-label>Nastavenia</x-label>
-                </x-box>
+                </div>
               </x-tab>
             </x-tabs>
 
@@ -149,34 +142,34 @@
             <div id="gow-options" class="content-table" style="display:none">
               <div id="tableOpt">
               </div>
-              <x-box>
-                <x-button id='saveOpts'>
+              <div>
+                <!--x-btn--><button id='saveOpts'>
                   <x-label>Ulož nastavenia</x-label>
-                </x-button>
-                <x-button id='reloadOpts'>
+                </button>
+                <!--x-btn--><button id='reloadOpts'>
                   <x-label>Reset</x-label>
-                </x-button>
-                <x-button id='setDefaultOpts'>
+                </button>
+                <!--x-btn--><button id='setDefaultOpts'>
                   <x-label>Načítaj predvolené</x-label>
-                </x-button>
-              </x-box>
-              <x-box>
+                </button>
+              </div>
+              <div>
                 <input type="checkbox" id="saveDefaultCheck">
                 <!--<x-checkbox id="saveDefaultCheck"></x-checkbox>-->
                 <x-label for="saveDefaultCheck" id="save-label">Uložiť ako predvolené</x-label>
-              </x-box>
-          </x-card>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div id="sidebar">
         <div id="newsBox" class="afterstart">
           <h3>Aktuálne udalosti</h3>
-          <x-card id="currNews" class="currNews news"></x-card>
+          <div id="currNews" class="currNews news"></div>
           <h3>Udalosti z budúcnosti</h3>
-          <x-card id="futNews" class="futNews news"></x-card>
+          <div id="futNews" class="futNews news"></div>
           <h3>Minulé udalosti</h3>
-          <x-card id="pastNews" class="pastNews news"></x-card>
+          <div id="pastNews" class="pastNews news"></div>
 
         </div>
 
@@ -187,20 +180,21 @@
   <dialog>
     <h4>Naozaj chceš ukončiť Game of Worlds?</h4>
     <p>Priebeh hry by mal byť uložený, ale pre istotu sa aj tak pýtam. Čo ak si sa iba preklikol?</p>
-    <x-buttons tracking="-1" id="windowControls">
-      <x-button id="reallyQuit" class="danger">
-        <x-box>
+    <!--x-btn-->
+    <buttons tracking="-1" id="windowControls">
+      <!--x-btn--><button id="reallyQuit" class="danger">
+        <div>
           <x-icon name="exit-to-app"></x-icon>
           <x-label>Áno, ukončime to!</x-label>
-        </x-box>
-      </x-button>
-      <x-button id="doNotQuit">
-        <x-box>
+        </div>
+      </button>
+      <!--x-btn--><button id="doNotQuit">
+        <div>
           <x-icon name="replay"></x-icon>
           <x-label>Nie, ešte sa chcem hrať</x-label>
-        </x-box>
-      </x-button>
-    </x-buttons>
+        </div>
+      </button>
+      </x-buttons>
   </dialog>
 
 </body>

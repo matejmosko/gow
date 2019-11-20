@@ -1,5 +1,52 @@
+@import url('../../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css');
+
+@font-face {
+  font-family: 'Exo';
+  src: url('./fonts/Exo/Exo-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* RESET DEFAULT css settings */
+html {
+  box-sizing: border-box;
+  font-family: "Exo";
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+:not(input):not(textarea), :not(input):not(textarea)::after, :not(input):not(textarea)::before {
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+input, button, textarea, :focus {
+  outline: none;
+  /* You should add some other style for :focus to help UX/a11y */
+}
+
+:root {
+  --backgroundColor: #2d2d2d;
+  --borderColor: #464646;
+  --cardColor: #32393d;
+  --activeColor: #32393d;
+  --dangerColor: darkred;
+  --btnTextColor: #bdbdbd;
+  --textColor: #bdbdbd;
+  --btnColor: #2d2d2d;
+  --dialogColor: #EEE;
+}
+
 body {
-  /*font: caption;*/
+  width: auto;
+  margin: 0px;
+  padding: 0px;
+  max-height: 100vh;
+  max-width: 100vw;
+  color: var(--textColor);
 }
 
 #container {
@@ -103,15 +150,6 @@ max-width: 400px;
   font-weight: bold;
 }
 
-x-label {
-  padding-right: 5px;
-}
-
-.tableHeader x-label {
-  min-width: 33%;
-  text-align: right;
-}
-
 .content-table {
   padding: 15px;
 }
@@ -155,11 +193,11 @@ dialog {
   padding: 20px;
 }
 
-x-numberinput.positive {
+input.positive {
   background-color: lightgreen;
 }
 
-x-numberinput.negative {
+input.negative {
   background-color: #cc3300;
 }
 
