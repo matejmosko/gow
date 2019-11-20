@@ -1,34 +1,31 @@
 {
   "name": "game-of-worlds",
-  "version": "2019.11.17",
-  "description": "Game of Worlds App",
-  "main": "app/main.js",
+  "productName": "game-of-worlds",
+  "version": "2019.11.20",
+  "description": "Game of Worlds Admin App",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "win": "electron-builder --win",
     "package": "electron-forge package",
-    "make": "electron-forge make --target=deb"
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
-  "config": {
-    "forge": "./forge.config.js"
-  },
-  "repository": "https://github.com/matejmosko/gow",
   "keywords": [
     "Game of Worlds",
     "Board game",
     "Game",
     "Pubgame"
   ],
-  "author": "Matej Moško",
+  "author": {
+    "name": "matejmosko",
+    "email": "matej.mosko@gmail.com"
+  },
+  "repository": "https://github.com/matejmosko/gow",
   "license": "CC0-1.0",
-  "postinstall": "install-app-deps",
-  "devDependencies": {
-    "electron-prebuilt-compile": "4.0.0"
+  "config": {
+      "forge": "./forge.config.js"
   },
   "dependencies": {
-    "electron-forge": "^5.2.4",
     "electron-settings": "^3.2.0",
     "import-lazy": "^4.0.0",
     "jquery": "^3.4.1",
@@ -37,20 +34,15 @@
     "mustache": "^3.1.0",
     "nedb": "^1.8.0",
     "v8-compile-cache": "^2.1.0",
-    "xel": "^0.0.213"
+    "xel": "^0.0.213",
+    "electron-squirrel-startup": "^1.0.0"
   },
-  "build": {
-    "productName": "Game of Worlds Admin",
-    "appId": "com.electron.MatejMosko.GameofWorlds",
-    "asar": true,
-    "compression": "store",
-    "linux": {
-      "target": "AppImage",
-      "category": "Game"
-    },
-    "win": {
-      "target": "NSIS",
-      "icon": "build/icon.ico"
-    }
+  "devDependencies": {
+    "@electron-forge/cli": "6.0.0-beta.45",
+    "@electron-forge/maker-deb": "6.0.0-beta.45",
+    "@electron-forge/maker-rpm": "6.0.0-beta.45",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.45",
+    "@electron-forge/maker-zip": "6.0.0-beta.45",
+    "electron": "7.1.2"
   }
 }

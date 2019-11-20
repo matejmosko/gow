@@ -1,0 +1,190 @@
+body {
+  /*font: caption;*/
+}
+
+#container {
+  height: calc(100vh-10px);
+  overflow: hidden;
+  padding: 5px;
+}
+
+#topbox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0px 0px 15px 0px;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+#infobox, #gameControls, #projectorControls {
+  flex: 0 1 auto;
+}
+#infobox{
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: space-around;
+}
+
+#infobox div {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+#main {
+  width: 100%;
+  display: flex;
+}
+
+#content {
+  flex: 4 0 70%;
+  padding-right: 30px;
+  max-height: 95vh;
+  overflow-y: scroll;
+}
+
+#sidebar {
+  flex: 1 1 25%;
+  max-height: 95vh;
+  overflow-y: scroll;
+}
+
+#currYear {
+  flex: 1 0 auto;
+}
+
+#currPhase {
+  flex: 2 0 auto;
+}
+
+#currPhaseText {
+  flex: 4 0 auto;
+}
+
+table.content-table {
+  min-width: 100%;
+}
+
+#novaHra, #oldGame {
+  padding: 10px;
+}
+.form-group{
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px;
+}
+.form-group.vertical{
+  flex-flow: nowrap column;
+}
+.form-group.horizontal{
+  flex-flow: nowrap row;
+}
+.form-item{
+  flex: 0 1 auto;
+}
+
+.form-item#tim{
+  flex: 1 1 auto;
+  min-width: 120px;
+max-width: 400px;
+}
+
+#phasesOpt .optHorizontalBox .title {
+  min-width: 25%;
+}
+
+.optHorizontalBox {
+  width: 100%;
+}
+
+.optHorizontalBox .title {
+  font-weight: bold;
+}
+
+x-label {
+  padding-right: 5px;
+}
+
+.tableHeader x-label {
+  min-width: 33%;
+  text-align: right;
+}
+
+.content-table {
+  padding: 15px;
+}
+
+.sortinput {
+  max-width: 60px;
+}
+
+.danger {
+  background-color: #cc3300;
+}
+
+th.quest-box, th.points-box {
+  display: none;
+}
+
+.started .tools {
+  display: none;
+}
+
+#admin-table td {
+  vertical-align: middle;
+}
+
+.year-variable {
+  display: inline-block;
+  min-width: 25px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.news {
+  padding: 15px;
+}
+
+.news h4 {
+  margin: 0 0 5px 0;
+}
+
+dialog h4, dialog p {
+  text-align: center;
+}
+
+dialog x-buttons {
+  margin: 0 auto;
+}
+
+dialog {
+  padding: 20px;
+}
+
+x-numberinput.positive {
+  background-color: lightgreen;
+}
+
+x-numberinput.negative {
+  background-color: #cc3300;
+}
+
+.center {
+  text-align: center;
+}
+
+.odd {
+  background-color: #DDD;
+}
+
+tr:hover td {
+  background-color: #444;
+  color: #DDD;
+}
+
+.fullwidth {
+  width: 100%;
+  justify-content: space-between;
+}

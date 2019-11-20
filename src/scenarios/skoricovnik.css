@@ -1,0 +1,29 @@
+body {
+  background-image: url('./scenarios/skoricovnik/background.png');
+  color: #333;
+}
+
+.tblCountryRow, .tblCountryTeam, #infobox>div, table, .newsArticle p, .ended #newsBox {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.tblCountryTeam {
+  color: #333;
+}
+
+.grid .tblCountryRow.playing {
+  background-color: indianred;
+}
+
+#infobox #timerdiv {
+  background: indianred;
+  color: white;
+}
+
+.newsArticle h4 {
+  color: white;
+}
+
+.overlay, .spravy #newsBox {
+  color: #DDD;
+}

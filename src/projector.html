@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>GOW</title>
+  <link rel="stylesheet" href="./css/styles-projector.css">
+  <!--<link rel="stylesheet" href="" id="scenarioCSS">-->
+  <script>
+  </script>
+</head>
+
+<body>
+  <div id="overtime" class="overlay hidden">
+    <h2>Čas vypršal</h2>
+    <p>Generáli, presuňte sa naspäť k strategickej mape. Teraz budete rozhodovať o budúcnosti sveta.</p>
+  </div>
+  <div id="rules" class="overlay hidden">
+    <h2>Toto sú pravidlá</h2>
+    <ul>
+      <li>Hráči v tíme majú rôzne funkcie (prezident, diplomati, generál).</li>
+      <li>K bojovej mape chodia iba generáli.</li>
+      <li>Hra má 5 kôl. Každé kolo má 4 fázy (1. rozkladanie armád, 2. diplomacia, 3. vyhodnocovanie bojov, 4. pauza).</li>
+      <li>Cieľom hry je nazbierať veľa bodov.</li>
+      <li>Za Erkenom (tým vyšším týpkom) chodíš nakupovať. Moško (ten viac bradatý) zapisuje tvoje body. Buď na nich milý.</li>
+      <li>Keď niečomu nerozmuieš, opýtaj sa, alebo rob to, čo robia ostatní.</li>
+    </ul>
+  </div>
+  <div id="container">
+    <div id="infobox">
+      <div id="currYear"></div>
+      <div id="phaseBox" class="vertical">
+        <div id="currPhase"></div>
+        <div id="currPhaseText"></div>
+      </div>
+      <div id="timerdiv"></div>
+    </div>
+    <div id="main">
+
+      <div id="gametablediv">
+        <div id="hrajuceTimy">
+          <h3></h3>
+          <div id="teamsTable" class="grid"></div>
+        </div>
+      </div>
+      <div id="sidebar">
+        <div id="newsBox" class="hidden">
+          <div class="currNews"></div>
+          <div class="endNews"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+<script>
+  // You can also require other files to run in this process
+  window.$ = window.jQuery = require('jquery');
+  //require('bootstrap');
+</script>
+<script src="./projector-script.js"></script>
+
+</html>
