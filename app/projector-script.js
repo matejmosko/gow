@@ -2,17 +2,18 @@
 
 $(function() {
   var gowProjector = (function() {
+    const importLazy = require('import-lazy')(require);
     const ipc = require('electron').ipcRenderer;
-    const fs = require('fs');
+    const fs = importLazy('fs');
     let params = {},
       current,
       started = false,
       styleChanged = false,
       timer;
 
-    const path = require('path');
-    const url = require('url');
-    const ms = require('mustache');
+    const path = importLazy('path');
+    const url = importLazy('url');
+    const ms = importLazy('mustache');
     const settings = require('electron').remote.require('electron-settings');
     // renderer process
 
@@ -42,7 +43,7 @@ $(function() {
     });
 
     function changeStyle() {
-      css = fs.readFileSync("./scenarios/" + params.style, "utf8");
+      let css = fs.readFileSync("app/scenarios/" + params.style, "utf8");
       console.log(css);
       var head = document.getElementsByTagName('head')[0];
       var s = document.createElement('style');
@@ -67,6 +68,7 @@ $(function() {
     }
 
     function renderTable(docs) {
+      let text;
       resetView();
       var tplProjectionFourthWorld = `
     <div class='newsArticle'>
@@ -119,7 +121,7 @@ $(function() {
         text = ms.render(tplProjectionCountryTable, {
           "countries": params.countryList,
           "points": function() {
-            for (k in docs) {
+            for (let k in docs) {
               if (docs[k].krajina == this) {
                 if (docs[k].body != null) {
                   return docs[k].body;
@@ -133,7 +135,7 @@ $(function() {
             return this;
           },
           "tim": function() {
-            for (k in docs) {
+            for (let k in docs) {
               if (docs[k].krajina == this) return docs[k].tim;
             }
           },
@@ -164,7 +166,7 @@ $(function() {
           }
         });
       }
-      teamsTable = document.getElementById("teamsTable");
+      let teamsTable = document.getElementById("teamsTable");
       teamsTable.innerHTML = text;
       if (started) {
         teamsTable.classList.remove("grid");

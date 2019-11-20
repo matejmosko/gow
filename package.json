@@ -2,12 +2,17 @@
   "name": "game-of-worlds",
   "version": "2019.11.17",
   "description": "Game of Worlds App",
-  "main": "main.js",
+  "main": "app/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron-forge start",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "win": "electron-builder --win"
+    "win": "electron-builder --win",
+    "package": "electron-forge package",
+    "make": "electron-forge make --target=deb"
+  },
+  "config": {
+    "forge": "./forge.config.js"
   },
   "repository": "https://github.com/matejmosko/gow",
   "keywords": [
@@ -20,23 +25,25 @@
   "license": "CC0-1.0",
   "postinstall": "install-app-deps",
   "devDependencies": {
-    "electron": "^7.1.1",
-    "electron-builder": "^21.2.0"
+    "electron-prebuilt-compile": "4.0.0"
   },
   "dependencies": {
+    "electron-forge": "^5.2.4",
     "electron-settings": "^3.2.0",
+    "import-lazy": "^4.0.0",
     "jquery": "^3.4.1",
     "jsdom": "^15.2.1",
     "mousetrap": "^1.6.3",
     "mustache": "^3.1.0",
     "nedb": "^1.8.0",
+    "v8-compile-cache": "^2.1.0",
     "xel": "^0.0.213"
   },
   "build": {
     "productName": "Game of Worlds Admin",
     "appId": "com.electron.MatejMosko.GameofWorlds",
     "asar": true,
-    "compression": "maximum",
+    "compression": "store",
     "linux": {
       "target": "AppImage",
       "category": "Game"

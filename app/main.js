@@ -1,21 +1,21 @@
-const electron = require('electron');
-// Module to control application life.
-const app = electron.app;
-//const fs = electron.remote.require('fs')
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
-
-const path = require('path');
-const url = require('url');
-
 const {
-  ipcMain
+  app,
+  ipcMain,
+  BrowserWindow,
+  Menu
 } = require('electron');
-const settings = require('electron-settings');
+
+const importLazy = require('import-lazy')(require);
+
+require('v8-compile-cache');
+
+const path = importLazy('path');
+const url = importLazy('url');
+const settings = importLazy('electron-settings');
+const fs = importLazy('fs');
 
 global.params = {};
 
-var fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -23,7 +23,7 @@ let gowWindows = {};
 
 // main process
 
-var windowState = {};
+let windowState = {};
 try {
   windowState = settings.get('windowstate', {
     "main": {
@@ -49,7 +49,7 @@ try {
   // the file is there, but corrupt. Handle appropriately.
 }
 
-var storeWindowState = function() {
+let storeWindowState = function() {
   windowState.main.isMaximized = gowWindows.main.isMaximized();
   windowState.projector.isMaximized = gowWindows.projector.isMaximized();
   if (!windowState.main.isMaximized) {
@@ -72,11 +72,72 @@ function createWindow() {
     height: windowState.main.bounds && windowState.main.bounds.height || 600,
     icon: path.join(__dirname, 'img/icon.png'),
     title: 'GOW Admin',
-    backgroundColor: '#13132A',
+    backgroundColor: 'rgb(236, 236, 236)',
     webPreferences: {
       nodeIntegration: true
     }
   });
+
+  let menuTemplate = [{
+      label: 'Game',
+      submenu: [{
+          label: 'New Game',
+          click() {
+            gowWindows.projector.webContents.reload();
+            gowWindows.main.webContents.reload();
+          }
+        },
+        {
+          label: 'Load Game',
+          click() {
+            gowWindows.projector.webContents.reload();
+            gowWindows.main.webContents.reload();
+          }
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Quit',
+          click() {
+            app.quit();
+          }
+        }
+      ]
+    },
+    {
+      label: 'System',
+      submenu: [{
+          label: 'Restart Application',
+          click() {
+            reloadApp();
+          }
+        },
+        {
+          label: 'Toggle DevTools',
+          accelerator: 'F12',
+          click() {
+            gowWindows.main.toggleDevTools();
+            gowWindows.projector.toggleDevTools();
+          }
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Help',
+          accelerator: 'F1',
+          click() {
+            showHelp();
+          }
+        }
+      ]
+    }
+  ];
+
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
+  //gowWindows.main.setMenu(menu);
 
   if (windowState.main.isMaximized) {
     gowWindows.main.maximize();
@@ -137,7 +198,7 @@ function createProjector() {
     height: windowState.projector.bounds && windowState.projector.bounds.height || 600,
     icon: path.join(__dirname, 'img/icon.png'),
     title: 'GOW',
-    backgroundColor: '#13132A',
+    backgroundColor: 'rgb(236, 236, 236)',
     show: false,
     webPreferences: {
       nodeIntegration: true
@@ -216,8 +277,8 @@ app.on('activate', function() {
   }
 });
 
-var dirSaveGame = './savegame';
-var dirScenarios = './scenarios';
+var dirSaveGame = 'app/savegame';
+var dirScenarios = 'app/scenarios';
 
 if (!fs.existsSync(dirSaveGame)) {
   fs.mkdirSync(dirSaveGame);
@@ -275,7 +336,7 @@ function saveDefaultScenario(scenario) {
 }
 
 function defaultSettings() {
-  scenario = {
+  let scenario = {
     scenario: 'default',
     year: 0,
     phase: 0,

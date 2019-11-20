@@ -2,11 +2,12 @@
 
 $(function() {
   var gowConsole = (function() {
-    const path = require('path');
-    const url = require('url');
-    const fs = require('fs');
-    const ms = require('mustache');
-    const mousetrap = require('mousetrap');
+    const importLazy = require('import-lazy')(require);
+    const path = importLazy('path');
+    const url = importLazy('url');
+    const fs = importLazy('fs');
+    const ms = importLazy('mustache');
+    const mousetrap = importLazy('mousetrap');
     const settings = require('electron').remote.require('electron-settings');
     var ipc = require('electron').ipcRenderer,
       currentGame,
@@ -200,18 +201,18 @@ $(function() {
     setupSettings();
 
     function renderSelectGame() {
-      dir = fs.readdirSync('./savegame');
+      let dir = fs.readdirSync('app/savegame');
       for (let i in dir) {
         if (path.extname(dir[i]) != ".db") {
           dir.splice(i, 1);
         }
       }
-      selectSavegame = ms.render(tplSelectGame, {
+      let selectSavegame = ms.render(tplSelectGame, {
         "paths": dir
       });
       document.getElementById("oldGame").innerHTML = selectSavegame;
 
-      dirScenario = fs.readdirSync('./scenarios');
+      let dirScenario = fs.readdirSync('app/scenarios');
       for (let i in dirScenario) {
         if (path.extname(dirScenario[i]) != ".json") {
           dirScenario.splice(i, 1);
@@ -324,7 +325,7 @@ $(function() {
     function addGame() {
       db.games = new Datastore({
         //filename: path.join(__dirname, "/savegame/" + currentGame),
-        filename: "./savegame/" + currentGame,
+        filename: "app/savegame/" + currentGame,
         autoload: true
       });
       db.games.ensureIndex({
@@ -333,7 +334,7 @@ $(function() {
       }, function(err) {
         if (newgame) {
           if (scenario != "") {
-            let file = fs.readFileSync("scenarios/" + scenario, 'utf8');
+            let file = fs.readFileSync("app/scenarios/" + scenario, 'utf8');
             params = JSON.parse(file);
           }
           saveGameSettings();
@@ -355,7 +356,7 @@ $(function() {
         <div class='year'></div>
         <div class='phase'></div>
       `;
-        text = ms.render(tplInfoBox, {
+        let text = ms.render(tplInfoBox, {
           "currentGame": currentGame
         });
         document.getElementById("infobox").insertAdjacentHTML('beforeend', text);
@@ -399,9 +400,9 @@ $(function() {
         readGame();
         saveLogs("SYSTEM: The Game of Worlds has started" + "\r\n");
 
-        adminTable = document.getElementById("admin-table");
+        let adminTable = document.getElementById("admin-table");
         adminTable.addEventListener("incrementstart", function() {
-          node = event.target.parentNode;
+          let node = event.target.parentNode;
           if (node.value > 0) {
             event.target.parentNode.classList.add("positive");
             event.target.parentNode.classList.remove("negative");
@@ -544,7 +545,7 @@ $(function() {
         $('.teamname').addClass("has-error");
       } else {
         --sort;
-        addedCountry = $('#krajiny').val();
+        let addedCountry = $('#krajiny').val();
         addTeam(addedCountry, $('#tim').val(), sort);
 
         let index = params.countryList.indexOf(addedCountry);
@@ -603,8 +604,8 @@ $(function() {
     function updateTeam(country, points, rozdiel, quests, noveulohy, varporadie) {
       //  if (params.year == 0) {x = rozdiel + (varporadie / 100); } else { x = rozdiel + (varporadie / 100); }
 
-      x = rozdiel + (varporadie / 100);
-      spolubody = points + rozdiel;
+      let x = rozdiel + (varporadie / 100),
+      spolubody = points + rozdiel,
       spolumisie = quests + noveulohy;
       db.games.update({
         krajina: country
@@ -669,7 +670,7 @@ $(function() {
     function displaySpravy() {
       let curr = "",
         past = "",
-        fut = "";
+        future = "";
       let year = params.year;
       let phase = params.phase;
 
@@ -921,7 +922,7 @@ $(function() {
     /* Logovanie udalostí */
 
     function saveLocalLogs(text) {
-      var file = fs.openSync("savegame/" + currentGame.slice(0, -3) + ".log", 'a');
+      var file = fs.openSync("app/savegame/" + currentGame.slice(0, -3) + ".log", 'a');
       fs.writeFile(file, text, function(err) {
         if (err) {
           return console.log(err);

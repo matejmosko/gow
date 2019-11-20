@@ -6,6 +6,7 @@ savegame
 *.Appimage
 Thumbs.db
 dist
+out
 
 
 # OS generated files #
