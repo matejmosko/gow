@@ -23,18 +23,16 @@
   "repository": "https://github.com/matejmosko/gow",
   "license": "CC0-1.0",
   "config": {
-      "forge": "./forge.config.js"
+    "forge": "./forge.config.js"
   },
   "dependencies": {
     "electron-settings": "^3.2.0",
+    "electron-squirrel-startup": "^1.0.0",
     "import-lazy": "^4.0.0",
-    "jsdom": "^15.2.1",
-    "mousetrap": "^1.6.3",
     "mustache": "^3.1.0",
     "nedb": "^1.8.0",
     "v8-compile-cache": "^2.1.0",
-    "xel": "^0.0.213",
-    "electron-squirrel-startup": "^1.0.0"
+    "xel": "^0.0.213"
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.45",

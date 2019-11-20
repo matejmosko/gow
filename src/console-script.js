@@ -5,7 +5,6 @@
     const url = importLazy('url');
     const fs = importLazy('fs');
     const ms = importLazy('mustache');
-    const mousetrap = importLazy('mousetrap');
     const settings = require('electron').remote.require('electron-settings');
     var ipc = require('electron').ipcRenderer,
       currentGame,
@@ -364,12 +363,6 @@
         // TODO Show Error
       } else {
         afterStartScripts();
-        mousetrap.bind(['space'], function() {
-          changePhase();
-        });
-        mousetrap.bind(['ctrl+backspace'], function() {
-          stepBack();
-        });
         ipc.send('startGame');
         started = true;
         let d = document.body;
