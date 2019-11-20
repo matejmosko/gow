@@ -214,9 +214,7 @@ $(function() {
 
       let dirScenario = fs.readdirSync(path.resolve(__dirname, 'scenarios'));
       let scenarios = [];
-      console.log(dirScenario);
       for (let i = 0; i < dirScenario.length; i++) {
-        console.log(dirScenario);
         if (path.extname(dirScenario[i]) == ".json") {
           //dirScenario.splice(i, 1);
           scenarios.push(dirScenario[i]);
@@ -925,7 +923,7 @@ $(function() {
     /* Logovanie udalostí */
 
     function saveLocalLogs(text) {
-      var file = fs.openSync(path.resolve(__dirname, 'savegame', currentGame.slice(0, -3), ".log"), 'a');
+      var file = fs.openSync(path.resolve(__dirname, 'savegame', currentGame.slice(0, -3) + ".log"), 'a');
       fs.writeFile(file, text, function(err) {
         if (err) {
           return console.log(err);
