@@ -576,8 +576,8 @@
 
     function savePoints() {
 
-      let lines = document.getElementsByClassName('countryLine');
-      for (var i = 0; i < lines.length; i++) {
+      let lines = document.getElementsByClassName('countryLine').childNodes;
+      for (let i in lines) {
         let curr = parseInt(lines[i].getElementsByClassName('body')[0].textContent, 10);
         let next = parseInt(lines[i].getElementsByClassName('rozdiel')[0].value, 10);
         let ulohy = parseInt(lines[i].getElementsByClassName('ulohy')[0].textContent, 10);
