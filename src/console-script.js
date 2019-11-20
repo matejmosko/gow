@@ -1,6 +1,4 @@
 // Mixing jQuery and Node.js code in the same file? Yes please!
-
-$(function() {
   var gowConsole = (function() {
     const importLazy = require('import-lazy')(require);
     const path = importLazy('path');
@@ -18,7 +16,7 @@ $(function() {
       sort = 99,
       newgame = false,
       started = false,
-      dialog = document.querySelector("dialog");
+      dialog = document.getElementsByTagName("dialog")[0];
 
     //templates
     var tplSelectGame = `
@@ -51,15 +49,15 @@ $(function() {
   `;
     var tplCountryTable = `
   {{#countries}}
-    <tr id='{{krajina}}' class="{{striped}}">
+    <tr id='{{krajina}}' class="countryLine {{striped}}">
       <td class='nazovkrajiny center'> {{nicename}} </td>
       <td class='tim center'> {{tim}} </td>
       <td class='body center'> {{points}} </td>
       <td class='ulohy center'> {{quests}} </td>
       <td class='points-box afterstart center'><x-numberinput value='0' class='year-variable rozdiel'><x-stepper></x-stepper></x-numberinput></td>
       <td class='quest-box afterstart center'><x-numberinput value='0' class='year-variable noveulohy'><x-stepper></x-stepper></x-numberinput></td>
-      <td class='tools delete center'><x-button class='delete danger'><x-box><x-icon name='delete-forever'></x-icon><x-label>Vymaž</x-label></x-box></x-button></td>
-      <td class='tools sort center'><x-numberinput class='sortinput' value=' {{poradie}}'></x-numberinput></td>
+      <td class='tools delete center beforestart'><x-button class='delete danger'><x-box><x-icon name='delete-forever'></x-icon><x-label>Vymaž</x-label></x-box></x-button></td>
+      <td class='tools sort center beforestart'><x-numberinput class='sortinput' value=' {{poradie}}'></x-numberinput></td>
     </tr>
     {{/countries}}
   `;
@@ -136,7 +134,7 @@ $(function() {
       <x-label name='ufoEventsOpt' class='secret'>Text pre nás</x-label>
     </x-box>
     {{#ufoEvents}}
-    <x-box id='ufoEvent-{{! i}}' class='optHorizontalBox'>
+    <x-box id='ufoEvent-{{! i}}' class='optHorizontalBox ufoEventsLine'>
       <x-textarea name='ufoEventsOpt' id='ufoTitle-{{! i}}' class='title tableInput' value='{{title}}'></x-textarea>
       <x-textarea name='ufoEventsOpt' id='ufoText-{{! i}}' class='text tableInput' value='{{text}}'></x-textarea>
       <x-textarea name='ufoEventsOpt' id='ufoSecret-{{! i}}' class='secret tableInput' value='{{secret}}'></x-textarea>
@@ -153,7 +151,7 @@ $(function() {
       <x-label name='worldEventsOpt' class='secret'>Text pre nás</x-label>
     </x-box>
     {{#worldEvents}}
-    <x-box id='worldEvent-{{! i}}' class='optHorizontalBox'>
+    <x-box id='worldEvent-{{! i}}' class='optHorizontalBox worldEventsLine'>
       <x-label>{{! i}}</x-label>
       <x-textarea name='worldEventsOpt' id='worldTitle-{{! i}}' class='title tableInput' value='{{title}}'></x-textarea>
       <x-textarea name='worldEventsOpt' id='worldText-{{! i}}' class='text tableInput' value='{{text}}'></x-textarea>
@@ -171,7 +169,7 @@ $(function() {
       <x-label name='countriesOpt' class='secret'>Špeciálna schopnosť</x-label>
     </x-box>
     {{#countries}}
-    <x-box id='country-{{code}}' class='optHorizontalBox'>
+    <x-box id='country-{{code}}' class='optHorizontalBox countryLine'>
       <x-label>{{code}}</x-label>
       <x-label>{{country}}</x-label>
       <x-textarea name='countriesOpt' id='countriesDesc-{{code}}' class='secret tableInput' value='{{desc}}'></x-textarea>
@@ -187,7 +185,7 @@ $(function() {
       <x-label name='ufoEventsOpt' class='text'>Text na projekciu</x-label>
     </x-box>
     {{#phases}}
-    <x-box id='phase-{{ n }}' class='optHorizontalBox'>
+    <x-box id='phase-{{ n }}' class='optHorizontalBox phasesLine'>
       <x-label class='title tableLabel'>{{title}}</x-label>
       <x-textarea name='phaseOpt' id='phaseText-{{! n }}' class='text tableInput' value='{{text}}'></x-textarea>
     </x-box>
@@ -301,25 +299,23 @@ $(function() {
     }
     // Nová hra
 
-    $("#submitGame").click(function() {
-      $('.noGameName').hide();
-      $('#novaHra').removeClass("has-error");
-      if ($('#newgame').val() == "") {
-        $('#novaHra').addClass("has-error");
-        $('.noGameName').show();
+    document.getElementById("submitGame").addEventListener("click", (e) => {
+      document.getElementById('novaHra').classList.remove("has-error");
+      if (document.getElementById('newgame').value == "") {
+        document.getElementById('novaHra').addClass("has-error");
       } else {
         newgame = true; // TODO Dorobiť overovanie, či hra s takýmto názvom už neexistuje
-        currentGame = $("#newgame").val() + ".db";
+        currentGame = document.getElementById("newgame").value + ".db";
         if (scenario != "") {
-          scenario = $("#selectScenario").val();
+          scenario = document.getElementById("selectScenario").value;
         }
         addGame();
       }
     });
 
-    $("#loadGame").click(function() {
-      if ($("#selectLoad").val() != null) {
-        currentGame = $("#selectLoad").val();
+    document.getElementById("loadGame").addEventListener("click", (e) => {
+      if (document.getElementById("selectLoad").value != null) {
+        currentGame = document.getElementById("selectLoad").value;
         addGame();
       }
     });
@@ -350,44 +346,24 @@ $(function() {
     function displayTeamSelect() {
       if (!started) {
         checkEmptyCountries();
-        $('#pridajTim').show(0);
-        $('#gameTables').show(0);
-        var tplInfoBox = `
-        <div>Hra: <strong>{{currentGame}}</strong></div>
-        <div class='year'></div>
-        <div class='phase'></div>
-      `;
-        let text = ms.render(tplInfoBox, {
-          "currentGame": currentGame
-        });
-        document.getElementById("infobox").insertAdjacentHTML('beforeend', text);
+        document.getElementById('pridajTim').classList.remove("hidden");
+        document.getElementById('gameTables').classList.remove("hidden");
+        document.getElementById("gameControls").classList.remove("hidden");
+        document.getElementById("newGameBox").classList.add("hidden");
+        document.getElementById('topPanelGameName').innerHTML = "Hra: <strong>" + currentGame + "</strong>";
 
-        //$("#infobox").append(text);
         if (!newgame) {
-          $("#startGame").find("x-label").text("Pokračuj v hre");
+          document.getElementById("startGame").getElementsByTagName("x-label")[0].textContent = "Pokračuj v hre";
         }
-        $("#gameControls").show();
-        $("#newGameBox").hide();
         readGame();
       }
     }
 
     function startGame(country) {
-      $('.noTeam').hide();
-      if ($('#tabulkatimov').find("tr").length === 0) {
-        $('.teamname').addClass("has-error");
-        $('.noTeam').show();
+      if (document.getElementById('tabulkatimov').getElementsByTagName("TR").length === 0) {
+        // TODO Show Error
       } else {
-        $('#pridajTim').hide();
-        $('.quest-box').show();
-        $('.points-box').show();
-        $('#admin-table').find('.tools').hide();
-        $('.plus').show();
-        $('.minus').show();
-        $('#nextPhase').show();
-        $('#newsBox').show(0);
-        $("#startGame").hide();
-        $(".afterstart").show();
+        afterStartScripts();
         mousetrap.bind(['space'], function() {
           changePhase();
         });
@@ -397,7 +373,7 @@ $(function() {
         ipc.send('startGame');
         started = true;
         let d = document.body;
-        d.className += " started";
+        d.classList.add("started");
         readGame();
         saveLogs("SYSTEM: The Game of Worlds has started" + "\r\n");
 
@@ -486,8 +462,8 @@ $(function() {
           }
         });
         document.getElementById("tabulkatimov").innerHTML = text;
-        if (!started) {
-          $(".afterstart").hide();
+        if (started) {
+          afterStartScripts();
         }
       });
       if (!started) {
@@ -506,48 +482,55 @@ $(function() {
     }
 
     // Odoberanie tímov
+    document.getElementById("admin-table").addEventListener("click", function(e) {
+      for (var target = e.target; target && target != this; target = target.parentNode) {
+        // loop parent nodes from the target to the delegation node
+        if (target.matches(".delete")) {
+          let k = findUpTag(target, "TR").id;
+          db.games.remove({
+            krajina: k
+          }, {}, function(err, numRemoved) {});
 
-    $("table").delegate(".delete", "click", function() {
-      let k = $(this).closest('tr').attr('id');
-      db.games.remove({
-        krajina: k
-      }, {}, function(err, numRemoved) {});
-
-      let index = params.countryList.indexOf(k);
-      if (index > -1) {
-        params.countryCodes[k].playing = false;
-        db.games.update({
-          name: 'gow-settings'
-        }, {
-          $set: {
-            countryCodes: params.countryCodes
+          let index = params.countryList.indexOf(k);
+          if (index > -1) {
+            params.countryCodes[k].playing = false;
+            db.games.update({
+              name: 'gow-settings'
+            }, {
+              $set: {
+                countryCodes: params.countryCodes
+              }
+            }, {
+              multi: true
+            }, function(err, numReplaced) {});
           }
-        }, {
-          multi: true
-        }, function(err, numReplaced) {});
+          checkEmptyCountries();
+          readGame();
+          break;
+        }
       }
-      checkEmptyCountries();
-      readGame();
-    });
+    }, false);
 
     // Pridávanie tímov
 
-    $("#submitTim").click(function() {
-      if ($('#krajiny').val() != null && $('#krajiny').val() != "") {
+    document.getElementById("submitTim").addEventListener("click", (e) => {
+      if (document.getElementById('krajiny').value != null && document.getElementById('krajiny').value != "") {
         submitAddTeam();
       }
     });
 
+    function afterStartScripts() {
+      let afterstartClass = document.getElementsByClassName("afterstart");
+      for (var i = 0; i < afterstartClass.length; i++) {
+        //    afterstartClass[i].classList.remove("afterstart"); // Show elements ought to be shown after start
+      }
+    }
+
     function submitAddTeam() {
-      $('.noTeamName').hide();
-      $('.teamname').removeClass("has-error");
-      if ($('#tim').val() == "") {
-        $('.noTeamName').show();
-        $('.teamname').addClass("has-error");
-      } else {
+      if (document.getElementById('tim').value == "") {} else {
         --sort;
-        let addedCountry = $('#krajiny').val();
-        addTeam(addedCountry, $('#tim').val(), sort);
+        let addedCountry = document.getElementById('krajiny').value;
+        addTeam(addedCountry, document.getElementById('tim').value, sort);
 
         let index = params.countryList.indexOf(addedCountry);
         if (index > -1) {
@@ -584,22 +567,24 @@ $(function() {
 
     // Posúvanie herných fáz
 
-    $("#nextPhase").click(function() {
+    document.getElementById("nextPhase").addEventListener("click", (e) => {
       changePhase();
     });
-    $("#startGame").click(function() {
+    document.getElementById("startGame").addEventListener("click", (e) => {
       startGame();
     });
 
     function savePoints() {
-      $('#admin-table > tbody  > tr').each(function() {
-        let curr = parseInt($(this).children('.body').text(), 10);
-        let next = parseInt($(this).children('.points-box').find('.rozdiel').val(), 10);
-        let ulohy = parseInt($(this).children('.ulohy').text(), 10);
-        let noveulohy = parseInt($(this).children('.quest-box').find('.noveulohy').val(), 10);
-        let varporadie = parseFloat($(this).find('.sortinput').val());
-        updateTeam($(this).attr('id'), curr, next, ulohy, noveulohy, varporadie);
-      });
+
+      let lines = document.getElementsByClassName('countryLine');
+      for (var i = 0; i < lines.length; i++) {
+        let curr = parseInt(lines[i].getElementsByClassName('body')[0].textContent, 10);
+        let next = parseInt(lines[i].getElementsByClassName('rozdiel')[0].value, 10);
+        let ulohy = parseInt(lines[i].getElementsByClassName('ulohy')[0].textContent, 10);
+        let noveulohy = parseInt(lines[i].getElementsByClassName('noveulohy')[0].value, 10);
+        let varporadie = parseFloat(lines[i].getElementsByClassName('sortinput').value);
+        updateTeam(lines[i].id, curr, next, ulohy, noveulohy, varporadie);
+      };
     }
 
     function updateTeam(country, points, rozdiel, quests, noveulohy, varporadie) {
@@ -703,8 +688,8 @@ $(function() {
       let p = params.phase;
       if (p == -1) {} else {
         ipc.send('transferPhase', y, params.phases[p], params.yearCount);
-        $('.year').html("Rok " + y);
-        $('.phase').html(params.phases[p].title);
+        document.getElementById('topPanelYear').textContent = "Rok " + y;
+        document.getElementById('topPanelPhase').textContent = params.phases[p].title;
         if (params.year > n) {
           endGame();
         }
@@ -764,17 +749,17 @@ $(function() {
 
     function endGame() {
       savePoints();
-      $('.currNews').html("<h2>Koniec hry</h2>");
-      $('#nextPhase').hide();
-      $('.year').text("Koniec hry");
-      $('.phase').text("");
+      document.getElementById('currNews').innerHTML = "<h2>Koniec hry</h2>";
+      document.getElementById('nextPhase').style.display = "none";
+      document.getElementById('topPanelYear').textContent = "Koniec hry";
+      document.getElementById('topPanelPhase').textContent = "";
       saveLogs("SYSTEM: Hra skončila");
     }
 
     /* Krok späť */
 
     function stepBack() {
-      $('#nextPhase').show();
+      document.getElementById('nextPhase').style.display = "block";
       if (params.year > params.yearCount) {
         displayPhase();
       } else {
@@ -810,55 +795,55 @@ $(function() {
 
     function revertPoints() {}
 
-    $("#statsTab").click(function() {
+    document.getElementById("statsTab").addEventListener("click", (e) => {
       displayStats();
-      $('#admin-table').hide();
-      $('#gow-options').hide();
-      $('#stats-table').show();
+      document.getElementById('admin-table').style.display = "none";
+      document.getElementById('gow-options').style.display = "none";
+      document.getElementById('stats-table').style.display = "block";
     });
-    $("#gameTab").click(function() {
+    document.getElementById("gameTab").addEventListener("click", (e) => {
       displayStats();
-      $('#admin-table').show();
-      $('#gow-options').hide();
-      $('#stats-table').hide();
+      document.getElementById('admin-table').style.display = "block";
+      document.getElementById('gow-options').style.display = "none";
+      document.getElementById('stats-table').style.display = "none";
     });
-    $("#optionsTab").click(function() {
+    document.getElementById("optionsTab").addEventListener("click", (e) => {
       displayStats();
-      $('#admin-table').hide();
-      $('#gow-options').show();
-      $('#stats-table').hide();
+      document.getElementById('admin-table').style.display = "none";
+      document.getElementById('gow-options').style.display = "block";
+      document.getElementById('stats-table').style.display = "none";
     });
-    $("#stepBack").click(function() {
+    document.getElementById("stepBack").addEventListener("click", (e) => {
       stepBack();
     });
 
-    $("#fullscreenBtn").click(function() {
+    document.getElementById("fullscreenBtn").addEventListener("click", (e) => {
       ipc.send('toggleFullscreen');
     });
-    $("#reloadBtn").click(function() {
+    document.getElementById("reloadBtn").addEventListener("click", (e) => {
       ipc.send('reloadWindows');
     });
-    $("#rulesBtn").click(function() {
+    document.getElementById("rulesBtn").addEventListener("click", (e) => {
       ipc.send('toggleRules');
     });
-    $("#projectorBtn").click(function() {
+    document.getElementById("projectorBtn").addEventListener("click", (e) => {
       ipc.send('toggleProjector');
     });
     ipc.on('quitModal', (event) => {
       //renderTable(arg);
       dialog.showModal();
     });
-    $("#reallyQuit").click(function() {
+    document.getElementById("reallyQuit").addEventListener("click", (e) => {
       ipc.send('reallyQuit');
     });
-    $("#doNotQuit").click(function() {
+    document.getElementById("doNotQuit").addEventListener("click", (e) => {
       dialog.close();
     });
 
     ipc.on('buttonSwitch', (event, btn, x) => { // Toggle "toggled" state of top buttons when non-click event change status
-      if (x) {
-        $(btn).prop("toggled", true);
-      } else $(btn).prop("toggled", false);
+    /*  if (x) {
+        document.getElementById(btn).toggled = true;
+      } else document.getElementById(btn).toggled = false;*/
     });
 
     // Options Module
@@ -877,26 +862,31 @@ $(function() {
 
     // TODO - ukladanie nastavení - aj Predvolených (checkbox)
     function saveOptions() {
-      params.yearCount = $("#yearCountOpt").val();
-      params.clock.pause = $("#pauseClockOpt").val();
-      params.clock.diplomacy = $("#diplomacyClockOpt").val();
-      params.clock.brief = $("#briefClockOpt").val();
-      $("#ufoEventsOpt").find("x-box[id^='ufoEvent']").each(function(index) {
-        params.ufoEvents[index].title = $(this).children("[id^='ufoTitle']").val();
-        params.ufoEvents[index].text = $(this).children("[id^='ufoText']").val();
-        params.ufoEvents[index].secret = $(this).children("[id^='ufoSecret']").val();
-      });
-      $("#worldEventsOpt").find("x-box[id^='worldEvent']").each(function(index) {
-        params.worldEvents[index].title = $(this).children("[id^='worldTitle']").val();
-        params.worldEvents[index].text = $(this).children("[id^='worldText']").val();
-        params.worldEvents[index].secret = $(this).children("[id^='worldSecret']").val();
-      });
-      $("#phasesOpt").find("x-box[id^='phase']").each(function(index) {
-        params.phases[index].text = $(this).children("[id^='phaseText']").val();
-        /*  params.worldEvents[index].title = $(this).children("[id^='worldTitle']").val();
-          params.worldEvents[index].text = $(this).children("[id^='worldText']").val();
-          params.worldEvents[index].secret = $(this).children("[id^='worldSecret']").val();*/
-      });
+      params.yearCount = document.getElementById("yearCountOpt").value;
+      params.clock.pause = document.getElementById("pauseClockOpt").value;
+      params.clock.diplomacy = document.getElementById("diplomacyClockOpt").value;
+      params.clock.brief = document.getElementById("briefClockOpt").value;
+
+      let ufoEventsTemp = document.getElementsByClassName("ufoEventsLine").childNodes;
+      for (let i in ufoEventsTemp) {
+        params.ufoEvents[i].title = ufoEventsTemp[i].getElementsByClassName("title")[0].value;
+        console.log(params.ufoEvents[i].title);
+        params.ufoEvents[i].text = ufoEventsTemp[i].getElementsByClassName("text")[0].value;
+        params.ufoEvents[i].secret = ufoEventsTemp[i].getElementsByClassName("secret")[0].value;
+      }
+
+      let worldEventsTemp = document.getElementsByClassName("worldEventsLine").childNodes;
+      for (let i in worldEventsTemp) {
+        params.worldEvents[i].title = worldEventsTemp[i].getElementsByClassName("title")[0].value;
+        params.worldEvents[i].text = worldEventsTemp[i].getElementsByClassName("text")[0].value;
+        params.worldEvents[i].secret = worldEventsTemp[i].getElementsByClassName("secret")[0].value;
+      }
+
+      let phasesTemp = document.getElementsByClassName("phasesLine").childNodes;
+      for (let i in worldEventsTemp) {
+        params.phases[i].text = phasesTemp[i].getElementsByClassName("text")[0].value;
+      }
+
       db.games.remove({
         name: 'gow-settings'
       }, {}, function(err, numRemoved) {});
@@ -904,18 +894,18 @@ $(function() {
         loadGameSettings();
       });
 
-      if ($("#saveDefaultCheck").is(':checked')) {
+      if (document.getElementById("saveDefaultCheck").checked == true) {
         settings.setAll(params);
       }
     }
 
-    $("#saveOpts").click(function() {
+    document.getElementById("saveOpts").addEventListener("click", (e) => {
       saveOptions();
     });
-    $("#reloadOpts").click(function() {
+    document.getElementById("reloadOpts").addEventListener("click", (e) => {
       renderOptions();
     });
-    $("#setDefaultOpts").click(function() {
+    document.getElementById("setDefaultOpts").addEventListener("click", (e) => {
       loadSettings(settings.getAll());
     });
 
@@ -970,16 +960,14 @@ $(function() {
       }
     });
 
-    // Display Top Menu
-    /*function createMenu() {
-      var text = "";
-      for (i = 1; i <= params.yearCount; i++) {
-        text = "<li class='dropdown'>";
-        text += "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Rok " + i + "<span class='caret'></span></a>";
-        text += "<ul class='dropdown-menu'><li><a href='#'>Stratégia" + i + "</a></li><li><a href='#'>Diplomacia" + i + "</a></li><li><a href='#'>Boj" + i + "</a></li><li><a href='#'>Správy" + i + "</a></li></ul>";
-        text += "</li>";
-        $('.nav').append(text);
+
+    function findUpTag(el, tag) {
+      while (el.parentNode) {
+        el = el.parentNode;
+        if (el.tagName === tag)
+          return el;
       }
-    }*/
+      return null;
+    }
+
   })();
-});

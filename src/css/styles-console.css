@@ -124,14 +124,6 @@ x-label {
   background-color: #cc3300;
 }
 
-th.quest-box, th.points-box {
-  display: none;
-}
-
-.started .tools {
-  display: none;
-}
-
 #admin-table td {
   vertical-align: middle;
 }
@@ -187,4 +179,16 @@ tr:hover td {
 .fullwidth {
   width: 100%;
   justify-content: space-between;
+}
+
+.started .beforestart {
+  display: none;
+}
+
+body:not(.started) .afterstart{
+  display: none;
+}
+
+.hidden{
+  display: none;
 }

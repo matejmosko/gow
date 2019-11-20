@@ -30,23 +30,25 @@
         </x-button>
       </x-buttons>
       <div id="infobox">
-
+        <div class="gameName" id="topPanelGameName"></div>
+        <div class='year' id='topPanelYear'></div>
+        <div class='phase' id='topPanelPhase'></div>
       </div>
 
-      <x-buttons tracking="-1" id="gameControls" style="display:none">
-        <x-button id="startGame">
+      <x-buttons tracking="-1" id="gameControls" class="hidden">
+        <x-button id="startGame" class="beforestart">
           <x-box>
             <x-icon name="skip-next"></x-icon>
             <x-label>Spusti hru</x-label>
           </x-box>
         </x-button>
-        <x-button id="nextPhase" style="display:none;">
+        <x-button id="nextPhase" class="afterstart">
           <x-box>
             <x-icon name="skip-next"></x-icon>
             <x-label>Ďalšia fáza</x-label>
           </x-box>
         </x-button>
-        <x-button id="stepBack" class="danger">
+        <x-button id="stepBack" class="danger afterstart">
           <x-icon name="backspace"></x-icon>
         </x-button>
       </x-buttons>
@@ -72,7 +74,7 @@
             <x-box id="oldGame" class="form-item">
             </x-box>
           </x-card>
-          <x-card id="pridajTim" style="display:none;" class="form-group horizontal">
+          <x-card id="pridajTim" class="form-group horizontal hidden">
 
               <x-label class="form-item">Pridaj tím</x-label>
               <x-input id="tim" required class="form-item">
@@ -88,7 +90,7 @@
                 </x-box>
               </x-button>
           </x-card>
-        <div id="gameTables" style="display:none;">
+        <div id="gameTables" class="hidden">
           <x-card id="contentCard">
             <x-tabs centered>
               <x-tab selected id="gameTab">
@@ -120,8 +122,8 @@
                   <th>Tím</th>
                   <th>Body</th>
                   <th>Misie</th>
-                  <th class='delete tools'>Nástroje</th>
-                  <th class='sort tools'>Poradie</th>
+                  <th class='delete tools beforestart'>Nástroje</th>
+                  <th class='sort tools beforestart'>Poradie</th>
                   <th class='points-box'>Nové body</th>
                   <th class='quest-box'>Nové misie</th>
                 </tr>
@@ -168,7 +170,7 @@
         </div>
       </div>
       <div id="sidebar">
-        <div id="newsBox" style="display:none;">
+        <div id="newsBox" class="afterstart">
           <h3>Aktuálne udalosti</h3>
           <x-card id="currNews" class="currNews news"></x-card>
           <h3>Udalosti z budúcnosti</h3>

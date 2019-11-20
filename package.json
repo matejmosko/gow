@@ -28,7 +28,6 @@
   "dependencies": {
     "electron-settings": "^3.2.0",
     "import-lazy": "^4.0.0",
-    "jquery": "^3.4.1",
     "jsdom": "^15.2.1",
     "mousetrap": "^1.6.3",
     "mustache": "^3.1.0",
