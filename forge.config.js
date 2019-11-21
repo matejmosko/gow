@@ -21,5 +21,28 @@ module.exports = {
         name: "game-of-worlds"
       }
     }
+  ],
+  plugins: [
+    [
+      "@electron-forge/plugin-webpack",
+      {
+        mainConfig: "./webpack.main.config.js",
+        renderer: {
+          config: "./webpack.renderer.config.js",
+          entryPoints: [
+            {
+              html: "./src/renderer/console.html",
+              js: "./src/renderer/console-script.js",
+              name: "gow_console"
+            },
+            {
+              html: "./src/renderer/projector.html",
+              js: "./src/renderer/projector-script.js",
+              name: "gow_projector"
+            }
+          ]
+        }
+      }
+    ]
   ]
 }

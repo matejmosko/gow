@@ -1,18 +1,17 @@
 // Mixing jQuery and Node.js code in the same file? Yes please!
 
 var gowProjector = (function() {
-  const importLazy = require('import-lazy')(require);
   const ipc = require('electron').ipcRenderer;
-  const fs = importLazy('fs');
+  const fs = require('fs');
   let params = {},
     current,
     started = false,
     styleChanged = false,
     timer;
 
-  const path = importLazy('path');
-  const url = importLazy('url');
-  const ms = importLazy('mustache');
+  const path = require('path');
+  const url = require('url');
+  const ms = require('mustache');
   const settings = require('electron').remote.require('electron-settings');
   // renderer process
 

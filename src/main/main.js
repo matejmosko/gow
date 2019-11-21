@@ -5,14 +5,14 @@ const {
   Menu
 } = require('electron');
 
-const importLazy = require('import-lazy')(require);
+//import 'font-awesome-webpack';
 
 require('v8-compile-cache');
 
-const path = importLazy('path');
-const url = importLazy('url');
-const settings = importLazy('electron-settings');
-const fs = importLazy('fs');
+const path = require('path');
+const url = require('url');
+const settings = require('electron-settings');
+const fs = require('fs');
 
 global.params = {};
 
@@ -70,10 +70,11 @@ function createWindow() {
     y: windowState.main.bounds && windowState.main.bounds.y || undefined,
     width: windowState.main.bounds && windowState.main.bounds.width || 800,
     height: windowState.main.bounds && windowState.main.bounds.height || 600,
-    icon: path.join(__dirname, 'img/icon.png'),
+    icon: path.join(__dirname, 'assets/icon.png'),
     title: 'GOW Admin',
     backgroundColor: 'rgb(236, 236, 236)',
     webPreferences: {
+      preload: GOW_CONSOLE_PRELOAD_WEBPACK_ENTRY,
       nodeIntegration: true
     }
   });
@@ -134,6 +135,7 @@ function createWindow() {
       ]
     }
   ];
+  gowWindows.main.webContents.openDevTools()
 
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
@@ -143,12 +145,12 @@ function createWindow() {
     gowWindows.main.maximize();
   }
 
+//gowWindows.main.loadUrl(GOW_CONSOLE_WEBPACK_ENTRY);
   // and load the index.html of the app.
   gowWindows.main.loadURL(url.format({
-    pathname: path.join(__dirname, 'console.html'),
-    protocol: 'file:',
-    slashes: true
+    pathname: GOW_CONSOLE_WEBPACK_ENTRY
   }));
+
   // Open the DevTools.
   //  gowWindows.main.webContents.openDevTools()
 
@@ -211,9 +213,7 @@ function createProjector() {
 
   // and load the index.html of the app.
   gowWindows.projector.loadURL(url.format({
-    pathname: path.join(__dirname, 'projector.html'),
-    protocol: 'file:',
-    slashes: true,
+    pathname: GOW_PROJECTOR_WEBPACK_ENTRY,
     fullscreenable: true
   }));
 

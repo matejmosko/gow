@@ -3,7 +3,7 @@
   "productName": "game-of-worlds",
   "version": "2019.11.20",
   "description": "Game of Worlds Admin App",
-  "main": "src/main.js",
+  "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -26,10 +26,9 @@
     "forge": "./forge.config.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.11.2",
     "electron-settings": "^3.2.0",
     "electron-squirrel-startup": "^1.0.0",
-    "import-lazy": "^4.0.0",
+    "font-awesome-webpack": "^0.0.5-beta.2",
     "mustache": "^3.1.0",
     "nedb": "^1.8.0",
     "v8-compile-cache": "^2.1.0",
@@ -41,6 +40,11 @@
     "@electron-forge/maker-rpm": "6.0.0-beta.45",
     "@electron-forge/maker-squirrel": "6.0.0-beta.45",
     "@electron-forge/maker-zip": "6.0.0-beta.45",
-    "electron": "7.1.2"
+    "@electron-forge/plugin-webpack": "6.0.0-beta.45",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "css-loader": "^3.0.0",
+    "electron": "7.1.2",
+    "node-loader": "^0.6.0",
+    "style-loader": "^0.23.1"
   }
 }

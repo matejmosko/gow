@@ -1,12 +1,13 @@
 // Mixing jQuery and Node.js code in the same file? Yes please!
-var gowConsole = (function() {
-  const importLazy = require('import-lazy')(require);
-  const path = importLazy('path');
-  const url = importLazy('url');
-  const fs = importLazy('fs');
-  const ms = importLazy('mustache');
-  const settings = require('electron').remote.require('electron-settings');
-  var ipc = require('electron').ipcRenderer,
+  import '../css/styles-console.css';
+  import '../../node_modules/xel/themes/vanilla.css';
+  import '../../node_modules/xel/xel.min.js';
+  const path = require('path');
+  const url = require('url');
+  const fs = require('fs');
+  const ms = require('mustache');
+  const settings = window.require('electron').remote.require('electron-settings');
+  var ipc = window.require('electron').ipcRenderer,
     currentGame,
     scenario,
     Datastore = require('nedb'),
@@ -958,5 +959,3 @@ var gowConsole = (function() {
     }
     return null;
   }
-
-})();
