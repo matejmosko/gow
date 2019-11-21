@@ -14,6 +14,11 @@ const url = require('url');
 const settings = require('electron-settings');
 const fs = require('fs');
 
+const common = path.resolve(app.getAppPath(),'src/common');
+
+var dirSaveGame = path.resolve(common,'savegame');
+var dirScenarios = path.resolve(common,'scenarios');
+
 global.params = {};
 
 
@@ -276,9 +281,6 @@ app.on('activate', function() {
     createWindow();
   }
 });
-
-var dirSaveGame = path.resolve(__dirname, 'savegame');
-var dirScenarios = path.resolve(__dirname, 'scenarios');
 
 if (!fs.existsSync(dirSaveGame)) {
   fs.mkdirSync(dirSaveGame);

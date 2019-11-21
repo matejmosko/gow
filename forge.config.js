@@ -27,10 +27,11 @@ module.exports = {
       "@electron-forge/plugin-webpack",
       {
         mainConfig: "./webpack.main.config.js",
+        commonSourceDirectory: "src/common",
+        staticSourceDirectory: "src/static",
         renderer: {
           config: "./webpack.renderer.config.js",
-          entryPoints: [
-            {
+          entryPoints: [{
               html: "./src/renderer/console.html",
               js: "./src/renderer/console-script.js",
               name: "gow_console"
